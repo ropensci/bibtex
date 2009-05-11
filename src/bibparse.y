@@ -1,12 +1,12 @@
 %{
-
+/*{{{ first part of declarations */
 #include "bibtex.h" 
-
 char		yytext[BIBYYLMAX];
 #define YYDEBUG		1		/* need for -d option support */
-
 #define YYSTYPE		SEXP
+/* #define XXDEBUG 1 */ 
 
+/* functions used in the parsing process */
 static SEXP xx_object_list_1(SEXP);
 static SEXP xx_object_list_2(SEXP,SEXP);
 static SEXP xx_object(SEXP);
@@ -38,6 +38,7 @@ static SEXP xx_null( ) ;
 static void xx_result( SEXP );
 static SEXP xx_expand_abbrev( SEXP ) ;
 
+/* functions to unprotect one or more SEXP */
 void junk1( SEXP); 
 void junk2( SEXP, SEXP); 
 void junk3( SEXP, SEXP, SEXP); 
@@ -46,31 +47,28 @@ void junk5( SEXP, SEXP, SEXP, SEXP, SEXP);
 void junk6( SEXP, SEXP, SEXP, SEXP, SEXP, SEXP); 
 void junk7( SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP); 
 
-
 static PROTECT_INDEX INCLUDE_INDEX ;
-static SEXP includes; 
-static void recordInclude( SEXP ) ;
-
 static PROTECT_INDEX COMMENT_INDEX ;
-static SEXP comments; 
-static void recordComment( SEXP ) ;
-
 static PROTECT_INDEX STRING_INDEX ;
-static SEXP strings; 
-static void recordString( SEXP ) ;
-
 static PROTECT_INDEX PREAMBLE_INDEX ;
-static SEXP preamble; 
-static void recordPreamble( SEXP ) ;
-
 static PROTECT_INDEX ENTRIES_INDEX ;
+
+static SEXP includes; 
+static SEXP comments; 
+static SEXP strings; 
+static SEXP preamble; 
 static SEXP entries; 
-                           
+
+static void recordInclude( SEXP ) ;
+static void recordComment( SEXP ) ;
+static void recordString( SEXP ) ;
+static void recordPreamble( SEXP ) ;
 static SEXP asVector( SEXP ); 
+/*}}}*/
 
-/* #define XXDEBUG 1 */ 
-
+/*{{{ Grammar */
 %}
+
 %token TOKEN_ABBREV	
 %token TOKEN_AT	
 %token TOKEN_COMMA
@@ -91,88 +89,6 @@ static SEXP asVector( SEXP );
 %token TOKEN_STRING
 %token TOKEN_VALUE
 %token TOKEN_UNKNOWN
-
- /**********************************************************************
- Without the following precedence specifications, the BibTeX grammar
- is ambiguous, since the two productions
-
- bibtex_value:		bibtex_value bibtex_space TOKEN_SHARP
-				bibtex_simple_value
-
- bibtex_assignment:	bibtex_assignment_lhs TOKEN_EQUALS bibtex_value
-
- result in a shift/reduce conflict when the input stack contains
-
-	bibtex_assignment_lhs TOKEN_EQUALS bibtex_value
-
- and the next token is one of the bibtex_space tokens.  We could shift
- that token to match the start of the bibtex_value production, or we
- could reduce to bibtex_assignment using the second production.
-
- The way to remove the ambiguity is described in the book
-
- @String{pub-PH          = "Pren{\-}tice-Hall"}
- @String{pub-PH:adr      = "Englewood Cliffs, NJ 07632, USA"}
-
- @Book{Holub:CDC90,
-  author =       "Allen I. Holub",
-  title =        "Compiler Design in {C}",
-  publisher =    pub-PH,
-  address =      pub-PH:adr,
-  year =         "1990",
-  note =         pub-PH # " Software Series, Editor: Brian W.
-                 Kernighan.",
-  ISBN =         "0-13-155045-4",
- }
-
- on pp. 871--875.
-
- The authors of the book
-
- @String{pub-AW          = "Ad{\-d}i{\-s}on-Wes{\-l}ey"}
- @String{pub-AW:adr      = "Reading, MA, USA"}
-
- @Book{Aho:CPT86,
-  author =       "Alfred V. Aho and Ravi Sethi and Jeffrey D. Ullman",
-  title =        "Compilers\emdash Prin\-ci\-ples, Techniques, and
-                 Tools",
-  publisher =    pub-AW,
-  address =      pub-AW:adr,
-  year =         "1986",
-  ISBN =         "0-201-10088-6",
- }
-
- on p. 201 point out that the ambiguity above is also met in the
- (in)famous dangling else problem, where the productions
-
- stmt: IF expr THEN stmt
-     | IF expr THEN stmt ELSE stmt
-     | OTHER
-
- produce a shift/reduce conflict when the input stack contains
-
-	IF expr THEN stmt
-
- and the next input item is ELSE, since we could reduce using the
- first production, or shift using the second production.
-
- The grammar in this case is not LR(k) for any k, because there could
- be an unending chain of "ELSE xxx" tokens following in the input
- stream.
-
- The solution adopted by yacc and most other LALR(1) generators is to
- warn of the conflict, then shift, rather than reduce, adopting a
- "maximal munch" strategy that will match ELSE with the nearest
- preceding THEN.
-
- In our case, we want the "maximal munch" operation to consume
-
-	v # v # ... # v
-
- as a bibtex_value before doing an assignment.  This is easily done by
- declaring TOKEN_EQUALS to have LOWER precedence than space, and space
- to have lower precedence than TOKEN_SHARP.
- **********************************************************************/
 
 %nonassoc TOKEN_EQUALS
 %left TOKEN_SPACE TOKEN_INLINE TOKEN_NEWLINE
@@ -256,8 +172,9 @@ single_space:	  TOKEN_SPACE		{ $$ = xx_space( $1 ) ; }
 		;
 %%
 
-/* end of grammar */
+/*}}} end of grammar */
 
+/*{{{ functions borrowed from gram.y */
 #ifdef Win32
 static char * fixmode(const char *mode){
     /* Rconnection can have a mode of 4 chars plus a null; we might
@@ -278,28 +195,22 @@ static char * fixmode(const char *mode){
 FILE * _fopen(const char *filename, const char *mode){
     return(filename ? fopen(filename, fixmode(mode)) : NULL );
 }
+/*}}}*/
 
 /*{{{ yyerror */
-void yyerror(const char *s){
-    error_count++;
-/*    (void)fprintf(stderr,"%s \"%s\", line %ld: %s\tNext token = \"%s\"\n",
-		  ERROR_PREFIX, the_filename, line_number, s, yytext);
-    (void)fflush(stderr);
-	*/
-}
+void yyerror(const char *s){}
 /*}}}*/
 
 /*{{{ yywarning */
-static void yywarning(const char *s){
- /*   (void)fflush(stdout);
-    (void)fprintf(stderr,"%s %s\tNext token = \"%s\"\n",
-		  WARNING_PREFIX, s, yytext);
-    (void)fflush(stderr);
-	*/
-}
+static void yywarning(const char *s){}
 /*}}}*/
 
 /*{{{ R interface */
+/**
+ * .Internal( "do_read_bib", file = file )
+ */
+// TODO: add an "encoding" argument and deal with it
+// TODO: deal with the stack when there is an error
 SEXP attribute_hidden do_read_bib(SEXP args){
 	SEXP filename = CADR(args) ;
 	const char* fname = CHAR(STRING_ELT(filename,0) ) ;
@@ -308,20 +219,26 @@ SEXP attribute_hidden do_read_bib(SEXP args){
 		error( "unable to open file to read", 0);
 	}
 	yyset_in( fp ) ; /* so that the lexer reads from the file */
-	yydebug = 0 ;
+	yydebug = 0 ;    /* setting this to 1 gives a lot of messages */
+	
+	/* set up the data */
 	PROTECT_WITH_INDEX( includes = NewList() , &INCLUDE_INDEX ) ;
 	PROTECT_WITH_INDEX( comments = NewList() , &COMMENT_INDEX ) ;
 	PROTECT_WITH_INDEX( strings  = NewList() , &STRING_INDEX ) ;
 	PROTECT_WITH_INDEX( preamble = NewList() , &PREAMBLE_INDEX ) ;
 	PROTECT_WITH_INDEX( entries  = R_NilValue, &ENTRIES_INDEX ) ;
+	
+	/* call the parser */
 	yyparse() ;
 	
+	/* structure the data */
 	SEXP obj; 
 	PROTECT(obj = asVector( comments ) );  setAttrib( entries, install("comment") , obj ); UNPROTECT_PTR( obj ) ;
 	PROTECT(obj = asVector( includes ) );  setAttrib( entries, install("include") , obj ); UNPROTECT_PTR( obj ) ; 
 	PROTECT(obj = asVector( strings  ) );  setAttrib( entries, install("strings") , obj ); UNPROTECT_PTR( obj ) ; 
 	PROTECT(obj = asVector( preamble ) );  setAttrib( entries, install("preamble"), obj ); UNPROTECT_PTR( obj ) ;
 	UNPROTECT_PTR( entries ) ;
+	
 	return entries ;
 }
 /*}}}*/
@@ -635,17 +552,7 @@ static SEXP xx_keyname_key( SEXP key){
  * name of an entry
  */ 
 static SEXP xx_keyname_abbrev( SEXP abbrev){
-#ifdef XXDEBUG
-	Rprintf( "<xx_keyname_abbrev>\n" ) ;
-#endif
-	// TODO: expand the abbreviation
-	SEXP ans ; 
-	PROTECT( ans = abbrev ) ;
-	UNPROTECT_PTR( abbrev ) ;
-#ifdef XXDEBUG
-	Rprintf( "</xx_keyname_abbrev>\n" ) ;
-#endif
-	return ans ;
+	return xx_expand_abbrev( abbrev ) ;
 }
 
 /**
@@ -778,12 +685,8 @@ static SEXP xx_lhs_field( SEXP field){
 	return field ;
 }
 
-
 static SEXP xx_lhs_abbrev( SEXP abbrev){
-#ifdef XXDEBUG
-	Rprintf( "<xx_lhs_abbrev/>\n" ) ;
-#endif
-	return abbrev ;
+	return xx_expand_abbrev( abbrev ) ;
 }
 
 
@@ -862,7 +765,7 @@ static void recordPreamble( SEXP object ){
 }
 
 static SEXP xx_expand_abbrev( SEXP abbrev ){
-	SEXP ans ; 
+	SEXP ans ;
 	// TODO: lookup in the strings
 	PROTECT( ans = abbrev ) ; 
 	UNPROTECT_PTR( abbrev ) ;
@@ -953,6 +856,10 @@ void junk7( SEXP s1, SEXP s2, SEXP s3, SEXP s4, SEXP s5, SEXP s6, SEXP s7){
 }
 /*}}}*/
 
+/*{{{ asVector */
+/**
+ * list( a = "aa", b = "bb") -> c( a = "aa", b = "bb" ) 
+ */
 static SEXP asVector( SEXP x){
 	SEXP ans, names ; 
 	SEXP tmp ;
@@ -974,6 +881,7 @@ static SEXP asVector( SEXP x){
 	UNPROTECT_PTR(ans) ; 
 	return ans; 
 }
+/*}}}*/
 
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
 
