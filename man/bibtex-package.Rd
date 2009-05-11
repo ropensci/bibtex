@@ -4,41 +4,31 @@
 \alias{bibtex}
 \docType{package}
 \title{
-What the package does (short line)
-~~ package title ~~
+bibtex parser
 }
 \description{
-More about what it does (maybe more than one line)
-~~ A concise (1-5 lines) description of the package ~~
+parser for bibliography files written in bibtex format
 }
 \details{
 \tabular{ll}{
 Package: \tab bibtex\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2009-04-28\cr
-License: \tab What license is it under?\cr
+Version: \tab 0.0\cr
+Date: \tab 2009-05-11\cr
+License: \tab GPL-3\cr
 LazyLoad: \tab yes\cr
 }
-~~ An overview of how to use the package, including the most important ~~
-~~ functions ~~
 }
 \author{
-Who wrote it
+Romain Francois
 
-Maintainer: Who to complain to <yourfault@somewhere.net>
-~~ The author and/or maintainer of the package ~~
+Maintainer: Romain Francois <francoisromain@free.fr>
 }
 \references{
-~~ Literature or other references for background information ~~
+Nelson H. F. Beebe. bibparse 1.04. 1999. http://www.math.utah.edu/~beebe
 }
-~~ Optionally other standard keywords, one per line, from file KEYWORDS in ~~
-~~ the R documentation directory ~~
 \keyword{ package }
 \seealso{
-~~ Optional links to other man pages, e.g. ~~
-~~ \code{\link[<pkg>:<pkg>-package]{<pkg>}} ~~
+	\code{\link{read.bib}}
 }
-\examples{
-~~ simple examples of the most important functions ~~
-}
+
