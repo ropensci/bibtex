@@ -1,0 +1,11 @@
+Package: bibtex
+Type: Package
+Title: bibtex parser
+Version: 0.0
+Date: 2009-05-11
+Author: Romain Francois
+Maintainer: Romain Francois <francoisromain@free.fr>
+Description: bibtex parser
+License: GPL-3
+LazyLoad: yes
+

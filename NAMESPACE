@@ -1,0 +1,4 @@
+useDynLib( bibtex )
+
+export( read.bib )
+
