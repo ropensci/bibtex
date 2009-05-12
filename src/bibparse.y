@@ -739,6 +739,8 @@ static SEXP xx_simple_value( SEXP s ){
 	Rprintf( "<xx_simple_value>\n" ) ;
 #endif
 	SEXP ans; 
+	/* all of what follows simply removes the " from the start and the end
+	  of the value, it might be better to do this in the lexer instead */
 	const char* data = CHAR( STRING_ELT( s, 0 ) ); 
 	int n = strlen(data);
 	if( n >= 2) {
