@@ -3,8 +3,7 @@ read.bib <- function(
 	package = "bibtex" ){
 	
 	out <- .External( "do_read_bib", file = file )
-	# FIXME: deal with quotes in the lexer
-	quote.killer <- function(x) gsub ('"', '', x )
+	quote.killer <- function(x) gsub ('(^"|"$)', '', x )
 	at  <- sapply( attributes(out), quote.killer ) 
 	out <- lapply( out, function(x){
 		entry <- attr( x, "entry" )
@@ -13,9 +12,12 @@ read.bib <- function(
 		if( "author" %in% names(y) ){
 			y[["author"]] <- as.personList( y[["author"]] )
 		}
-		y
+		structure( y, class = "citation" ) 
 	} )
-	attributes(out) <- at
-	out
+	preamble <- at[["preamble"]] 
+	structure( list( out ), class = "citationList", 
+		header = if( length(preamble) ) paste( preamble, sep = "\n" ) else "", 
+		footer = "", 
+		strings = at[["strings"]] )
 }
 
