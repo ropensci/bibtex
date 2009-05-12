@@ -2019,19 +2019,16 @@ static void eof_error(){
     Rprintf( "End-of-file in value string\n" );
 }
 
-
 static int next_char() {
-    int c;
-
-    c = input();
-    if ( c == R_EOF ){	
+	int c;
+	c = input();
+	if ( c == R_EOF ){	
 		eof_error();
-    } else if (c == '\n'){
+	} else if (c == '\n'){
 		line_number++;
 	}
-    return (c);
+	return (c);
 }
-
 
 static token_t out_braced_literal(){
     int c;

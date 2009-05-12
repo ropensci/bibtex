@@ -9,12 +9,14 @@ read.bib <- function(
 	at  <- sapply( attributes(out), quote.killer ) 
 	out <- lapply( out, function(x){
 		entry <- attr( x, "entry" )
+		key <- attr( x, "key" ) 
 		y <- as.list( quote.killer(x) )
-		attr( y, "entry") <- entry
 		if( "author" %in% names(y) ){
 			y[["author"]] <- as.personList( y[["author"]] )
 		}
-		structure( y, class = "citation", srcfile = file, srcref = rep(NA, 6) ) 
+		structure( y, class = "citation", 
+			srcfile = file, srcref = rep(NA, 6), 
+			entry = entry, key = key) 
 	} )
 	preamble <- at[["preamble"]] 
 	structure( list( out ), class = "citationList", 

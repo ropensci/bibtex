@@ -1960,12 +1960,8 @@ static void xx_result( SEXP objlist ){
 	PROTECT( ans = NewList()) ;
 	PROTECT( names = allocVector( STRSXP, n )) ;
 	PROTECT( tmp = CDR(objlist) ) ;
-	SEXP item; 
 	for( int i=0; i<n; i++){
-		item = CAR(tmp);
-		SET_STRING_ELT( names, i, STRING_ELT( getAttrib(item, install("head") ), 0 ) ); 
-		setAttrib( item, install("head"), R_NilValue ) ;
-		ans = GrowList( ans, item ) ; 
+		ans = GrowList( ans, CAR(tmp) ) ; 
 		tmp = CDR(tmp) ;
 	}
 	SEXP out ;
@@ -2098,7 +2094,7 @@ static SEXP xx_atobject_entry(SEXP object){
 	
 	setAttrib( ans, install( "entry"), entry ) ;
 	setAttrib( ans, install( "names"), names ) ;
-	setAttrib( ans, install( "head"), h ) ;
+	setAttrib( ans, install( "key"), h ) ;
 	
 	UNPROTECT( 3 ) ; // entry, h, o
 	UNPROTECT_PTR( object ); 
