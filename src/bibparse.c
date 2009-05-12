@@ -2312,12 +2312,10 @@ static SEXP xx_value( SEXP left , SEXP right ){
 	int n_right = strlen( right_);
 	int n = n_left + n_right ;
 	char res[n] ;
-	char *p, *q ;
 	int i, j;
 	for( i=0; i<n_left; i++){
 		res[i] = left_[i] ;
 	}
-	
 	for( j=0; j<n_right; j++, i++){
 		res[i] = right_[j] ;
 	}
