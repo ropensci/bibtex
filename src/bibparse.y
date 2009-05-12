@@ -39,6 +39,7 @@ static SEXP xx_forward( SEXP ) ;
 static SEXP xx_null( ) ;
 static void xx_result( SEXP );
 static SEXP xx_expand_abbrev( SEXP ) ;
+static SEXP xx_simple_value( SEXP ) ;
 
 /* functions to unprotect one or more SEXP */
 void junk1( SEXP); 
@@ -145,7 +146,7 @@ value:	  	  simple_value {$$ = xx_forward($1) ; }
 		| value opt_space TOKEN_SHARP opt_space simple_value { $$ = xx_value( $1, $5) ; junk3( $2, $3, $4);  }
 		;
 
-simple_value:	  TOKEN_VALUE { $$ = xx_forward($1); }
+simple_value:	  TOKEN_VALUE { $$ = xx_simple_value($1); }
 		| TOKEN_ABBREV { $$ = xx_expand_abbrev($1); }
 		;
 
@@ -732,6 +733,39 @@ static SEXP xx_forward( SEXP s ){
 #endif
 	return s ;
 }
+
+static SEXP xx_simple_value( SEXP s ){
+#ifdef XXDEBUG
+	Rprintf( "<xx_simple_value>\n" ) ;
+#endif
+	SEXP ans; 
+	const char* data = CHAR( STRING_ELT( s, 0 ) ); 
+	int n = strlen(data);
+	if( n >= 2) {
+		char first = data[0]; 
+		char last = data[n-1];
+		if( first == '"' && last == '"' ){
+			char noquote[n-2] ;
+			for( int i=1; i<n-1; i++){
+				noquote[i-1] = data[i] ;
+			}
+			PROTECT( ans = allocVector( STRSXP, 1 ) ); 
+			SET_STRING_ELT( ans, 0, STRING_ELT(mkString2(noquote, n-2), 0) ) ;
+		} else{
+			PROTECT( ans = s ) ;
+		}
+	} else{
+		PROTECT( ans = s ) ;
+	}
+	
+	UNPROTECT_PTR( s ) ;
+#ifdef XXDEBUG
+	Rprintf( "<xx_simple_value>\n" ) ;
+#endif
+	return ans ;
+}
+
+
 
 static SEXP xx_null( ){
 #ifdef XXDEBUG

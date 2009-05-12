@@ -5,12 +5,11 @@ read.bib <- function(
 	footer = "" ){
 	
 	out <- .External( "do_read_bib", file = file )
-	quote.killer <- function(x) gsub ('(^"|"$)', '', x )
-	at  <- sapply( attributes(out), quote.killer ) 
+	at  <- attributes(out) 
 	out <- lapply( out, function(x){
 		entry <- attr( x, "entry" )
 		key <- attr( x, "key" ) 
-		y <- as.list( quote.killer(x) )
+		y <- as.list( x )
 		if( "author" %in% names(y) ){
 			y[["author"]] <- as.personList( y[["author"]] )
 		}

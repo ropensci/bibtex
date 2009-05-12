@@ -2335,7 +2335,7 @@ static token_t out_token(token_t t){
     	case TOKEN_PREAMBLE:
     	case TOKEN_STRING:
 			if (do_lex_output){
-			    (void)printf("\"%s\"\n", yytext);
+			    Rprintf("\"%s\"\n", yytext);
 			}
 			last_object = t;
 			break;
@@ -2343,7 +2343,7 @@ static token_t out_token(token_t t){
     	case TOKEN_FIELD:
     	case TOKEN_KEY:
 			if (do_lex_output){
-			    (void)printf("\"%s\"\n", yytext);
+			    Rprintf("\"%s\"\n", yytext);
 			}
 			break;
     	
@@ -2352,7 +2352,6 @@ static token_t out_token(token_t t){
 			line_number++;
 			if (do_lex_output) {
 			    out_protected_string(t);
-			    /* (void)printf("# line %ld \"%s\"\n", line_number, the_filename); */
 			}
 			break;
     	
