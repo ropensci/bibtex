@@ -14,7 +14,7 @@ read.bib <- function(
 		if( "author" %in% names(y) ){
 			y[["author"]] <- as.personList( y[["author"]] )
 		}
-		structure( y, class = "citation" ) 
+		structure( y, class = "citation", srcfile = file, srcref = rep(NA, 6) ) 
 	} )
 	preamble <- at[["preamble"]] 
 	structure( list( out ), class = "citationList", 
