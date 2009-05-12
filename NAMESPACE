@@ -1,4 +1,5 @@
 useDynLib( bibtex )
 
 export( read.bib )
+importFrom( utils, as.personList )
 
