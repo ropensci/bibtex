@@ -375,8 +375,8 @@ static SEXP xx_atobject_entry(SEXP object){
 	SEXP names; 
 	PROTECT( head = getAttrib( object, install("head") ) ); 
 	int n = length( object ) ;
-	PROTECT( ans   = allocVector( STRSXP, n + 1) ) ;
-	PROTECT( names = allocVector( STRSXP, n + 1) ) ;
+	PROTECT( ans   = allocVector( STRSXP, n) ) ;
+	PROTECT( names = allocVector( STRSXP, n) ) ;
 	PROTECT( o = object ) ; 
 	int i;
 	for( i=0; i<n; i++){
@@ -384,16 +384,20 @@ static SEXP xx_atobject_entry(SEXP object){
 		SET_STRING_ELT( names, i, STRING_ELT(getAttrib(CAR(o), install("names")),0) ) ;
 		o = CDR(o ) ;
 	}
-	SET_STRING_ELT( ans    , i, STRING_ELT(head, 1) ) ;
-	SET_STRING_ELT( names  , i, STRING_ELT(mkString2("type", 4), 0) ) ;
 	
-	SEXP h ; 
-	PROTECT( h = allocVector( STRSXP, 1) ) ; 
-	SET_STRING_ELT( h, 0, STRING_ELT(head, 0) ) ;
-	setAttrib( ans, install("head"), h ) ;
-	setAttrib( ans, install("names"), names ) ;
+	SEXP entry ;
+	PROTECT( entry = allocVector( STRSXP, 1 ) ) ;
+	SET_STRING_ELT( entry  , 0, STRING_ELT(head, 1) ) ;
 	
-	UNPROTECT( 2 ) ; // h, o
+	SEXP h ;
+	PROTECT( h = allocVector( STRSXP, 1 ) ) ;
+	SET_STRING_ELT( h  , 0, STRING_ELT(head, 0) ) ;
+	
+	setAttrib( ans, install( "entry"), entry ) ;
+	setAttrib( ans, install( "names"), names ) ;
+	setAttrib( ans, install( "head"), h ) ;
+	
+	UNPROTECT( 3 ) ; // entry, h, o
 	UNPROTECT_PTR( object ); 
 	UNPROTECT_PTR( names ); 
 	UNPROTECT_PTR( head ) ; 
