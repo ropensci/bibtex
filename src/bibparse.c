@@ -116,14 +116,16 @@
 /* Copy the first part of user declarations.  */
 #line 1 "bibtex/src/bibparse.y"
 
-
+/*{{{ first part of declarations */
 #include "bibtex.h" 
-
 char		yytext[BIBYYLMAX];
 #define YYDEBUG		1		/* need for -d option support */
-
 #define YYSTYPE		SEXP
+#define streql(s, t)	(!strcmp((s), (t)))
 
+/* #define XXDEBUG 1 */ 
+
+/* functions used in the parsing process */
 static SEXP xx_object_list_1(SEXP);
 static SEXP xx_object_list_2(SEXP,SEXP);
 static SEXP xx_object(SEXP);
@@ -155,6 +157,7 @@ static SEXP xx_null( ) ;
 static void xx_result( SEXP );
 static SEXP xx_expand_abbrev( SEXP ) ;
 
+/* functions to unprotect one or more SEXP */
 void junk1( SEXP); 
 void junk2( SEXP, SEXP); 
 void junk3( SEXP, SEXP, SEXP); 
@@ -163,30 +166,26 @@ void junk5( SEXP, SEXP, SEXP, SEXP, SEXP);
 void junk6( SEXP, SEXP, SEXP, SEXP, SEXP, SEXP); 
 void junk7( SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP); 
 
-
 static PROTECT_INDEX INCLUDE_INDEX ;
-static SEXP includes; 
-static void recordInclude( SEXP ) ;
-
 static PROTECT_INDEX COMMENT_INDEX ;
-static SEXP comments; 
-static void recordComment( SEXP ) ;
-
 static PROTECT_INDEX STRING_INDEX ;
-static SEXP strings; 
-static void recordString( SEXP ) ;
-
 static PROTECT_INDEX PREAMBLE_INDEX ;
-static SEXP preamble; 
-static void recordPreamble( SEXP ) ;
-
 static PROTECT_INDEX ENTRIES_INDEX ;
+
+static SEXP includes; 
+static SEXP comments; 
+static SEXP strings; 
+static SEXP preamble; 
 static SEXP entries; 
-                           
+
+static void recordInclude( SEXP ) ;
+static void recordComment( SEXP ) ;
+static void recordString( SEXP ) ;
+static void recordPreamble( SEXP ) ;
 static SEXP asVector( SEXP ); 
+/*}}}*/
 
-/* #define XXDEBUG 1 */ 
-
+/*{{{ Grammar */
 
 
 /* Enabling traces.  */
@@ -220,7 +219,7 @@ typedef int YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 224 "bibtex/src/bibparse.c"
+#line 223 "bibtex/src/bibparse.c"
 
 #ifdef short
 # undef short
@@ -519,10 +518,10 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   182,   182,   183,   186,   187,   190,   193,   194,   195,
-     196,   197,   198,   201,   204,   205,   206,   209,   210,   213,
-     214,   217,   220,   223,   226,   227,   230,   231,   234,   235,
-     238,   241,   242,   245,   246,   249,   250,   253,   254,   255
+       0,   100,   100,   101,   104,   105,   108,   111,   112,   113,
+     114,   115,   116,   119,   122,   123,   124,   127,   128,   131,
+     132,   135,   138,   141,   144,   145,   148,   149,   152,   153,
+     156,   159,   160,   163,   164,   167,   168,   171,   172,   173
 };
 #endif
 
@@ -1470,198 +1469,198 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 182 "bibtex/src/bibparse.y"
+#line 100 "bibtex/src/bibparse.y"
     { junk1((yyvsp[(1) - (1)])); ;}
     break;
 
   case 3:
-#line 183 "bibtex/src/bibparse.y"
+#line 101 "bibtex/src/bibparse.y"
     { xx_result( (yyvsp[(2) - (3)]) ) ;junk2((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])) ; ;}
     break;
 
   case 4:
-#line 186 "bibtex/src/bibparse.y"
+#line 104 "bibtex/src/bibparse.y"
     { (yyval) = xx_object_list_1((yyvsp[(1) - (1)]));  ;}
     break;
 
   case 5:
-#line 187 "bibtex/src/bibparse.y"
+#line 105 "bibtex/src/bibparse.y"
     { (yyval) = xx_object_list_2((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])); junk1((yyvsp[(2) - (3)])) ; ;}
     break;
 
   case 6:
-#line 190 "bibtex/src/bibparse.y"
+#line 108 "bibtex/src/bibparse.y"
     {(yyval) = xx_object((yyvsp[(3) - (3)])); junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])); ;}
     break;
 
   case 7:
-#line 193 "bibtex/src/bibparse.y"
+#line 111 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_comment((yyvsp[(1) - (1)])); ;}
     break;
 
   case 8:
-#line 194 "bibtex/src/bibparse.y"
+#line 112 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_entry((yyvsp[(1) - (1)]));;}
     break;
 
   case 9:
-#line 195 "bibtex/src/bibparse.y"
+#line 113 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_include((yyvsp[(1) - (1)]));;}
     break;
 
   case 10:
-#line 196 "bibtex/src/bibparse.y"
+#line 114 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_preamble((yyvsp[(1) - (1)]));;}
     break;
 
   case 11:
-#line 197 "bibtex/src/bibparse.y"
+#line 115 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_string((yyvsp[(1) - (1)]));;}
     break;
 
   case 12:
-#line 198 "bibtex/src/bibparse.y"
+#line 116 "bibtex/src/bibparse.y"
     { YYABORT; ;}
     break;
 
   case 13:
-#line 201 "bibtex/src/bibparse.y"
+#line 119 "bibtex/src/bibparse.y"
     {junk3((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)]),(yyvsp[(3) - (3)])); ;}
     break;
 
   case 14:
-#line 204 "bibtex/src/bibparse.y"
+#line 122 "bibtex/src/bibparse.y"
     { (yyval) = xx_token_entry( (yyvsp[(1) - (3)]), (yyvsp[(2) - (3)])); junk1((yyvsp[(3) - (3)])); ;}
     break;
 
   case 15:
-#line 205 "bibtex/src/bibparse.y"
+#line 123 "bibtex/src/bibparse.y"
     { (yyval) = xx_token_entry( (yyvsp[(1) - (5)]), (yyvsp[(2) - (5)])); junk3((yyvsp[(3) - (5)]),(yyvsp[(4) - (5)]),(yyvsp[(5) - (5)])); ;}
     break;
 
   case 16:
-#line 206 "bibtex/src/bibparse.y"
+#line 124 "bibtex/src/bibparse.y"
     { (yyval) = xx_token_entry_empty((yyvsp[(1) - (2)])) ; junk1((yyvsp[(2) - (2)])) ; ;}
     break;
 
   case 17:
-#line 209 "bibtex/src/bibparse.y"
+#line 127 "bibtex/src/bibparse.y"
     { (yyval) = xx_entry_head( (yyvsp[(1) - (8)]), (yyvsp[(5) - (8)])) ; junk6((yyvsp[(2) - (8)]),(yyvsp[(3) - (8)]),(yyvsp[(4) - (8)]),(yyvsp[(6) - (8)]),(yyvsp[(7) - (8)]),(yyvsp[(8) - (8)])) ; ;}
     break;
 
   case 18:
-#line 210 "bibtex/src/bibparse.y"
+#line 128 "bibtex/src/bibparse.y"
     { (yyval) = xx_entry_head_nokey( (yyvsp[(1) - (6)])) ; junk5((yyvsp[(2) - (6)]),(yyvsp[(3) - (6)]),(yyvsp[(4) - (6)]),(yyvsp[(5) - (6)]),(yyvsp[(6) - (6)])) ; ;}
     break;
 
   case 19:
-#line 213 "bibtex/src/bibparse.y"
+#line 131 "bibtex/src/bibparse.y"
     { (yyval) = xx_keyname_key( (yyvsp[(1) - (1)])) ;;}
     break;
 
   case 20:
-#line 214 "bibtex/src/bibparse.y"
+#line 132 "bibtex/src/bibparse.y"
     { (yyval) = xx_keyname_abbrev( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 21:
-#line 217 "bibtex/src/bibparse.y"
+#line 135 "bibtex/src/bibparse.y"
     { (yyval) = xx_include( (yyvsp[(3) - (3)]) ) ; junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])) ; ;}
     break;
 
   case 22:
-#line 220 "bibtex/src/bibparse.y"
+#line 138 "bibtex/src/bibparse.y"
     { (yyval) = xx_preamble((yyvsp[(5) - (7)])) ; junk6((yyvsp[(1) - (7)]),(yyvsp[(2) - (7)]),(yyvsp[(3) - (7)]),(yyvsp[(4) - (7)]),(yyvsp[(6) - (7)]),(yyvsp[(7) - (7)])) ; ;}
     break;
 
   case 23:
-#line 223 "bibtex/src/bibparse.y"
+#line 141 "bibtex/src/bibparse.y"
     { (yyval) = xx_string((yyvsp[(5) - (7)])) ; junk6( (yyvsp[(1) - (7)]), (yyvsp[(2) - (7)]), (yyvsp[(3) - (7)]), (yyvsp[(4) - (7)]), (yyvsp[(6) - (7)]), (yyvsp[(7) - (7)])) ; ;}
     break;
 
   case 24:
-#line 226 "bibtex/src/bibparse.y"
+#line 144 "bibtex/src/bibparse.y"
     {(yyval) = xx_forward((yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 25:
-#line 227 "bibtex/src/bibparse.y"
+#line 145 "bibtex/src/bibparse.y"
     { (yyval) = xx_value( (yyvsp[(1) - (5)]), (yyvsp[(5) - (5)])) ; junk3( (yyvsp[(2) - (5)]), (yyvsp[(3) - (5)]), (yyvsp[(4) - (5)]));  ;}
     break;
 
   case 26:
-#line 230 "bibtex/src/bibparse.y"
+#line 148 "bibtex/src/bibparse.y"
     { (yyval) = xx_forward((yyvsp[(1) - (1)])); ;}
     break;
 
   case 27:
-#line 231 "bibtex/src/bibparse.y"
+#line 149 "bibtex/src/bibparse.y"
     { (yyval) = xx_expand_abbrev((yyvsp[(1) - (1)])); ;}
     break;
 
   case 28:
-#line 234 "bibtex/src/bibparse.y"
+#line 152 "bibtex/src/bibparse.y"
     { (yyval) = xx_assignement_list1((yyvsp[(1) - (1)])); ;}
     break;
 
   case 29:
-#line 235 "bibtex/src/bibparse.y"
+#line 153 "bibtex/src/bibparse.y"
     { (yyval) = xx_assignement_list2((yyvsp[(1) - (4)]), (yyvsp[(4) - (4)])); junk2((yyvsp[(2) - (4)]),(yyvsp[(3) - (4)])); ;}
     break;
 
   case 30:
-#line 238 "bibtex/src/bibparse.y"
+#line 156 "bibtex/src/bibparse.y"
     { (yyval) = xx_assignement((yyvsp[(1) - (6)]), (yyvsp[(5) - (6)])); junk4((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(4) - (6)]), (yyvsp[(6) - (6)])) ;}
     break;
 
   case 31:
-#line 241 "bibtex/src/bibparse.y"
+#line 159 "bibtex/src/bibparse.y"
     { (yyval) = xx_lhs_field( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
   case 32:
-#line 242 "bibtex/src/bibparse.y"
+#line 160 "bibtex/src/bibparse.y"
     { (yyval) = xx_lhs_abbrev( (yyvsp[(1) - (1)]) ); ;}
     break;
 
   case 33:
-#line 245 "bibtex/src/bibparse.y"
+#line 163 "bibtex/src/bibparse.y"
     { (yyval) = xx_null() ; ;}
     break;
 
   case 34:
-#line 246 "bibtex/src/bibparse.y"
+#line 164 "bibtex/src/bibparse.y"
     { (yyval) = xx_forward((yyvsp[(1) - (1)])) ;;}
     break;
 
   case 35:
-#line 249 "bibtex/src/bibparse.y"
+#line 167 "bibtex/src/bibparse.y"
     { (yyval) = xx_forward((yyvsp[(1) - (1)])) ;;}
     break;
 
   case 36:
-#line 250 "bibtex/src/bibparse.y"
+#line 168 "bibtex/src/bibparse.y"
     { (yyval) = xx_forward((yyvsp[(1) - (2)])); junk1((yyvsp[(2) - (2)])) ; ;}
     break;
 
   case 37:
-#line 253 "bibtex/src/bibparse.y"
+#line 171 "bibtex/src/bibparse.y"
     { (yyval) = xx_space( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
   case 38:
-#line 254 "bibtex/src/bibparse.y"
+#line 172 "bibtex/src/bibparse.y"
     { (yyval) = xx_space_inline( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
   case 39:
-#line 255 "bibtex/src/bibparse.y"
+#line 173 "bibtex/src/bibparse.y"
     { (yyval) = xx_space_newline( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1665 "bibtex/src/bibparse.c"
+#line 1664 "bibtex/src/bibparse.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1875,11 +1874,12 @@ yyreturn:
 }
 
 
-#line 257 "bibtex/src/bibparse.y"
+#line 175 "bibtex/src/bibparse.y"
 
 
-/* end of grammar */
+/*}}} end of grammar */
 
+/*{{{ functions borrowed from gram.y */
 #ifdef Win32
 static char * fixmode(const char *mode){
     /* Rconnection can have a mode of 4 chars plus a null; we might
@@ -1900,28 +1900,22 @@ static char * fixmode(const char *mode){
 FILE * _fopen(const char *filename, const char *mode){
     return(filename ? fopen(filename, fixmode(mode)) : NULL );
 }
+/*}}}*/
 
 /*{{{ yyerror */
-void yyerror(const char *s){
-    error_count++;
-/*    (void)fprintf(stderr,"%s \"%s\", line %ld: %s\tNext token = \"%s\"\n",
-		  ERROR_PREFIX, the_filename, line_number, s, yytext);
-    (void)fflush(stderr);
-	*/
-}
+void yyerror(const char *s){}
 /*}}}*/
 
 /*{{{ yywarning */
-static void yywarning(const char *s){
- /*   (void)fflush(stdout);
-    (void)fprintf(stderr,"%s %s\tNext token = \"%s\"\n",
-		  WARNING_PREFIX, s, yytext);
-    (void)fflush(stderr);
-	*/
-}
+static void yywarning(const char *s){}
 /*}}}*/
 
 /*{{{ R interface */
+/**
+ * .Internal( "do_read_bib", file = file )
+ */
+// TODO: add an "encoding" argument and deal with it
+// TODO: deal with the stack when there is an error
 SEXP attribute_hidden do_read_bib(SEXP args){
 	SEXP filename = CADR(args) ;
 	const char* fname = CHAR(STRING_ELT(filename,0) ) ;
@@ -1930,20 +1924,26 @@ SEXP attribute_hidden do_read_bib(SEXP args){
 		error( "unable to open file to read", 0);
 	}
 	yyset_in( fp ) ; /* so that the lexer reads from the file */
-	yydebug = 0 ;
+	yydebug = 0 ;    /* setting this to 1 gives a lot of messages */
+	
+	/* set up the data */
 	PROTECT_WITH_INDEX( includes = NewList() , &INCLUDE_INDEX ) ;
 	PROTECT_WITH_INDEX( comments = NewList() , &COMMENT_INDEX ) ;
 	PROTECT_WITH_INDEX( strings  = NewList() , &STRING_INDEX ) ;
 	PROTECT_WITH_INDEX( preamble = NewList() , &PREAMBLE_INDEX ) ;
 	PROTECT_WITH_INDEX( entries  = R_NilValue, &ENTRIES_INDEX ) ;
+	
+	/* call the parser */
 	yyparse() ;
 	
+	/* structure the data */
 	SEXP obj; 
 	PROTECT(obj = asVector( comments ) );  setAttrib( entries, install("comment") , obj ); UNPROTECT_PTR( obj ) ;
 	PROTECT(obj = asVector( includes ) );  setAttrib( entries, install("include") , obj ); UNPROTECT_PTR( obj ) ; 
 	PROTECT(obj = asVector( strings  ) );  setAttrib( entries, install("strings") , obj ); UNPROTECT_PTR( obj ) ; 
 	PROTECT(obj = asVector( preamble ) );  setAttrib( entries, install("preamble"), obj ); UNPROTECT_PTR( obj ) ;
 	UNPROTECT_PTR( entries ) ;
+	
 	return entries ;
 }
 /*}}}*/
@@ -2257,17 +2257,7 @@ static SEXP xx_keyname_key( SEXP key){
  * name of an entry
  */ 
 static SEXP xx_keyname_abbrev( SEXP abbrev){
-#ifdef XXDEBUG
-	Rprintf( "<xx_keyname_abbrev>\n" ) ;
-#endif
-	// TODO: expand the abbreviation
-	SEXP ans ; 
-	PROTECT( ans = abbrev ) ;
-	UNPROTECT_PTR( abbrev ) ;
-#ifdef XXDEBUG
-	Rprintf( "</xx_keyname_abbrev>\n" ) ;
-#endif
-	return ans ;
+	return xx_expand_abbrev( abbrev ) ;
 }
 
 /**
@@ -2400,12 +2390,8 @@ static SEXP xx_lhs_field( SEXP field){
 	return field ;
 }
 
-
 static SEXP xx_lhs_abbrev( SEXP abbrev){
-#ifdef XXDEBUG
-	Rprintf( "<xx_lhs_abbrev/>\n" ) ;
-#endif
-	return abbrev ;
+	return xx_expand_abbrev( abbrev ) ;
 }
 
 
@@ -2484,9 +2470,23 @@ static void recordPreamble( SEXP object ){
 }
 
 static SEXP xx_expand_abbrev( SEXP abbrev ){
-	SEXP ans ; 
-	// TODO: lookup in the strings
-	PROTECT( ans = abbrev ) ; 
+	SEXP ans ;
+	const char * target = CHAR( STRING_ELT( abbrev, 0) ) ;
+	SEXP tmp ;
+	PROTECT( ans = allocVector( STRSXP, 1 ) ) ;
+	SET_STRING_ELT( ans, 0, STRING_ELT( abbrev, 0) ) ;
+	PROTECT( tmp = CDR(strings) ) ;
+	int n = length( tmp ) ;
+	SEXP item ;
+	for(int i=0; i<n; i++){
+		item = CAR(tmp);
+		if( streql( CHAR( STRING_ELT( getAttrib( item, install("names") ), 0 ) ) , target ) ){
+				SET_STRING_ELT( ans, 0, STRING_ELT( item, 0) ) ;
+				break ;
+		};
+		tmp = CDR( tmp ) ;
+	}
+	UNPROTECT(1); // tmp
 	UNPROTECT_PTR( abbrev ) ;
 	return ans ;
 }
@@ -2575,6 +2575,10 @@ void junk7( SEXP s1, SEXP s2, SEXP s3, SEXP s4, SEXP s5, SEXP s6, SEXP s7){
 }
 /*}}}*/
 
+/*{{{ asVector */
+/**
+ * list( a = "aa", b = "bb") -> c( a = "aa", b = "bb" ) 
+ */
 static SEXP asVector( SEXP x){
 	SEXP ans, names ; 
 	SEXP tmp ;
@@ -2596,6 +2600,7 @@ static SEXP asVector( SEXP x){
 	UNPROTECT_PTR(ans) ; 
 	return ans; 
 }
+/*}}}*/
 
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
 

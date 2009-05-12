@@ -4,6 +4,8 @@
 char		yytext[BIBYYLMAX];
 #define YYDEBUG		1		/* need for -d option support */
 #define YYSTYPE		SEXP
+#define streql(s, t)	(!strcmp((s), (t)))
+
 /* #define XXDEBUG 1 */ 
 
 /* functions used in the parsing process */
@@ -766,8 +768,22 @@ static void recordPreamble( SEXP object ){
 
 static SEXP xx_expand_abbrev( SEXP abbrev ){
 	SEXP ans ;
-	// TODO: lookup in the strings
-	PROTECT( ans = abbrev ) ; 
+	const char * target = CHAR( STRING_ELT( abbrev, 0) ) ;
+	SEXP tmp ;
+	PROTECT( ans = allocVector( STRSXP, 1 ) ) ;
+	SET_STRING_ELT( ans, 0, STRING_ELT( abbrev, 0) ) ;
+	PROTECT( tmp = CDR(strings) ) ;
+	int n = length( tmp ) ;
+	SEXP item ;
+	for(int i=0; i<n; i++){
+		item = CAR(tmp);
+		if( streql( CHAR( STRING_ELT( getAttrib( item, install("names") ), 0 ) ) , target ) ){
+				SET_STRING_ELT( ans, 0, STRING_ELT( item, 0) ) ;
+				break ;
+		};
+		tmp = CDR( tmp ) ;
+	}
+	UNPROTECT(1); // tmp
 	UNPROTECT_PTR( abbrev ) ;
 	return ans ;
 }
