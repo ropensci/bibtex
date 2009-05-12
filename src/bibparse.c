@@ -2297,7 +2297,7 @@ static SEXP xx_string(SEXP object){
 }
 
 /** 
- * value
+ * value, paste( left, right , sep = "" )
  *
  * @param 
  */
@@ -2306,14 +2306,29 @@ static SEXP xx_value( SEXP left , SEXP right ){
 	Rprintf( "<xx_value>\n" ) ;
 #endif
 	SEXP ans;
-	PROTECT( ans = left ) ;
+	const char* left_ = CHAR( STRING_ELT( left, 0) ) ;
+	const char* right_ = CHAR( STRING_ELT( right, 0) ) ;
+	int n_left = strlen( left_);
+	int n_right = strlen( right_);
+	int n = n_left + n_right ;
+	char res[n] ;
+	char *p, *q ;
+	int i, j;
+	for( i=0; i<n_left; i++){
+		res[i] = left_[i] ;
+	}
+	
+	for( j=0; j<n_right; j++, i++){
+		res[i] = right_[j] ;
+	}
+	
+	PROTECT( ans = allocVector( STRSXP, 1) ) ;
+	SET_STRING_ELT( ans, 0, STRING_ELT( mkString2( res, n_left + n_right ), 0) ) ;
 	UNPROTECT_PTR( right ) ; 
 	UNPROTECT_PTR( left ) ; 
 #ifdef XXDEBUG
 	Rprintf( "</xx_value>\n" ) ;
 #endif
-
-	// TODO: use right: paste( left, right , sep = "#") 
 	return ans ;
 }
 
@@ -2470,13 +2485,14 @@ static void recordPreamble( SEXP object ){
 }
 
 static SEXP xx_expand_abbrev( SEXP abbrev ){
-	SEXP ans ;
-	const char * target = CHAR( STRING_ELT( abbrev, 0) ) ;
-	SEXP tmp ;
+	SEXP ans, tmp ;
+	/* use the abbreviation name by default */
 	PROTECT( ans = allocVector( STRSXP, 1 ) ) ;
 	SET_STRING_ELT( ans, 0, STRING_ELT( abbrev, 0) ) ;
+	
 	PROTECT( tmp = CDR(strings) ) ;
 	int n = length( tmp ) ;
+	const char * target = CHAR( STRING_ELT( abbrev, 0) ) ;
 	SEXP item ;
 	for(int i=0; i<n; i++){
 		item = CAR(tmp);
