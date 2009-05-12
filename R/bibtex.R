@@ -1,6 +1,8 @@
 read.bib <- function(
 	file = system.file( "REFERENCES.bib", package = package ), 
-	package = "bibtex" ){
+	package = "bibtex", 
+	header = if( length(preamble) ) paste( preamble, sep = "\n" ) else "", 
+	footer = "" ){
 	
 	out <- .External( "do_read_bib", file = file )
 	quote.killer <- function(x) gsub ('(^"|"$)', '', x )
@@ -16,8 +18,8 @@ read.bib <- function(
 	} )
 	preamble <- at[["preamble"]] 
 	structure( list( out ), class = "citationList", 
-		header = if( length(preamble) ) paste( preamble, sep = "\n" ) else "", 
-		footer = "", 
+		header = header, 
+		footer = footer, 
 		strings = at[["strings"]] )
 }
 
