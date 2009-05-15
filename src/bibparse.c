@@ -122,8 +122,34 @@ char		yytext[BIBYYLMAX];
 #define YYDEBUG		1		/* need for -d option support */
 #define YYSTYPE		SEXP
 #define streql(s, t)	(!strcmp((s), (t)))
+#define YYSIZE_T unsigned int 
+#define YYERROR_VERBOSE 1
+
+#define _PROTECT_WITH_INDEX(s,index) { PROTECT_WITH_INDEX(s,index);  } 
+#define _PROTECT(s) { PROTECT(s); }
+#define _UNPROTECT(n) { UNPROTECT(n);  }
+#define _UNPROTECT_PTR(s) { UNPROTECT_PTR(s);  }
+#define _REPROTECT(s,index) REPROTECT(s,index)
+
+static int recovering ;                             
+static int popping ; 
+const char* error_msg_popping = "Error: popping";  
+char * currentKey; 
+int currentKeyLine ;
+
+#define yyerror(s) \
+do { \
+	_UNPROTECT_PTR( yylval ) ; \
+	popping = 1; \
+	_yyerror(s); \
+} \
+while(0) ;
 
 /* #define XXDEBUG 1 */ 
+#define STACKSIZE 1000
+static SEXP* track_stack; 
+static void resetTrackStack() ;
+static void flushTrackStack() ;
 
 /* functions used in the parsing process */
 static SEXP xx_object_list_1(SEXP);
@@ -220,7 +246,7 @@ typedef int YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 224 "bibtex/src/bibparse.c"
+#line 250 "bibtex/src/bibparse.c"
 
 #ifdef short
 # undef short
@@ -519,10 +545,10 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,   101,   101,   102,   105,   106,   109,   112,   113,   114,
-     115,   116,   117,   120,   123,   124,   125,   128,   129,   132,
-     133,   136,   139,   142,   145,   146,   149,   150,   153,   154,
-     157,   160,   161,   164,   165,   168,   169,   172,   173,   174
+       0,   136,   136,   137,   140,   141,   144,   147,   148,   149,
+     150,   151,   152,   155,   158,   159,   160,   163,   164,   167,
+     168,   171,   174,   177,   180,   181,   184,   185,   188,   189,
+     192,   195,   196,   199,   200,   203,   204,   207,   208,   209
 };
 #endif
 
@@ -1163,6 +1189,461 @@ yydestruct (yymsg, yytype, yyvaluep)
 
   switch (yytype)
     {
+      case 3: /* "TOKEN_ABBREV" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1204 "bibtex/src/bibparse.c"
+	break;
+      case 4: /* "TOKEN_AT" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1217 "bibtex/src/bibparse.c"
+	break;
+      case 5: /* "TOKEN_COMMA" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1230 "bibtex/src/bibparse.c"
+	break;
+      case 6: /* "TOKEN_COMMENT" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1243 "bibtex/src/bibparse.c"
+	break;
+      case 7: /* "TOKEN_ENTRY" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1256 "bibtex/src/bibparse.c"
+	break;
+      case 8: /* "TOKEN_EQUALS" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1269 "bibtex/src/bibparse.c"
+	break;
+      case 9: /* "TOKEN_FIELD" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1282 "bibtex/src/bibparse.c"
+	break;
+      case 10: /* "TOKEN_INCLUDE" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1295 "bibtex/src/bibparse.c"
+	break;
+      case 11: /* "TOKEN_INLINE" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1308 "bibtex/src/bibparse.c"
+	break;
+      case 12: /* "TOKEN_KEY" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1321 "bibtex/src/bibparse.c"
+	break;
+      case 13: /* "TOKEN_LBRACE" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1334 "bibtex/src/bibparse.c"
+	break;
+      case 14: /* "TOKEN_LITERAL" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1347 "bibtex/src/bibparse.c"
+	break;
+      case 15: /* "TOKEN_NEWLINE" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1360 "bibtex/src/bibparse.c"
+	break;
+      case 16: /* "TOKEN_PREAMBLE" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1373 "bibtex/src/bibparse.c"
+	break;
+      case 17: /* "TOKEN_RBRACE" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1386 "bibtex/src/bibparse.c"
+	break;
+      case 18: /* "TOKEN_SHARP" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1399 "bibtex/src/bibparse.c"
+	break;
+      case 19: /* "TOKEN_SPACE" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1412 "bibtex/src/bibparse.c"
+	break;
+      case 20: /* "TOKEN_STRING" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1425 "bibtex/src/bibparse.c"
+	break;
+      case 21: /* "TOKEN_VALUE" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1438 "bibtex/src/bibparse.c"
+	break;
+      case 22: /* "TOKEN_UNKNOWN" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1451 "bibtex/src/bibparse.c"
+	break;
+      case 28: /* "comment" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1464 "bibtex/src/bibparse.c"
+	break;
+      case 29: /* "entry" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1477 "bibtex/src/bibparse.c"
+	break;
+      case 30: /* "entry_head" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1490 "bibtex/src/bibparse.c"
+	break;
+      case 31: /* "key_name" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1503 "bibtex/src/bibparse.c"
+	break;
+      case 32: /* "include" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1516 "bibtex/src/bibparse.c"
+	break;
+      case 33: /* "preamble" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1529 "bibtex/src/bibparse.c"
+	break;
+      case 34: /* "string" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1542 "bibtex/src/bibparse.c"
+	break;
+      case 35: /* "value" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1555 "bibtex/src/bibparse.c"
+	break;
+      case 36: /* "simple_value" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1568 "bibtex/src/bibparse.c"
+	break;
+      case 37: /* "assignment_list" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1581 "bibtex/src/bibparse.c"
+	break;
+      case 38: /* "assignment" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1594 "bibtex/src/bibparse.c"
+	break;
+      case 39: /* "assignment_lhs" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1607 "bibtex/src/bibparse.c"
+	break;
+      case 40: /* "opt_space" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1620 "bibtex/src/bibparse.c"
+	break;
+      case 41: /* "space" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1633 "bibtex/src/bibparse.c"
+	break;
+      case 42: /* "single_space" */
+#line 126 "bibtex/src/bibparse.y"
+	{ 
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1646 "bibtex/src/bibparse.c"
+	break;
 
       default:
 	break;
@@ -1470,198 +1951,198 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 101 "bibtex/src/bibparse.y"
-    { junk1((yyvsp[(1) - (1)])); ;}
+#line 136 "bibtex/src/bibparse.y"
+    { junk1((yyvsp[(1) - (1)])); YYACCEPT ; ;}
     break;
 
   case 3:
-#line 102 "bibtex/src/bibparse.y"
-    { xx_result( (yyvsp[(2) - (3)]) ) ;junk2((yyvsp[(1) - (3)]), (yyvsp[(3) - (3)])) ; ;}
+#line 137 "bibtex/src/bibparse.y"
+    { junk3((yyvsp[(1) - (3)]), (yyvsp[(2) - (3)]), (yyvsp[(3) - (3)])) ; YYACCEPT ; ;}
     break;
 
   case 4:
-#line 105 "bibtex/src/bibparse.y"
+#line 140 "bibtex/src/bibparse.y"
     { (yyval) = xx_object_list_1((yyvsp[(1) - (1)]));  ;}
     break;
 
   case 5:
-#line 106 "bibtex/src/bibparse.y"
+#line 141 "bibtex/src/bibparse.y"
     { (yyval) = xx_object_list_2((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])); junk1((yyvsp[(2) - (3)])) ; ;}
     break;
 
   case 6:
-#line 109 "bibtex/src/bibparse.y"
+#line 144 "bibtex/src/bibparse.y"
     {(yyval) = xx_object((yyvsp[(3) - (3)])); junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])); ;}
     break;
 
   case 7:
-#line 112 "bibtex/src/bibparse.y"
+#line 147 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_comment((yyvsp[(1) - (1)])); ;}
     break;
 
   case 8:
-#line 113 "bibtex/src/bibparse.y"
+#line 148 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_entry((yyvsp[(1) - (1)]));;}
     break;
 
   case 9:
-#line 114 "bibtex/src/bibparse.y"
+#line 149 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_include((yyvsp[(1) - (1)]));;}
     break;
 
   case 10:
-#line 115 "bibtex/src/bibparse.y"
+#line 150 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_preamble((yyvsp[(1) - (1)]));;}
     break;
 
   case 11:
-#line 116 "bibtex/src/bibparse.y"
+#line 151 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_string((yyvsp[(1) - (1)]));;}
     break;
 
   case 12:
-#line 117 "bibtex/src/bibparse.y"
-    { YYABORT; ;}
+#line 152 "bibtex/src/bibparse.y"
+    { (yyval) = xx_null() ; YYUSE((yyvsp[(2) - (2)])) ; recovering = 0; ;}
     break;
 
   case 13:
-#line 120 "bibtex/src/bibparse.y"
-    {junk3((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)]),(yyvsp[(3) - (3)])); ;}
+#line 155 "bibtex/src/bibparse.y"
+    {junk3((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)]),(yyvsp[(3) - (3)])); (yyval) = xx_null(); ;}
     break;
 
   case 14:
-#line 123 "bibtex/src/bibparse.y"
+#line 158 "bibtex/src/bibparse.y"
     { (yyval) = xx_token_entry( (yyvsp[(1) - (3)]), (yyvsp[(2) - (3)])); junk1((yyvsp[(3) - (3)])); ;}
     break;
 
   case 15:
-#line 124 "bibtex/src/bibparse.y"
+#line 159 "bibtex/src/bibparse.y"
     { (yyval) = xx_token_entry( (yyvsp[(1) - (5)]), (yyvsp[(2) - (5)])); junk3((yyvsp[(3) - (5)]),(yyvsp[(4) - (5)]),(yyvsp[(5) - (5)])); ;}
     break;
 
   case 16:
-#line 125 "bibtex/src/bibparse.y"
+#line 160 "bibtex/src/bibparse.y"
     { (yyval) = xx_token_entry_empty((yyvsp[(1) - (2)])) ; junk1((yyvsp[(2) - (2)])) ; ;}
     break;
 
   case 17:
-#line 128 "bibtex/src/bibparse.y"
+#line 163 "bibtex/src/bibparse.y"
     { (yyval) = xx_entry_head( (yyvsp[(1) - (8)]), (yyvsp[(5) - (8)])) ; junk6((yyvsp[(2) - (8)]),(yyvsp[(3) - (8)]),(yyvsp[(4) - (8)]),(yyvsp[(6) - (8)]),(yyvsp[(7) - (8)]),(yyvsp[(8) - (8)])) ; ;}
     break;
 
   case 18:
-#line 129 "bibtex/src/bibparse.y"
+#line 164 "bibtex/src/bibparse.y"
     { (yyval) = xx_entry_head_nokey( (yyvsp[(1) - (6)])) ; junk5((yyvsp[(2) - (6)]),(yyvsp[(3) - (6)]),(yyvsp[(4) - (6)]),(yyvsp[(5) - (6)]),(yyvsp[(6) - (6)])) ; ;}
     break;
 
   case 19:
-#line 132 "bibtex/src/bibparse.y"
+#line 167 "bibtex/src/bibparse.y"
     { (yyval) = xx_keyname_key( (yyvsp[(1) - (1)])) ;;}
     break;
 
   case 20:
-#line 133 "bibtex/src/bibparse.y"
+#line 168 "bibtex/src/bibparse.y"
     { (yyval) = xx_keyname_abbrev( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 21:
-#line 136 "bibtex/src/bibparse.y"
+#line 171 "bibtex/src/bibparse.y"
     { (yyval) = xx_include( (yyvsp[(3) - (3)]) ) ; junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])) ; ;}
     break;
 
   case 22:
-#line 139 "bibtex/src/bibparse.y"
+#line 174 "bibtex/src/bibparse.y"
     { (yyval) = xx_preamble((yyvsp[(5) - (7)])) ; junk6((yyvsp[(1) - (7)]),(yyvsp[(2) - (7)]),(yyvsp[(3) - (7)]),(yyvsp[(4) - (7)]),(yyvsp[(6) - (7)]),(yyvsp[(7) - (7)])) ; ;}
     break;
 
   case 23:
-#line 142 "bibtex/src/bibparse.y"
+#line 177 "bibtex/src/bibparse.y"
     { (yyval) = xx_string((yyvsp[(5) - (7)])) ; junk6( (yyvsp[(1) - (7)]), (yyvsp[(2) - (7)]), (yyvsp[(3) - (7)]), (yyvsp[(4) - (7)]), (yyvsp[(6) - (7)]), (yyvsp[(7) - (7)])) ; ;}
     break;
 
   case 24:
-#line 145 "bibtex/src/bibparse.y"
+#line 180 "bibtex/src/bibparse.y"
     {(yyval) = xx_forward((yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 25:
-#line 146 "bibtex/src/bibparse.y"
+#line 181 "bibtex/src/bibparse.y"
     { (yyval) = xx_value( (yyvsp[(1) - (5)]), (yyvsp[(5) - (5)])) ; junk3( (yyvsp[(2) - (5)]), (yyvsp[(3) - (5)]), (yyvsp[(4) - (5)]));  ;}
     break;
 
   case 26:
-#line 149 "bibtex/src/bibparse.y"
+#line 184 "bibtex/src/bibparse.y"
     { (yyval) = xx_simple_value((yyvsp[(1) - (1)])); ;}
     break;
 
   case 27:
-#line 150 "bibtex/src/bibparse.y"
+#line 185 "bibtex/src/bibparse.y"
     { (yyval) = xx_expand_abbrev((yyvsp[(1) - (1)])); ;}
     break;
 
   case 28:
-#line 153 "bibtex/src/bibparse.y"
+#line 188 "bibtex/src/bibparse.y"
     { (yyval) = xx_assignement_list1((yyvsp[(1) - (1)])); ;}
     break;
 
   case 29:
-#line 154 "bibtex/src/bibparse.y"
+#line 189 "bibtex/src/bibparse.y"
     { (yyval) = xx_assignement_list2((yyvsp[(1) - (4)]), (yyvsp[(4) - (4)])); junk2((yyvsp[(2) - (4)]),(yyvsp[(3) - (4)])); ;}
     break;
 
   case 30:
-#line 157 "bibtex/src/bibparse.y"
-    { (yyval) = xx_assignement((yyvsp[(1) - (6)]), (yyvsp[(5) - (6)])); junk4((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(4) - (6)]), (yyvsp[(6) - (6)])) ;}
+#line 192 "bibtex/src/bibparse.y"
+    {  /* final */ 	(yyval) = xx_assignement((yyvsp[(1) - (6)]), (yyvsp[(5) - (6)])); junk4((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(4) - (6)]), (yyvsp[(6) - (6)])); ;}
     break;
 
   case 31:
-#line 160 "bibtex/src/bibparse.y"
+#line 195 "bibtex/src/bibparse.y"
     { (yyval) = xx_lhs_field( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
   case 32:
-#line 161 "bibtex/src/bibparse.y"
+#line 196 "bibtex/src/bibparse.y"
     { (yyval) = xx_lhs_abbrev( (yyvsp[(1) - (1)]) ); ;}
     break;
 
   case 33:
-#line 164 "bibtex/src/bibparse.y"
+#line 199 "bibtex/src/bibparse.y"
     { (yyval) = xx_null() ; ;}
     break;
 
   case 34:
-#line 165 "bibtex/src/bibparse.y"
+#line 200 "bibtex/src/bibparse.y"
     { (yyval) = xx_forward((yyvsp[(1) - (1)])) ;;}
     break;
 
   case 35:
-#line 168 "bibtex/src/bibparse.y"
+#line 203 "bibtex/src/bibparse.y"
     { (yyval) = xx_forward((yyvsp[(1) - (1)])) ;;}
     break;
 
   case 36:
-#line 169 "bibtex/src/bibparse.y"
+#line 204 "bibtex/src/bibparse.y"
     { (yyval) = xx_forward((yyvsp[(1) - (2)])); junk1((yyvsp[(2) - (2)])) ; ;}
     break;
 
   case 37:
-#line 172 "bibtex/src/bibparse.y"
+#line 207 "bibtex/src/bibparse.y"
     { (yyval) = xx_space( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
   case 38:
-#line 173 "bibtex/src/bibparse.y"
+#line 208 "bibtex/src/bibparse.y"
     { (yyval) = xx_space_inline( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
   case 39:
-#line 174 "bibtex/src/bibparse.y"
+#line 209 "bibtex/src/bibparse.y"
     { (yyval) = xx_space_newline( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1665 "bibtex/src/bibparse.c"
+#line 2146 "bibtex/src/bibparse.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1875,7 +2356,7 @@ yyreturn:
 }
 
 
-#line 176 "bibtex/src/bibparse.y"
+#line 211 "bibtex/src/bibparse.y"
 
 
 /*}}} end of grammar */
@@ -1904,11 +2385,17 @@ FILE * _fopen(const char *filename, const char *mode){
 /*}}}*/
 
 /*{{{ yyerror */
-void yyerror(const char *s){}
+void _yyerror(const char *s){
+	warning( "[line %d] : %s\n Dropping the entry `%s` (starting at line %d) ", line_number, s, currentKey, currentKeyLine ) ;
+	/* indicates that we are recovering from an error */
+	recovering = 1 ;
+}
 /*}}}*/
 
 /*{{{ yywarning */
-static void yywarning(const char *s){}
+static void yywarning(const char *s){
+	REprintf( "warning : %s\n", s ) ;
+}
 /*}}}*/
 
 /*{{{ R interface */
@@ -1926,26 +2413,34 @@ SEXP attribute_hidden do_read_bib(SEXP args){
 	}
 	yyset_in( fp ) ; /* so that the lexer reads from the file */
 	yydebug = 0 ;    /* setting this to 1 gives a lot of messages */
-	
+	popping = 0; 
 	/* set up the data */
-	PROTECT_WITH_INDEX( includes = NewList() , &INCLUDE_INDEX ) ;
-	PROTECT_WITH_INDEX( comments = NewList() , &COMMENT_INDEX ) ;
-	PROTECT_WITH_INDEX( strings  = NewList() , &STRING_INDEX ) ;
-	PROTECT_WITH_INDEX( preamble = NewList() , &PREAMBLE_INDEX ) ;
-	PROTECT_WITH_INDEX( entries  = R_NilValue, &ENTRIES_INDEX ) ;
+	_PROTECT_WITH_INDEX( includes = NewList() , &INCLUDE_INDEX ) ;
+	_PROTECT_WITH_INDEX( comments = NewList() , &COMMENT_INDEX ) ;
+	_PROTECT_WITH_INDEX( strings  = NewList() , &STRING_INDEX ) ;
+	_PROTECT_WITH_INDEX( preamble = NewList() , &PREAMBLE_INDEX ) ;
+	_PROTECT_WITH_INDEX( entries  = NewList() , &ENTRIES_INDEX ) ;
 	
 	/* call the parser */
-	yyparse() ;
+	recovering = 0; 
+	int res = yyparse() ;
 	
 	/* structure the data */
-	SEXP obj; 
-	PROTECT(obj = asVector( comments ) );  setAttrib( entries, install("comment") , obj ); UNPROTECT_PTR( obj ) ;
-	PROTECT(obj = asVector( includes ) );  setAttrib( entries, install("include") , obj ); UNPROTECT_PTR( obj ) ; 
-	PROTECT(obj = asVector( strings  ) );  setAttrib( entries, install("strings") , obj ); UNPROTECT_PTR( obj ) ; 
-	PROTECT(obj = asVector( preamble ) );  setAttrib( entries, install("preamble"), obj ); UNPROTECT_PTR( obj ) ;
-	UNPROTECT_PTR( entries ) ;
-	
-	return entries ;
+	SEXP ans; 
+	if( length( CDR(entries) ) == 0 ){
+		PROTECT( ans = allocVector( INTSXP, 1)  ) ;
+		INTEGER(ans)[0] = 0; 
+	} else {
+		PROTECT( ans = CDR(entries) )  ;
+	}
+	SEXP obj ;
+	_PROTECT(obj = asVector( comments ) ); setAttrib( ans , install("comment") , obj ); _UNPROTECT_PTR( obj ) ;
+	_PROTECT(obj = asVector( includes ) ); setAttrib( ans , install("include") , obj ); _UNPROTECT_PTR( obj ) ; 
+	_PROTECT(obj = asVector( strings  ) ); setAttrib( ans , install("strings") , obj ); _UNPROTECT_PTR( obj ) ; 
+	_PROTECT(obj = asVector( preamble ) ); setAttrib( ans , install("preamble"), obj ); _UNPROTECT_PTR( obj ) ;
+	_UNPROTECT_PTR( entries ) ;
+	_UNPROTECT_PTR( ans ); 
+	return ans ;
 }
 /*}}}*/
 
@@ -1955,25 +2450,7 @@ SEXP attribute_hidden do_read_bib(SEXP args){
  * called at the end
  */
 static void xx_result( SEXP objlist ){
-	
-	SEXP tmp, ans, names; 
-	int n = length( CDR(objlist ) ); 
-	PROTECT( ans = NewList()) ;
-	PROTECT( names = allocVector( STRSXP, n )) ;
-	PROTECT( tmp = CDR(objlist) ) ;
-	for( int i=0; i<n; i++){
-		ans = GrowList( ans, CAR(tmp) ) ; 
-		tmp = CDR(tmp) ;
-	}
-	SEXP out ;
-	UNPROTECT(1) ;
-	PROTECT( out = CDR(ans) );
-	UNPROTECT_PTR(ans);
-	setAttrib( out, install("names"), names );
-	UNPROTECT_PTR(names);
-	REPROTECT( entries = out, ENTRIES_INDEX ) ; 
-	UNPROTECT_PTR(out) ;
-	UNPROTECT_PTR(objlist) ;
+	_UNPROTECT_PTR(objlist) ;
 }
  
  
@@ -1987,14 +2464,14 @@ static SEXP xx_object_list_1(SEXP object){
 	Rprintf( "<xx_object_list_1>\n" ) ;
 #endif
 	SEXP ans, tmp ;
-	PROTECT( tmp = NewList() ) ;
+	_PROTECT( tmp = NewList() ) ;
 	if( object == R_NilValue) {
-		PROTECT( ans = tmp ) ;
+		_PROTECT( ans = tmp ) ;
 	} else{
-		PROTECT( ans = GrowList( tmp, object) ) ;
+		_PROTECT( ans = GrowList( tmp, object) ) ;
 	}
-	UNPROTECT_PTR( tmp) ;
-	UNPROTECT_PTR( object) ;
+	_UNPROTECT_PTR( tmp) ;
+	_UNPROTECT_PTR( object) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_object_list_1>\n" ) ;
 #endif
@@ -2012,12 +2489,12 @@ static SEXP xx_object_list_2(SEXP list, SEXP object){
 #endif
 	SEXP ans ;
 	if( object == R_NilValue ){
-		PROTECT( ans = list );
+		_PROTECT( ans = list );
 	} else{
-		PROTECT( ans = GrowList( list, object ) );
+		_PROTECT( ans = GrowList( list, object ) );
 	}
-	UNPROTECT_PTR( object ) ;
-	UNPROTECT_PTR( list ) ;
+	_UNPROTECT_PTR( object ) ;
+	_UNPROTECT_PTR( list ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_object_list_2>\n" ) ;
 #endif
@@ -2025,7 +2502,7 @@ static SEXP xx_object_list_2(SEXP list, SEXP object){
 }
 
 /** 
- * an object, placeholder
+ * recognizes an object, adds it to the list of entries
  *
  * @param object object
  */
@@ -2034,8 +2511,8 @@ static SEXP xx_object(SEXP object){
 	Rprintf( "<xx_aobject>\n" ) ;
 #endif
 	SEXP ans; 
-	PROTECT( ans = object ) ;
-	UNPROTECT_PTR( object ) ;
+	_PROTECT( ans = object ) ;
+	_UNPROTECT_PTR( object ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_aobject>\n" ) ;
 #endif
@@ -2052,7 +2529,7 @@ static SEXP xx_atobject_comment(SEXP object){
 	Rprintf( "<xx_atobject_comment>\n" ) ;
 #endif
 	SEXP ans; 
-	PROTECT( ans = R_NilValue ) ; 
+	_PROTECT( ans = R_NilValue ) ; 
 	recordComment( object ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_atobject_comment>\n" ) ;
@@ -2069,42 +2546,48 @@ static SEXP xx_atobject_entry(SEXP object){
 #ifdef XXDEBUG
 	Rprintf( "<xx_atobject_entry>\n" ) ;
 #endif
-	SEXP ans; 
-	SEXP head; 
-	SEXP o ;
-	SEXP names; 
-	PROTECT( head = getAttrib( object, install("head") ) ); 
+	SEXP ans, head, o, names; 
+	_PROTECT( head = getAttrib( object, install("head") ) ); 
 	int n = length( object ) ;
-	PROTECT( ans   = allocVector( STRSXP, n) ) ;
-	PROTECT( names = allocVector( STRSXP, n) ) ;
-	PROTECT( o = object ) ; 
+	_PROTECT( ans   = allocVector( STRSXP, n) ) ;
+	_PROTECT( names = allocVector( STRSXP, n) ) ;
+	
+	_PROTECT( o = object ) ; 
 	int i;
 	for( i=0; i<n; i++){
 		SET_STRING_ELT( ans  , i, STRING_ELT(CAR(o),0) ) ;
 		SET_STRING_ELT( names, i, STRING_ELT(getAttrib(CAR(o), install("names")),0) ) ;
 		o = CDR(o ) ;
 	}
+	_UNPROTECT(1); // o
 	
 	SEXP entry ;
-	PROTECT( entry = allocVector( STRSXP, 1 ) ) ;
+	_PROTECT( entry = allocVector( STRSXP, 1 ) ) ;
 	SET_STRING_ELT( entry  , 0, STRING_ELT(head, 1) ) ;
 	
 	SEXP h ;
-	PROTECT( h = allocVector( STRSXP, 1 ) ) ;
+	_PROTECT( h = allocVector( STRSXP, 1 ) ) ;
 	SET_STRING_ELT( h  , 0, STRING_ELT(head, 0) ) ;
 	
 	setAttrib( ans, install( "entry"), entry ) ;
 	setAttrib( ans, install( "names"), names ) ;
 	setAttrib( ans, install( "key"), h ) ;
 	
-	UNPROTECT( 3 ) ; // entry, h, o
-	UNPROTECT_PTR( object ); 
-	UNPROTECT_PTR( names ); 
-	UNPROTECT_PTR( head ) ; 
+	_UNPROTECT( 2 ) ; // entry, h, o
+	_UNPROTECT_PTR( object ); 
+	_UNPROTECT_PTR( names ); 
+	_UNPROTECT_PTR( head ) ;
+	
+	SEXP res; 
+	_PROTECT( res = GrowList( entries , ans ) ) ;
+	_REPROTECT( entries = res , ENTRIES_INDEX ) ;
+	_UNPROTECT_PTR( res ) ;
 	
 #ifdef XXDEBUG
 	Rprintf( "</xx_atobject_entry>\n" ) ;
 #endif
+	_UNPROTECT_PTR( ans ) ;
+	_PROTECT( ans = R_NilValue ); 
 	return ans ;
 }
 
@@ -2118,7 +2601,7 @@ static SEXP xx_atobject_include(SEXP object ){
 	Rprintf( "<xx_atobject_include>\n" ) ;
 #endif
 	SEXP ans ;
-	PROTECT( ans = R_NilValue ) ;
+	_PROTECT( ans = R_NilValue ) ;
 	recordInclude( object ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_atobject_include>\n" ) ;
@@ -2134,7 +2617,7 @@ static SEXP xx_atobject_preamble(SEXP object){
 	Rprintf( "<xx_atobject_preamble>\n" ) ;
 #endif
 	SEXP ans ;
-	PROTECT( ans = R_NilValue ) ;
+	_PROTECT( ans = R_NilValue ) ;
 	recordPreamble( object ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_atobject_preamble>\n" ) ;
@@ -2150,7 +2633,7 @@ static SEXP xx_atobject_string(SEXP object){
 	Rprintf( "<xx_atobject_string>\n" ) ;
 #endif
 	SEXP ans ;
-	PROTECT( ans = R_NilValue ) ;
+	_PROTECT( ans = R_NilValue ) ;
 	recordString( object ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_atobject_string>\n" ) ;
@@ -2169,10 +2652,10 @@ static SEXP xx_token_entry( SEXP head, SEXP list){
 	Rprintf( "<xx_token_entry>\n" ) ;
 #endif
 	SEXP data ;
-	PROTECT( data = CDR(list) )  ;
+	_PROTECT( data = CDR(list) )  ;
 	setAttrib( data, install("head"), head) ;
-	UNPROTECT_PTR( list ) ;
-	UNPROTECT_PTR( head ) ;
+	_UNPROTECT_PTR( list ) ;
+	_UNPROTECT_PTR( head ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_token_entry>\n" ) ;
 #endif
@@ -2189,9 +2672,9 @@ static SEXP xx_token_entry_empty(SEXP head){
 	Rprintf( "<xx_token_entry_empty>\n" ) ;
 #endif
 	SEXP ans; 
-	PROTECT( ans = R_NilValue ) ;
+	_PROTECT( ans = R_NilValue ) ;
 	setAttrib( ans, install("head"), head) ;
-	UNPROTECT_PTR( head ) ;
+	_UNPROTECT_PTR( head ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_token_entry_empty>\n" ) ;
 #endif
@@ -2209,11 +2692,11 @@ static SEXP xx_entry_head( SEXP kind, SEXP keyname ){
 	Rprintf( "<xx_entry_head>\n" ) ;
 #endif
 	SEXP ans ;
-	PROTECT( ans = allocVector( STRSXP, 2) ) ;
+	_PROTECT( ans = allocVector( STRSXP, 2) ) ;
 	SET_STRING_ELT( ans, 0, STRING_ELT(keyname, 0) ) ;
 	SET_STRING_ELT( ans, 1, STRING_ELT(kind, 0) ) ;
-	UNPROTECT_PTR(kind) ;
-	UNPROTECT_PTR(keyname) ;
+	_UNPROTECT_PTR(kind) ;
+	_UNPROTECT_PTR(keyname) ;
 	
 #ifdef XXDEBUG
 	Rprintf( "</xx_entry_head>\n" ) ;
@@ -2231,10 +2714,10 @@ static SEXP xx_entry_head_nokey( SEXP kind){
 	Rprintf( "<xx_entry_head>\n" ) ;
 #endif
 	SEXP ans ;
-	PROTECT( ans = allocVector( STRSXP, 2) ) ;
+	_PROTECT( ans = allocVector( STRSXP, 2) ) ;
 	SET_STRING_ELT( ans, 0, NA_STRING ) ;
 	SET_STRING_ELT( ans, 1, STRING_ELT(kind, 0) ) ;
-	UNPROTECT_PTR(kind) ;
+	_UNPROTECT_PTR(kind) ;
 	
 #ifdef XXDEBUG
 	Rprintf( "</xx_entry_head>\n" ) ;
@@ -2251,6 +2734,8 @@ static SEXP xx_keyname_key( SEXP key){
 #ifdef XXDEBUG
 	Rprintf( "<xx_keyname_key/>\n" ) ;
 #endif
+	currentKey = strdup( CHAR( STRING_ELT(key,0) ) ) ;
+	currentKeyLine = line_number ;
 	return key; 
 }
 
@@ -2258,7 +2743,10 @@ static SEXP xx_keyname_key( SEXP key){
  * name of an entry
  */ 
 static SEXP xx_keyname_abbrev( SEXP abbrev){
-	return xx_expand_abbrev( abbrev ) ;
+	SEXP res =  xx_expand_abbrev( abbrev ) ;
+	currentKey = strdup( CHAR( STRING_ELT(abbrev,0) ) ) ; 
+	currentKeyLine = line_number ;
+	return res; 
 }
 
 /**
@@ -2321,10 +2809,10 @@ static SEXP xx_value( SEXP left , SEXP right ){
 		res[i] = right_[j] ;
 	}
 	
-	PROTECT( ans = allocVector( STRSXP, 1) ) ;
+	_PROTECT( ans = allocVector( STRSXP, 1) ) ;
 	SET_STRING_ELT( ans, 0, STRING_ELT( mkString2( res, n_left + n_right ), 0) ) ;
-	UNPROTECT_PTR( right ) ; 
-	UNPROTECT_PTR( left ) ; 
+	_UNPROTECT_PTR( right ) ; 
+	_UNPROTECT_PTR( left ) ; 
 #ifdef XXDEBUG
 	Rprintf( "</xx_value>\n" ) ;
 #endif
@@ -2341,10 +2829,10 @@ static SEXP xx_assignement_list1(SEXP object){
 	Rprintf( "<xx_assignement_list1>\n" ) ;
 #endif
 	SEXP ans, tmp; 
-	PROTECT( tmp = NewList( ) ) ;
-	PROTECT( ans = GrowList( tmp, object) ) ;
-	UNPROTECT_PTR( tmp ) ;
-	UNPROTECT_PTR( object ) ;
+	_PROTECT( tmp = NewList( ) ) ;
+	_PROTECT( ans = GrowList( tmp, object) ) ;
+	_UNPROTECT_PTR( tmp ) ;
+	_UNPROTECT_PTR( object ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_assignement_list1>\n" ) ;
 #endif
@@ -2362,9 +2850,9 @@ static SEXP xx_assignement_list2(SEXP list, SEXP object){
 	Rprintf( "<xx_assignement_list2>\n" ) ;
 #endif
 	SEXP ans ;
-	PROTECT( ans = GrowList( list, object) ) ;
-	UNPROTECT_PTR( list ) ;
-	UNPROTECT_PTR( object ) ;
+	_PROTECT( ans = GrowList( list, object) ) ;
+	_UNPROTECT_PTR( list ) ;
+	_UNPROTECT_PTR( object ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_assignement_list2>\n" ) ;
 #endif
@@ -2372,7 +2860,7 @@ static SEXP xx_assignement_list2(SEXP list, SEXP object){
 }
 
 /**
- * assignement
+ * assignement                
  *
  * @param lhs left side
  * @param value value
@@ -2382,10 +2870,10 @@ static SEXP xx_assignement(SEXP lhs, SEXP value){
 	Rprintf( "<xx_assignement>\n" ) ;
 #endif
 	SEXP ans;
-	PROTECT( ans = value ) ;
+	_PROTECT( ans = value ) ;
 	setAttrib( ans, install("names"), lhs ) ;
-	UNPROTECT_PTR( lhs ) ;
-	UNPROTECT_PTR( value ) ;
+	_UNPROTECT_PTR( lhs ) ;
+	_UNPROTECT_PTR( value ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_assignement>\n" ) ;
 #endif
@@ -2454,16 +2942,16 @@ static SEXP xx_simple_value( SEXP s ){
 			for( int i=1; i<n-1; i++){
 				noquote[i-1] = data[i] ;
 			}
-			PROTECT( ans = allocVector( STRSXP, 1 ) ); 
+			_PROTECT( ans = allocVector( STRSXP, 1 ) ); 
 			SET_STRING_ELT( ans, 0, STRING_ELT(mkString2(noquote, n-2), 0) ) ;
 		} else{
-			PROTECT( ans = s ) ;
+			_PROTECT( ans = s ) ;
 		}
 	} else{
-		PROTECT( ans = s ) ;
+		_PROTECT( ans = s ) ;
 	}
 	
-	UNPROTECT_PTR( s ) ;
+	_UNPROTECT_PTR( s ) ;
 #ifdef XXDEBUG
 	Rprintf( "<xx_simple_value>\n" ) ;
 #endif
@@ -2477,7 +2965,7 @@ static SEXP xx_null( ){
 	Rprintf( "<xx_null>\n" ) ;
 #endif
 	SEXP ans; 
-	PROTECT( ans = R_NilValue ); 
+	_PROTECT( ans = R_NilValue ); 
 #ifdef XXDEBUG
 	Rprintf( "</xx_null>\n" ) ;
 #endif
@@ -2489,42 +2977,41 @@ static SEXP xx_null( ){
 /*{{{ various record functions */
 static void recordInclude( SEXP object ){
 	SEXP tmp ;
-	PROTECT( tmp = GrowList( includes, object ) ); 
-	REPROTECT( includes = tmp, INCLUDE_INDEX ) ;
-	UNPROTECT_PTR( tmp ) ;
-	UNPROTECT_PTR( object ) ;
+	_PROTECT( tmp = GrowList( includes, object ) ); 
+	_REPROTECT( includes = tmp, INCLUDE_INDEX ) ;
+	_UNPROTECT_PTR( tmp ) ;
+	_UNPROTECT_PTR( object ) ;
 }
 
 static void recordComment( SEXP object ){
 	SEXP tmp ;
-	PROTECT( tmp = GrowList( comments, object ) ); 
-	REPROTECT( comments = tmp, COMMENT_INDEX ) ;
-	UNPROTECT_PTR( tmp ) ;
-	
-	UNPROTECT_PTR( object ) ;
+	_PROTECT( tmp = GrowList( comments, object ) ); 
+	_REPROTECT( comments = tmp, COMMENT_INDEX ) ;
+	_UNPROTECT_PTR( tmp ) ;
+	_UNPROTECT_PTR( object ) ;
 }
 static void recordString( SEXP object ){
 	SEXP tmp ;
-	PROTECT( tmp = GrowList( strings, object ) ); 
-	REPROTECT( strings = tmp, STRING_INDEX ) ;
-	UNPROTECT_PTR( tmp ) ;
-	UNPROTECT_PTR( object ) ;
+	_PROTECT( tmp = GrowList( strings, object ) ); 
+	_REPROTECT( strings = tmp, STRING_INDEX ) ;
+	_UNPROTECT_PTR( tmp ) ;
+	_UNPROTECT_PTR( object ) ;
 }
 static void recordPreamble( SEXP object ){
 	SEXP tmp ;
-	PROTECT( tmp = GrowList( preamble, object ) ); 
-	REPROTECT( preamble = tmp, PREAMBLE_INDEX ) ;
-	UNPROTECT_PTR( tmp ) ;
-	UNPROTECT_PTR( object ) ;
+	_PROTECT( tmp = GrowList( preamble, object ) ); 
+	_REPROTECT( preamble = tmp, PREAMBLE_INDEX ) ;
+	_UNPROTECT_PTR( tmp ) ;
+	_UNPROTECT_PTR( object ) ;
 }
 
 static SEXP xx_expand_abbrev( SEXP abbrev ){
 	SEXP ans, tmp ;
 	/* use the abbreviation name by default */
-	PROTECT( ans = allocVector( STRSXP, 1 ) ) ;
+	_PROTECT( ans = allocVector( STRSXP, 1 ) ) ;
 	SET_STRING_ELT( ans, 0, STRING_ELT( abbrev, 0) ) ;
 	
-	PROTECT( tmp = CDR(strings) ) ;
+	_PROTECT( tmp = CDR(strings) ) ;
 	int n = length( tmp ) ;
 	const char * target = CHAR( STRING_ELT( abbrev, 0) ) ;
 	SEXP item ;
@@ -2536,8 +3023,8 @@ static SEXP xx_expand_abbrev( SEXP abbrev ){
 		};
 		tmp = CDR( tmp ) ;
 	}
-	UNPROTECT(1); // tmp
-	UNPROTECT_PTR( abbrev ) ;
+	_UNPROTECT(1); // tmp
+	_UNPROTECT_PTR( abbrev ) ;
 	return ans ;
 }
 
@@ -2551,7 +3038,14 @@ static SEXP xx_expand_abbrev( SEXP abbrev ){
  * @param len number of characters of the token
  */
 void setToken( const char* token, int len ){
-	PROTECT( yylval = mkString2(token,  len) ) ; 
+	if( recovering ){
+#ifdef XXDEBUG
+		Rprintf( "recovering (%d): %s\n", recovering, token ) ;
+#endif
+		recovering++; 
+	} else{
+		_PROTECT( yylval = mkString2(token,  len) ) ;
+	}
 }
 
 /** 
@@ -2563,9 +3057,9 @@ void setToken( const char* token, int len ){
 SEXP mkString2(const char *s, int len){
     SEXP t;
     cetype_t enc = CE_NATIVE;
-    PROTECT(t = allocVector(STRSXP, 1));
+    _PROTECT(t = allocVector(STRSXP, 1));
     SET_STRING_ELT(t, 0, mkCharLenCE(s, len, enc));
-    UNPROTECT(1);
+    _UNPROTECT_PTR(t);
     return t;
 }
 /*}}}*/
@@ -2575,7 +3069,7 @@ void junk1( SEXP s){
 #ifdef XXDEBUG
 	Rprintf( " *~\n" ) ; 
 #endif
-	UNPROTECT_PTR( s ) ; 
+	_UNPROTECT_PTR( s ) ; 
 }
 
 void junk2( SEXP s1, SEXP s2){
@@ -2633,27 +3127,39 @@ static SEXP asVector( SEXP x){
 	SEXP ans, names ; 
 	SEXP tmp ;
 	int n = length( CDR(x) ) ;
-	PROTECT( ans   = allocVector( STRSXP, n) ) ;
-	PROTECT( names = allocVector( STRSXP, n) ) ;
+	_PROTECT( ans   = allocVector( STRSXP, n) ) ;
+	_PROTECT( names = allocVector( STRSXP, n) ) ;
 	SEXP item; 
-	PROTECT( tmp = CDR( x ) );
+	_PROTECT( tmp = CDR( x ) );
 	for( int i=0; i<n; i++){
 		item = CAR(tmp); 
 		SET_STRING_ELT( ans  , i, STRING_ELT(item, 0) ) ;
 		SET_STRING_ELT( names, i, STRING_ELT( getAttrib(item, install("names") ), 0) ) ;
 		tmp = CDR(tmp);
 	}
-	UNPROTECT(1) ; // tmp
+	_UNPROTECT(1) ; // tmp
 	setAttrib( ans, install("names"), names ) ;
-	UNPROTECT_PTR(names) ;
-	UNPROTECT_PTR(x) ; 
-	UNPROTECT_PTR(ans) ; 
+	_UNPROTECT_PTR(names) ;
+	_UNPROTECT_PTR(x) ; 
+	_UNPROTECT_PTR(ans) ; 
 	return ans; 
 }
 /*}}}*/
 
+static void resetTrackStack( ){
+	// for( int i=0; i<STACKSIZE; i++){
+	// 	track_stack[i] = R_NilValue; 
+	// }
+}
+static void flushTrackStack(){
+	// for( int i=0; i<STACKSIZE; i++){
+	// 	if( track_stack[i] != R_NilValue) {
+	// 		UNPROTECT_PTR( track_stack[i] ) ;
+	// 		track_stack[i] = R_NilValue; 
+	// 	}
+	// }
+}
+
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-
-
 
 

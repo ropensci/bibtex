@@ -23,8 +23,7 @@
 #endif
 
 #define BIBYYLMAX 131072
-
-void	yyerror(const char *s_);
+void	_yyerror(const char *s_);
 int		yylex(void);
 int		yyparse(void);
 int		yywrap(void);
