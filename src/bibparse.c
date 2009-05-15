@@ -120,23 +120,56 @@
 #include "bibtex.h" 
 char		yytext[BIBYYLMAX];
 #define YYDEBUG		1		/* need for -d option support */
-#define YYSTYPE		SEXP
+#define YYERROR_VERBOSE 1  /* better warning messages */
+#define YYSTYPE		SEXP    /* semantic values */
 #define streql(s, t)	(!strcmp((s), (t)))
-#define YYSIZE_T unsigned int 
-#define YYERROR_VERBOSE 1
 
+/**
+ * Aliases to R standard PROTECT macro, in case we want to do 
+ * something else as well
+ */
 #define _PROTECT_WITH_INDEX(s,index) { PROTECT_WITH_INDEX(s,index);  } 
 #define _PROTECT(s) { PROTECT(s); }
 #define _UNPROTECT(n) { UNPROTECT(n);  }
 #define _UNPROTECT_PTR(s) { UNPROTECT_PTR(s);  }
 #define _REPROTECT(s,index) REPROTECT(s,index)
 
+/**
+ * Set to 1 when a syntax error was seen to indicate that 
+ * tokens supplied by the lexer should not be wrapped into SEXP
+ */
 static int recovering ;                             
+
+/**
+ * Set to 1 after a syntax error was seen, and before the 
+ * recovering process has started
+ */
 static int popping ; 
-const char* error_msg_popping = "Error: popping";  
+
+/**
+ * used in the popping mechanism, the error message is compared to this
+ * and the popping stops if anything else happens
+ */ 
+const char* error_msg_popping = "Error: popping";
+
+/** 
+ * The keyname of the current entry (used in warning messages)
+ */
 char * currentKey; 
+
+/**
+ * the line number where the current entry starts (used in warning messages)
+ */
 int currentKeyLine ;
 
+/** 
+ * this is defined as a macro, so that it has access to yylval to be able
+ * to unprotect it. 
+ * 
+ * the macro sets the "popping" to 1 to indicate that symbols being 
+ * destructed should be UNPROTECT'ed as well, and calls the _yyerror 
+ * function which sends an R warning with the problem
+ */
 #define yyerror(s) \
 do { \
 	_UNPROTECT_PTR( yylval ) ; \
@@ -146,10 +179,6 @@ do { \
 while(0) ;
 
 /* #define XXDEBUG 1 */ 
-#define STACKSIZE 1000
-static SEXP* track_stack; 
-static void resetTrackStack() ;
-static void flushTrackStack() ;
 
 /* functions used in the parsing process */
 static SEXP xx_object_list_1(SEXP);
@@ -246,7 +275,7 @@ typedef int YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 250 "bibtex/src/bibparse.c"
+#line 279 "bibtex/src/bibparse.c"
 
 #ifdef short
 # undef short
@@ -543,12 +572,12 @@ static const yytype_int8 yyrhs[] =
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
-       0,   136,   136,   137,   140,   141,   144,   147,   148,   149,
-     150,   151,   152,   155,   158,   159,   160,   163,   164,   167,
-     168,   171,   174,   177,   180,   181,   184,   185,   188,   189,
-     192,   195,   196,   199,   200,   203,   204,   207,   208,   209
+       0,   194,   194,   195,   198,   199,   202,   205,   206,   207,
+     208,   209,   210,   213,   216,   217,   218,   221,   222,   225,
+     226,   229,   232,   235,   238,   239,   242,   243,   246,   247,
+     250,   253,   254,   257,   258,   261,   262,   265,   266,   267
 };
 #endif
 
@@ -1190,8 +1219,36 @@ yydestruct (yymsg, yytype, yyvaluep)
   switch (yytype)
     {
       case 3: /* "TOKEN_ABBREV" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1200,11 +1257,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1204 "bibtex/src/bibparse.c"
+#line 1261 "bibtex/src/bibparse.c"
 	break;
       case 4: /* "TOKEN_AT" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1213,11 +1298,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1217 "bibtex/src/bibparse.c"
+#line 1302 "bibtex/src/bibparse.c"
 	break;
       case 5: /* "TOKEN_COMMA" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1226,11 +1339,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1230 "bibtex/src/bibparse.c"
+#line 1343 "bibtex/src/bibparse.c"
 	break;
       case 6: /* "TOKEN_COMMENT" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1239,180 +1380,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1243 "bibtex/src/bibparse.c"
+#line 1384 "bibtex/src/bibparse.c"
 	break;
       case 7: /* "TOKEN_ENTRY" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
-	if( popping ){
-		if( streql( error_msg_popping, yymsg ) ){
-			UNPROTECT_PTR( (*yyvaluep) ) ;
-		} else{
-			popping = 0; 
-		}
-	}
-};
-#line 1256 "bibtex/src/bibparse.c"
-	break;
-      case 8: /* "TOKEN_EQUALS" */
-#line 126 "bibtex/src/bibparse.y"
-	{ 
-	if( popping ){
-		if( streql( error_msg_popping, yymsg ) ){
-			UNPROTECT_PTR( (*yyvaluep) ) ;
-		} else{
-			popping = 0; 
-		}
-	}
-};
-#line 1269 "bibtex/src/bibparse.c"
-	break;
-      case 9: /* "TOKEN_FIELD" */
-#line 126 "bibtex/src/bibparse.y"
-	{ 
-	if( popping ){
-		if( streql( error_msg_popping, yymsg ) ){
-			UNPROTECT_PTR( (*yyvaluep) ) ;
-		} else{
-			popping = 0; 
-		}
-	}
-};
-#line 1282 "bibtex/src/bibparse.c"
-	break;
-      case 10: /* "TOKEN_INCLUDE" */
-#line 126 "bibtex/src/bibparse.y"
-	{ 
-	if( popping ){
-		if( streql( error_msg_popping, yymsg ) ){
-			UNPROTECT_PTR( (*yyvaluep) ) ;
-		} else{
-			popping = 0; 
-		}
-	}
-};
-#line 1295 "bibtex/src/bibparse.c"
-	break;
-      case 11: /* "TOKEN_INLINE" */
-#line 126 "bibtex/src/bibparse.y"
-	{ 
-	if( popping ){
-		if( streql( error_msg_popping, yymsg ) ){
-			UNPROTECT_PTR( (*yyvaluep) ) ;
-		} else{
-			popping = 0; 
-		}
-	}
-};
-#line 1308 "bibtex/src/bibparse.c"
-	break;
-      case 12: /* "TOKEN_KEY" */
-#line 126 "bibtex/src/bibparse.y"
-	{ 
-	if( popping ){
-		if( streql( error_msg_popping, yymsg ) ){
-			UNPROTECT_PTR( (*yyvaluep) ) ;
-		} else{
-			popping = 0; 
-		}
-	}
-};
-#line 1321 "bibtex/src/bibparse.c"
-	break;
-      case 13: /* "TOKEN_LBRACE" */
-#line 126 "bibtex/src/bibparse.y"
-	{ 
-	if( popping ){
-		if( streql( error_msg_popping, yymsg ) ){
-			UNPROTECT_PTR( (*yyvaluep) ) ;
-		} else{
-			popping = 0; 
-		}
-	}
-};
-#line 1334 "bibtex/src/bibparse.c"
-	break;
-      case 14: /* "TOKEN_LITERAL" */
-#line 126 "bibtex/src/bibparse.y"
-	{ 
-	if( popping ){
-		if( streql( error_msg_popping, yymsg ) ){
-			UNPROTECT_PTR( (*yyvaluep) ) ;
-		} else{
-			popping = 0; 
-		}
-	}
-};
-#line 1347 "bibtex/src/bibparse.c"
-	break;
-      case 15: /* "TOKEN_NEWLINE" */
-#line 126 "bibtex/src/bibparse.y"
-	{ 
-	if( popping ){
-		if( streql( error_msg_popping, yymsg ) ){
-			UNPROTECT_PTR( (*yyvaluep) ) ;
-		} else{
-			popping = 0; 
-		}
-	}
-};
-#line 1360 "bibtex/src/bibparse.c"
-	break;
-      case 16: /* "TOKEN_PREAMBLE" */
-#line 126 "bibtex/src/bibparse.y"
-	{ 
-	if( popping ){
-		if( streql( error_msg_popping, yymsg ) ){
-			UNPROTECT_PTR( (*yyvaluep) ) ;
-		} else{
-			popping = 0; 
-		}
-	}
-};
-#line 1373 "bibtex/src/bibparse.c"
-	break;
-      case 17: /* "TOKEN_RBRACE" */
-#line 126 "bibtex/src/bibparse.y"
-	{ 
-	if( popping ){
-		if( streql( error_msg_popping, yymsg ) ){
-			UNPROTECT_PTR( (*yyvaluep) ) ;
-		} else{
-			popping = 0; 
-		}
-	}
-};
-#line 1386 "bibtex/src/bibparse.c"
-	break;
-      case 18: /* "TOKEN_SHARP" */
-#line 126 "bibtex/src/bibparse.y"
-	{ 
-	if( popping ){
-		if( streql( error_msg_popping, yymsg ) ){
-			UNPROTECT_PTR( (*yyvaluep) ) ;
-		} else{
-			popping = 0; 
-		}
-	}
-};
-#line 1399 "bibtex/src/bibparse.c"
-	break;
-      case 19: /* "TOKEN_SPACE" */
-#line 126 "bibtex/src/bibparse.y"
-	{ 
-	if( popping ){
-		if( streql( error_msg_popping, yymsg ) ){
-			UNPROTECT_PTR( (*yyvaluep) ) ;
-		} else{
-			popping = 0; 
-		}
-	}
-};
-#line 1412 "bibtex/src/bibparse.c"
-	break;
-      case 20: /* "TOKEN_STRING" */
-#line 126 "bibtex/src/bibparse.y"
-	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1423,9 +1423,37 @@ yydestruct (yymsg, yytype, yyvaluep)
 };
 #line 1425 "bibtex/src/bibparse.c"
 	break;
-      case 21: /* "TOKEN_VALUE" */
-#line 126 "bibtex/src/bibparse.y"
+      case 8: /* "TOKEN_EQUALS" */
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1434,11 +1462,572 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1438 "bibtex/src/bibparse.c"
+#line 1466 "bibtex/src/bibparse.c"
+	break;
+      case 9: /* "TOKEN_FIELD" */
+#line 155 "bibtex/src/bibparse.y"
+	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1507 "bibtex/src/bibparse.c"
+	break;
+      case 10: /* "TOKEN_INCLUDE" */
+#line 155 "bibtex/src/bibparse.y"
+	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1548 "bibtex/src/bibparse.c"
+	break;
+      case 11: /* "TOKEN_INLINE" */
+#line 155 "bibtex/src/bibparse.y"
+	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1589 "bibtex/src/bibparse.c"
+	break;
+      case 12: /* "TOKEN_KEY" */
+#line 155 "bibtex/src/bibparse.y"
+	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1630 "bibtex/src/bibparse.c"
+	break;
+      case 13: /* "TOKEN_LBRACE" */
+#line 155 "bibtex/src/bibparse.y"
+	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1671 "bibtex/src/bibparse.c"
+	break;
+      case 14: /* "TOKEN_LITERAL" */
+#line 155 "bibtex/src/bibparse.y"
+	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1712 "bibtex/src/bibparse.c"
+	break;
+      case 15: /* "TOKEN_NEWLINE" */
+#line 155 "bibtex/src/bibparse.y"
+	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1753 "bibtex/src/bibparse.c"
+	break;
+      case 16: /* "TOKEN_PREAMBLE" */
+#line 155 "bibtex/src/bibparse.y"
+	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1794 "bibtex/src/bibparse.c"
+	break;
+      case 17: /* "TOKEN_RBRACE" */
+#line 155 "bibtex/src/bibparse.y"
+	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1835 "bibtex/src/bibparse.c"
+	break;
+      case 18: /* "TOKEN_SHARP" */
+#line 155 "bibtex/src/bibparse.y"
+	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1876 "bibtex/src/bibparse.c"
+	break;
+      case 19: /* "TOKEN_SPACE" */
+#line 155 "bibtex/src/bibparse.y"
+	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1917 "bibtex/src/bibparse.c"
+	break;
+      case 20: /* "TOKEN_STRING" */
+#line 155 "bibtex/src/bibparse.y"
+	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1958 "bibtex/src/bibparse.c"
+	break;
+      case 21: /* "TOKEN_VALUE" */
+#line 155 "bibtex/src/bibparse.y"
+	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
+	if( popping ){
+		if( streql( error_msg_popping, yymsg ) ){
+			UNPROTECT_PTR( (*yyvaluep) ) ;
+		} else{
+			popping = 0; 
+		}
+	}
+};
+#line 1999 "bibtex/src/bibparse.c"
 	break;
       case 22: /* "TOKEN_UNKNOWN" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1447,11 +2036,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1451 "bibtex/src/bibparse.c"
+#line 2040 "bibtex/src/bibparse.c"
 	break;
       case 28: /* "comment" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1460,11 +2077,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1464 "bibtex/src/bibparse.c"
+#line 2081 "bibtex/src/bibparse.c"
 	break;
       case 29: /* "entry" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1473,11 +2118,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1477 "bibtex/src/bibparse.c"
+#line 2122 "bibtex/src/bibparse.c"
 	break;
       case 30: /* "entry_head" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1486,11 +2159,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1490 "bibtex/src/bibparse.c"
+#line 2163 "bibtex/src/bibparse.c"
 	break;
       case 31: /* "key_name" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1499,11 +2200,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1503 "bibtex/src/bibparse.c"
+#line 2204 "bibtex/src/bibparse.c"
 	break;
       case 32: /* "include" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1512,11 +2241,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1516 "bibtex/src/bibparse.c"
+#line 2245 "bibtex/src/bibparse.c"
 	break;
       case 33: /* "preamble" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1525,11 +2282,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1529 "bibtex/src/bibparse.c"
+#line 2286 "bibtex/src/bibparse.c"
 	break;
       case 34: /* "string" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1538,11 +2323,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1542 "bibtex/src/bibparse.c"
+#line 2327 "bibtex/src/bibparse.c"
 	break;
       case 35: /* "value" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1551,11 +2364,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1555 "bibtex/src/bibparse.c"
+#line 2368 "bibtex/src/bibparse.c"
 	break;
       case 36: /* "simple_value" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1564,11 +2405,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1568 "bibtex/src/bibparse.c"
+#line 2409 "bibtex/src/bibparse.c"
 	break;
       case 37: /* "assignment_list" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1577,11 +2446,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1581 "bibtex/src/bibparse.c"
+#line 2450 "bibtex/src/bibparse.c"
 	break;
       case 38: /* "assignment" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1590,11 +2487,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1594 "bibtex/src/bibparse.c"
+#line 2491 "bibtex/src/bibparse.c"
 	break;
       case 39: /* "assignment_lhs" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1603,11 +2528,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1607 "bibtex/src/bibparse.c"
+#line 2532 "bibtex/src/bibparse.c"
 	break;
       case 40: /* "opt_space" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1616,11 +2569,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1620 "bibtex/src/bibparse.c"
+#line 2573 "bibtex/src/bibparse.c"
 	break;
       case 41: /* "space" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1629,11 +2610,39 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1633 "bibtex/src/bibparse.c"
+#line 2614 "bibtex/src/bibparse.c"
 	break;
       case 42: /* "single_space" */
-#line 126 "bibtex/src/bibparse.y"
+#line 155 "bibtex/src/bibparse.y"
 	{ 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( (*yyvaluep) ) ;
@@ -1642,7 +2651,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1646 "bibtex/src/bibparse.c"
+#line 2655 "bibtex/src/bibparse.c"
 	break;
 
       default:
@@ -1951,198 +2960,198 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 136 "bibtex/src/bibparse.y"
+#line 194 "bibtex/src/bibparse.y"
     { junk1((yyvsp[(1) - (1)])); YYACCEPT ; ;}
     break;
 
   case 3:
-#line 137 "bibtex/src/bibparse.y"
+#line 195 "bibtex/src/bibparse.y"
     { junk3((yyvsp[(1) - (3)]), (yyvsp[(2) - (3)]), (yyvsp[(3) - (3)])) ; YYACCEPT ; ;}
     break;
 
   case 4:
-#line 140 "bibtex/src/bibparse.y"
+#line 198 "bibtex/src/bibparse.y"
     { (yyval) = xx_object_list_1((yyvsp[(1) - (1)]));  ;}
     break;
 
   case 5:
-#line 141 "bibtex/src/bibparse.y"
+#line 199 "bibtex/src/bibparse.y"
     { (yyval) = xx_object_list_2((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])); junk1((yyvsp[(2) - (3)])) ; ;}
     break;
 
   case 6:
-#line 144 "bibtex/src/bibparse.y"
+#line 202 "bibtex/src/bibparse.y"
     {(yyval) = xx_object((yyvsp[(3) - (3)])); junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])); ;}
     break;
 
   case 7:
-#line 147 "bibtex/src/bibparse.y"
+#line 205 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_comment((yyvsp[(1) - (1)])); ;}
     break;
 
   case 8:
-#line 148 "bibtex/src/bibparse.y"
+#line 206 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_entry((yyvsp[(1) - (1)]));;}
     break;
 
   case 9:
-#line 149 "bibtex/src/bibparse.y"
+#line 207 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_include((yyvsp[(1) - (1)]));;}
     break;
 
   case 10:
-#line 150 "bibtex/src/bibparse.y"
+#line 208 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_preamble((yyvsp[(1) - (1)]));;}
     break;
 
   case 11:
-#line 151 "bibtex/src/bibparse.y"
+#line 209 "bibtex/src/bibparse.y"
     { (yyval) = xx_atobject_string((yyvsp[(1) - (1)]));;}
     break;
 
   case 12:
-#line 152 "bibtex/src/bibparse.y"
+#line 210 "bibtex/src/bibparse.y"
     { (yyval) = xx_null() ; YYUSE((yyvsp[(2) - (2)])) ; recovering = 0; ;}
     break;
 
   case 13:
-#line 155 "bibtex/src/bibparse.y"
+#line 213 "bibtex/src/bibparse.y"
     {junk3((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)]),(yyvsp[(3) - (3)])); (yyval) = xx_null(); ;}
     break;
 
   case 14:
-#line 158 "bibtex/src/bibparse.y"
+#line 216 "bibtex/src/bibparse.y"
     { (yyval) = xx_token_entry( (yyvsp[(1) - (3)]), (yyvsp[(2) - (3)])); junk1((yyvsp[(3) - (3)])); ;}
     break;
 
   case 15:
-#line 159 "bibtex/src/bibparse.y"
+#line 217 "bibtex/src/bibparse.y"
     { (yyval) = xx_token_entry( (yyvsp[(1) - (5)]), (yyvsp[(2) - (5)])); junk3((yyvsp[(3) - (5)]),(yyvsp[(4) - (5)]),(yyvsp[(5) - (5)])); ;}
     break;
 
   case 16:
-#line 160 "bibtex/src/bibparse.y"
+#line 218 "bibtex/src/bibparse.y"
     { (yyval) = xx_token_entry_empty((yyvsp[(1) - (2)])) ; junk1((yyvsp[(2) - (2)])) ; ;}
     break;
 
   case 17:
-#line 163 "bibtex/src/bibparse.y"
+#line 221 "bibtex/src/bibparse.y"
     { (yyval) = xx_entry_head( (yyvsp[(1) - (8)]), (yyvsp[(5) - (8)])) ; junk6((yyvsp[(2) - (8)]),(yyvsp[(3) - (8)]),(yyvsp[(4) - (8)]),(yyvsp[(6) - (8)]),(yyvsp[(7) - (8)]),(yyvsp[(8) - (8)])) ; ;}
     break;
 
   case 18:
-#line 164 "bibtex/src/bibparse.y"
+#line 222 "bibtex/src/bibparse.y"
     { (yyval) = xx_entry_head_nokey( (yyvsp[(1) - (6)])) ; junk5((yyvsp[(2) - (6)]),(yyvsp[(3) - (6)]),(yyvsp[(4) - (6)]),(yyvsp[(5) - (6)]),(yyvsp[(6) - (6)])) ; ;}
     break;
 
   case 19:
-#line 167 "bibtex/src/bibparse.y"
+#line 225 "bibtex/src/bibparse.y"
     { (yyval) = xx_keyname_key( (yyvsp[(1) - (1)])) ;;}
     break;
 
   case 20:
-#line 168 "bibtex/src/bibparse.y"
+#line 226 "bibtex/src/bibparse.y"
     { (yyval) = xx_keyname_abbrev( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 21:
-#line 171 "bibtex/src/bibparse.y"
+#line 229 "bibtex/src/bibparse.y"
     { (yyval) = xx_include( (yyvsp[(3) - (3)]) ) ; junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])) ; ;}
     break;
 
   case 22:
-#line 174 "bibtex/src/bibparse.y"
+#line 232 "bibtex/src/bibparse.y"
     { (yyval) = xx_preamble((yyvsp[(5) - (7)])) ; junk6((yyvsp[(1) - (7)]),(yyvsp[(2) - (7)]),(yyvsp[(3) - (7)]),(yyvsp[(4) - (7)]),(yyvsp[(6) - (7)]),(yyvsp[(7) - (7)])) ; ;}
     break;
 
   case 23:
-#line 177 "bibtex/src/bibparse.y"
+#line 235 "bibtex/src/bibparse.y"
     { (yyval) = xx_string((yyvsp[(5) - (7)])) ; junk6( (yyvsp[(1) - (7)]), (yyvsp[(2) - (7)]), (yyvsp[(3) - (7)]), (yyvsp[(4) - (7)]), (yyvsp[(6) - (7)]), (yyvsp[(7) - (7)])) ; ;}
     break;
 
   case 24:
-#line 180 "bibtex/src/bibparse.y"
+#line 238 "bibtex/src/bibparse.y"
     {(yyval) = xx_forward((yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 25:
-#line 181 "bibtex/src/bibparse.y"
+#line 239 "bibtex/src/bibparse.y"
     { (yyval) = xx_value( (yyvsp[(1) - (5)]), (yyvsp[(5) - (5)])) ; junk3( (yyvsp[(2) - (5)]), (yyvsp[(3) - (5)]), (yyvsp[(4) - (5)]));  ;}
     break;
 
   case 26:
-#line 184 "bibtex/src/bibparse.y"
+#line 242 "bibtex/src/bibparse.y"
     { (yyval) = xx_simple_value((yyvsp[(1) - (1)])); ;}
     break;
 
   case 27:
-#line 185 "bibtex/src/bibparse.y"
+#line 243 "bibtex/src/bibparse.y"
     { (yyval) = xx_expand_abbrev((yyvsp[(1) - (1)])); ;}
     break;
 
   case 28:
-#line 188 "bibtex/src/bibparse.y"
+#line 246 "bibtex/src/bibparse.y"
     { (yyval) = xx_assignement_list1((yyvsp[(1) - (1)])); ;}
     break;
 
   case 29:
-#line 189 "bibtex/src/bibparse.y"
+#line 247 "bibtex/src/bibparse.y"
     { (yyval) = xx_assignement_list2((yyvsp[(1) - (4)]), (yyvsp[(4) - (4)])); junk2((yyvsp[(2) - (4)]),(yyvsp[(3) - (4)])); ;}
     break;
 
   case 30:
-#line 192 "bibtex/src/bibparse.y"
-    {  /* final */ 	(yyval) = xx_assignement((yyvsp[(1) - (6)]), (yyvsp[(5) - (6)])); junk4((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(4) - (6)]), (yyvsp[(6) - (6)])); ;}
+#line 250 "bibtex/src/bibparse.y"
+    {  (yyval) = xx_assignement((yyvsp[(1) - (6)]), (yyvsp[(5) - (6)])); junk4((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(4) - (6)]), (yyvsp[(6) - (6)])); ;}
     break;
 
   case 31:
-#line 195 "bibtex/src/bibparse.y"
+#line 253 "bibtex/src/bibparse.y"
     { (yyval) = xx_lhs_field( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
   case 32:
-#line 196 "bibtex/src/bibparse.y"
+#line 254 "bibtex/src/bibparse.y"
     { (yyval) = xx_lhs_abbrev( (yyvsp[(1) - (1)]) ); ;}
     break;
 
   case 33:
-#line 199 "bibtex/src/bibparse.y"
+#line 257 "bibtex/src/bibparse.y"
     { (yyval) = xx_null() ; ;}
     break;
 
   case 34:
-#line 200 "bibtex/src/bibparse.y"
+#line 258 "bibtex/src/bibparse.y"
     { (yyval) = xx_forward((yyvsp[(1) - (1)])) ;;}
     break;
 
   case 35:
-#line 203 "bibtex/src/bibparse.y"
+#line 261 "bibtex/src/bibparse.y"
     { (yyval) = xx_forward((yyvsp[(1) - (1)])) ;;}
     break;
 
   case 36:
-#line 204 "bibtex/src/bibparse.y"
+#line 262 "bibtex/src/bibparse.y"
     { (yyval) = xx_forward((yyvsp[(1) - (2)])); junk1((yyvsp[(2) - (2)])) ; ;}
     break;
 
   case 37:
-#line 207 "bibtex/src/bibparse.y"
+#line 265 "bibtex/src/bibparse.y"
     { (yyval) = xx_space( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
   case 38:
-#line 208 "bibtex/src/bibparse.y"
+#line 266 "bibtex/src/bibparse.y"
     { (yyval) = xx_space_inline( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
   case 39:
-#line 209 "bibtex/src/bibparse.y"
+#line 267 "bibtex/src/bibparse.y"
     { (yyval) = xx_space_newline( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 2146 "bibtex/src/bibparse.c"
+#line 3155 "bibtex/src/bibparse.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2356,7 +3365,7 @@ yyreturn:
 }
 
 
-#line 211 "bibtex/src/bibparse.y"
+#line 269 "bibtex/src/bibparse.y"
 
 
 /*}}} end of grammar */
@@ -2394,7 +3403,7 @@ void _yyerror(const char *s){
 
 /*{{{ yywarning */
 static void yywarning(const char *s){
-	REprintf( "warning : %s\n", s ) ;
+	warning( "warning : %s", s ) ;
 }
 /*}}}*/
 
@@ -2439,7 +3448,8 @@ SEXP attribute_hidden do_read_bib(SEXP args){
 	_PROTECT(obj = asVector( strings  ) ); setAttrib( ans , install("strings") , obj ); _UNPROTECT_PTR( obj ) ; 
 	_PROTECT(obj = asVector( preamble ) ); setAttrib( ans , install("preamble"), obj ); _UNPROTECT_PTR( obj ) ;
 	_UNPROTECT_PTR( entries ) ;
-	_UNPROTECT_PTR( ans ); 
+	_UNPROTECT_PTR( ans );
+	free(currentKey) ;
 	return ans ;
 }
 /*}}}*/
@@ -2718,7 +3728,7 @@ static SEXP xx_entry_head_nokey( SEXP kind){
 	SET_STRING_ELT( ans, 0, NA_STRING ) ;
 	SET_STRING_ELT( ans, 1, STRING_ELT(kind, 0) ) ;
 	_UNPROTECT_PTR(kind) ;
-	
+	warning( "no key for the entry at line %d", currentKeyLine ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_entry_head>\n" ) ;
 #endif
@@ -3146,19 +4156,6 @@ static SEXP asVector( SEXP x){
 }
 /*}}}*/
 
-static void resetTrackStack( ){
-	// for( int i=0; i<STACKSIZE; i++){
-	// 	track_stack[i] = R_NilValue; 
-	// }
-}
-static void flushTrackStack(){
-	// for( int i=0; i<STACKSIZE; i++){
-	// 	if( track_stack[i] != R_NilValue) {
-	// 		UNPROTECT_PTR( track_stack[i] ) ;
-	// 		track_stack[i] = R_NilValue; 
-	// 	}
-	// }
-}
 
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
 

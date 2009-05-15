@@ -1,5 +1,5 @@
 %{
-
+/* {{{ Declarations */
 #include "bibtex.h"
 #include "bibparse.h" 
 
@@ -29,12 +29,12 @@ static int		brace_level = 0;
 int			do_lex_output = 0;
 static token_t		last_object = TOKEN_UNKNOWN;
 static token_t		last_token = TOKEN_UNKNOWN;
-long			line_number = 1L; /* global: used in lexmain() */
+long			line_number = 1L; 
 static int		paren_level = 0;
 
 #define BYTE_VAL(c)	((unsigned int)((c) & 0xff))
-#define EOFILE		0		/* end-of-file from lex input() */
-#define ISPRINT(c)	isprint(BYTE_VAL(c)) /* ensure arg in 0..255 */
+#define EOFILE		0
+#define ISPRINT(c)	isprint(BYTE_VAL(c))
 #define ISDIGIT(c)	isdigit(BYTE_VAL(c))
 #define ISSPACE(c)	isspace(BYTE_VAL(c))
 #define RETURN(n)	return (n)
@@ -46,7 +46,9 @@ static int		paren_level = 0;
 #else
 #define YYLMAX	BIBYYLMAX
 #endif
+/* }}} */
 
+/* {{{ Lexer grammar */
 %}
 			/* increase transition and output table sizes */
 %a		3000
@@ -124,6 +126,7 @@ S		{W}*
 .				RETURN (out_token(TOKEN_LITERAL));
 
 %%
+/*}}} */
 
 /*{{{ compact_space */
 /**
@@ -146,11 +149,10 @@ static void compact_space(){
 }
 /*}}}*/
 
-
-static void eof_error(){
-    Rprintf( "End-of-file in value string\n" );
-}
-
+/* {{{ next_char */
+/** 
+ * Gets the next character from the stream
+ */ 
 static int next_char() {
 	int c;
 	c = input();
@@ -161,7 +163,9 @@ static int next_char() {
 	}
 	return (c);
 }
+/*}}}*/
 
+/* {{{ out_ functions */
 static token_t out_braced_literal(){
     int c;
     int n;
@@ -504,13 +508,20 @@ static token_t out_token(token_t t){
 	
 	return (t);
 }
-
-static void overflow(){
-    REprintf("String too long for %ld-character buffer\n",YYLMAX);
-}
+/* }}} */
 
 int yywrap() {
     return 1;
+}
+
+static void overflow(){
+	// TODO: deal with this (UNPROTECT, ...)
+    error("String too long for %ld-character buffer\n", YYLMAX);
+}
+
+static void eof_error(){
+	// TODO: deal with this
+    Rprintf( "End-of-file in value string\n" );
 }
 
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */

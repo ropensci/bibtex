@@ -3,23 +3,56 @@
 #include "bibtex.h" 
 char		yytext[BIBYYLMAX];
 #define YYDEBUG		1		/* need for -d option support */
-#define YYSTYPE		SEXP
+#define YYERROR_VERBOSE 1  /* better warning messages */
+#define YYSTYPE		SEXP    /* semantic values */
 #define streql(s, t)	(!strcmp((s), (t)))
-#define YYSIZE_T unsigned int 
-#define YYERROR_VERBOSE 1
 
+/**
+ * Aliases to R standard PROTECT macro, in case we want to do 
+ * something else as well
+ */
 #define _PROTECT_WITH_INDEX(s,index) { PROTECT_WITH_INDEX(s,index);  } 
 #define _PROTECT(s) { PROTECT(s); }
 #define _UNPROTECT(n) { UNPROTECT(n);  }
 #define _UNPROTECT_PTR(s) { UNPROTECT_PTR(s);  }
 #define _REPROTECT(s,index) REPROTECT(s,index)
 
+/**
+ * Set to 1 when a syntax error was seen to indicate that 
+ * tokens supplied by the lexer should not be wrapped into SEXP
+ */
 static int recovering ;                             
+
+/**
+ * Set to 1 after a syntax error was seen, and before the 
+ * recovering process has started
+ */
 static int popping ; 
-const char* error_msg_popping = "Error: popping";  
+
+/**
+ * used in the popping mechanism, the error message is compared to this
+ * and the popping stops if anything else happens
+ */ 
+const char* error_msg_popping = "Error: popping";
+
+/** 
+ * The keyname of the current entry (used in warning messages)
+ */
 char * currentKey; 
+
+/**
+ * the line number where the current entry starts (used in warning messages)
+ */
 int currentKeyLine ;
 
+/** 
+ * this is defined as a macro, so that it has access to yylval to be able
+ * to unprotect it. 
+ * 
+ * the macro sets the "popping" to 1 to indicate that symbols being 
+ * destructed should be UNPROTECT'ed as well, and calls the _yyerror 
+ * function which sends an R warning with the problem
+ */
 #define yyerror(s) \
 do { \
 	_UNPROTECT_PTR( yylval ) ; \
@@ -29,10 +62,6 @@ do { \
 while(0) ;
 
 /* #define XXDEBUG 1 */ 
-#define STACKSIZE 1000
-static SEXP* track_stack; 
-static void resetTrackStack() ;
-static void flushTrackStack() ;
 
 /* functions used in the parsing process */
 static SEXP xx_object_list_1(SEXP);
@@ -124,6 +153,34 @@ static SEXP asVector( SEXP );
 %left TOKEN_SHARP
 
 %destructor { 
+	
+	/* 
+	this handles UNPROTECTING SEXP that are popped when a syntax 
+	error is detected. When a syntax error is detected, 
+	the following happens : 
+		- yyerror is called which sets recovering and popping to 1
+		- some symbols are "popped" from the semantic 
+			value stack using this destructor, 
+			this is: as many symbols as it takes to be back to this rule: 
+			
+			| error TOKEN_RBRACE
+			
+			then "popping" is set to 0 so that no more symbols are 
+			UNPROTECTED
+			
+			then, the lexer provides as many tokens as necessary to 
+			present the TOKEN_RBRACE token, however tokens are not 
+			converted to SEXP because recovering is 1
+			
+			finally, when TOKEN_RBRACE is seen, recovering is set to 0
+			to indicate that tokens should now be converted to SEXP 
+			again
+			
+			The issue is that all symbols (terminals and non terminals
+			have to be listed in this destructor. (There probably is 
+			a better way)
+	*/
+	
 	if( popping ){
 		if( streql( error_msg_popping, yymsg ) ){
 			UNPROTECT_PTR( $$ ) ;
@@ -133,7 +190,8 @@ static SEXP asVector( SEXP );
 	}
 } opt_space space single_space assignment assignment_list assignment_lhs value simple_value include preamble entry entry_head string key_name comment TOKEN_ABBREV	 TOKEN_AT	 TOKEN_COMMA TOKEN_COMMENT TOKEN_ENTRY TOKEN_EQUALS	 TOKEN_FIELD TOKEN_INCLUDE TOKEN_INLINE	 TOKEN_KEY TOKEN_LBRACE TOKEN_LITERAL TOKEN_NEWLINE TOKEN_PREAMBLE TOKEN_RBRACE	 TOKEN_SHARP TOKEN_SPACE TOKEN_STRING TOKEN_VALUE TOKEN_UNKNOWN 
 
-%% file:		  opt_space 					{ junk1($1); YYACCEPT ; }
+%% 
+file:		  opt_space 					{ junk1($1); YYACCEPT ; }
 		| opt_space object_list opt_space { junk3($1, $2, $3) ; YYACCEPT ; }
 		;
 
@@ -189,7 +247,7 @@ assignment_list:  assignment 									{ $$ = xx_assignement_list1($1); }
 		| assignment_list TOKEN_COMMA opt_space assignment 	{ $$ = xx_assignement_list2($1, $4); junk2($2,$3); }
 		;
 
-assignment:	  assignment_lhs opt_space TOKEN_EQUALS opt_space value opt_space {  /* final */ 	$$ = xx_assignement($1, $5); junk4($2, $3, $4, $6); }
+assignment:	  assignment_lhs opt_space TOKEN_EQUALS opt_space value opt_space {  $$ = xx_assignement($1, $5); junk4($2, $3, $4, $6); }
 		;
 
 assignment_lhs:	  TOKEN_FIELD 	{ $$ = xx_lhs_field( $1 ) ; }
@@ -245,7 +303,7 @@ void _yyerror(const char *s){
 
 /*{{{ yywarning */
 static void yywarning(const char *s){
-	REprintf( "warning : %s\n", s ) ;
+	warning( "warning : %s", s ) ;
 }
 /*}}}*/
 
@@ -290,7 +348,8 @@ SEXP attribute_hidden do_read_bib(SEXP args){
 	_PROTECT(obj = asVector( strings  ) ); setAttrib( ans , install("strings") , obj ); _UNPROTECT_PTR( obj ) ; 
 	_PROTECT(obj = asVector( preamble ) ); setAttrib( ans , install("preamble"), obj ); _UNPROTECT_PTR( obj ) ;
 	_UNPROTECT_PTR( entries ) ;
-	_UNPROTECT_PTR( ans ); 
+	_UNPROTECT_PTR( ans );
+	free(currentKey) ;
 	return ans ;
 }
 /*}}}*/
@@ -569,7 +628,7 @@ static SEXP xx_entry_head_nokey( SEXP kind){
 	SET_STRING_ELT( ans, 0, NA_STRING ) ;
 	SET_STRING_ELT( ans, 1, STRING_ELT(kind, 0) ) ;
 	_UNPROTECT_PTR(kind) ;
-	
+	warning( "no key for the entry at line %d", currentKeyLine ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_entry_head>\n" ) ;
 #endif
@@ -997,19 +1056,6 @@ static SEXP asVector( SEXP x){
 }
 /*}}}*/
 
-static void resetTrackStack( ){
-	// for( int i=0; i<STACKSIZE; i++){
-	// 	track_stack[i] = R_NilValue; 
-	// }
-}
-static void flushTrackStack(){
-	// for( int i=0; i<STACKSIZE; i++){
-	// 	if( track_stack[i] != R_NilValue) {
-	// 		UNPROTECT_PTR( track_stack[i] ) ;
-	// 		track_stack[i] = R_NilValue; 
-	// 	}
-	// }
-}
 
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
 
