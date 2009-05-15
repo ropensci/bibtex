@@ -521,7 +521,7 @@ static void overflow(){
 
 static void eof_error(){
 	// TODO: deal with this
-    Rprintf( "End-of-file in value string\n" );
+    error( "End-of-file in value string\n" );
 }
 
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
