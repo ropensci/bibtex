@@ -490,16 +490,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  8
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   64
+#define YYLAST   85
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  23
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  20
+#define YYNNTS  21
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  39
+#define YYNRULES  59
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  79
+#define YYNSTATES  101
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
@@ -546,38 +546,46 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     5,     9,    11,    15,    19,    21,    23,
-      25,    27,    29,    32,    36,    40,    46,    49,    58,    65,
-      67,    69,    73,    81,    89,    91,    97,    99,   101,   103,
-     108,   115,   117,   119,   120,   122,   124,   127,   129,   131
+       0,     0,     3,     5,     9,    11,    15,    19,    23,    25,
+      27,    29,    31,    33,    35,    37,    39,    41,    43,    45,
+      47,    49,    51,    53,    55,    57,    59,    61,    63,    65,
+      67,    69,    71,    74,    78,    82,    88,    91,   100,   107,
+     109,   111,   115,   123,   131,   133,   139,   141,   143,   145,
+     150,   157,   159,   161,   162,   164,   166,   169,   171,   173
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      24,     0,    -1,    40,    -1,    40,    25,    40,    -1,    26,
-      -1,    25,    40,    26,    -1,     4,    40,    27,    -1,    28,
-      -1,    29,    -1,    32,    -1,    33,    -1,    34,    -1,     1,
-      17,    -1,     6,    40,    14,    -1,    30,    37,    17,    -1,
-      30,    37,     5,    40,    17,    -1,    30,    17,    -1,     7,
-      40,    13,    40,    31,    40,     5,    40,    -1,     7,    40,
-      13,    40,     5,    40,    -1,    12,    -1,     3,    -1,    10,
-      40,    14,    -1,    16,    40,    13,    40,    35,    40,    17,
-      -1,    20,    40,    13,    40,    38,    40,    17,    -1,    36,
-      -1,    35,    40,    18,    40,    36,    -1,    21,    -1,     3,
-      -1,    38,    -1,    37,     5,    40,    38,    -1,    39,    40,
-       8,    40,    35,    40,    -1,     9,    -1,     3,    -1,    -1,
-      41,    -1,    42,    -1,    41,    42,    -1,    19,    -1,    11,
-      -1,    15,    -1
+      24,     0,    -1,    41,    -1,    41,    25,    41,    -1,    26,
+      -1,    25,    41,    26,    -1,     4,    41,    28,    -1,    27,
+      41,    26,    -1,     3,    -1,     5,    -1,     6,    -1,     7,
+      -1,     8,    -1,     9,    -1,    10,    -1,    11,    -1,    12,
+      -1,    13,    -1,    14,    -1,    15,    -1,    16,    -1,    17,
+      -1,    18,    -1,    19,    -1,    20,    -1,    21,    -1,    22,
+      -1,    29,    -1,    30,    -1,    33,    -1,    34,    -1,    35,
+      -1,     1,    17,    -1,     6,    41,    14,    -1,    31,    38,
+      17,    -1,    31,    38,     5,    41,    17,    -1,    31,    17,
+      -1,     7,    41,    13,    41,    32,    41,     5,    41,    -1,
+       7,    41,    13,    41,     5,    41,    -1,    12,    -1,     3,
+      -1,    10,    41,    14,    -1,    16,    41,    13,    41,    36,
+      41,    17,    -1,    20,    41,    13,    41,    39,    41,    17,
+      -1,    37,    -1,    36,    41,    18,    41,    37,    -1,    21,
+      -1,     3,    -1,    39,    -1,    38,     5,    41,    39,    -1,
+      40,    41,     8,    41,    36,    41,    -1,     9,    -1,     3,
+      -1,    -1,    42,    -1,    43,    -1,    42,    43,    -1,    19,
+      -1,    11,    -1,    15,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   194,   194,   195,   198,   199,   202,   205,   206,   207,
-     208,   209,   210,   213,   216,   217,   218,   221,   222,   225,
-     226,   229,   232,   235,   238,   239,   242,   243,   246,   247,
-     250,   253,   254,   257,   258,   261,   262,   265,   266,   267
+       0,   194,   194,   195,   198,   199,   202,   203,   206,   207,
+     208,   209,   210,   211,   212,   213,   214,   215,   216,   217,
+     218,   219,   220,   221,   222,   223,   224,   226,   227,   228,
+     229,   230,   231,   234,   237,   238,   239,   242,   243,   246,
+     247,   250,   253,   256,   259,   260,   263,   264,   267,   268,
+     271,   274,   275,   278,   279,   282,   283,   286,   287,   288
 };
 #endif
 
@@ -592,8 +600,8 @@ static const char *const yytname[] =
   "TOKEN_LBRACE", "TOKEN_LITERAL", "TOKEN_NEWLINE", "TOKEN_PREAMBLE",
   "TOKEN_RBRACE", "TOKEN_SHARP", "TOKEN_SPACE", "TOKEN_STRING",
   "TOKEN_VALUE", "TOKEN_UNKNOWN", "$accept", "file", "object_list",
-  "object", "at_object", "comment", "entry", "entry_head", "key_name",
-  "include", "preamble", "string", "value", "simple_value",
+  "object", "anything", "at_object", "comment", "entry", "entry_head",
+  "key_name", "include", "preamble", "string", "value", "simple_value",
   "assignment_list", "assignment", "assignment_lhs", "opt_space", "space",
   "single_space", 0
 };
@@ -613,16 +621,20 @@ static const yytype_uint16 yytoknum[] =
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    23,    24,    24,    25,    25,    26,    27,    27,    27,
-      27,    27,    27,    28,    29,    29,    29,    30,    30,    31,
-      31,    32,    33,    34,    35,    35,    36,    36,    37,    37,
-      38,    39,    39,    40,    40,    41,    41,    42,    42,    42
+       0,    23,    24,    24,    25,    25,    26,    26,    27,    27,
+      27,    27,    27,    27,    27,    27,    27,    27,    27,    27,
+      27,    27,    27,    27,    27,    27,    27,    28,    28,    28,
+      28,    28,    28,    29,    30,    30,    30,    31,    31,    32,
+      32,    33,    34,    35,    36,    36,    37,    37,    38,    38,
+      39,    40,    40,    41,    41,    42,    42,    43,    43,    43
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     1,     3,     1,     3,     3,     1,     1,     1,
+       0,     2,     1,     3,     1,     3,     3,     3,     1,     1,
+       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
        1,     1,     2,     3,     3,     5,     2,     8,     6,     1,
        1,     3,     7,     7,     1,     5,     1,     1,     1,     4,
        6,     1,     1,     0,     1,     1,     2,     1,     1,     1
@@ -633,43 +645,51 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-      33,    38,    39,    37,     0,     2,    34,    35,     1,    33,
-      33,     4,    36,     0,     3,     0,    33,    33,    33,    33,
-      33,     6,     7,     8,     0,     9,    10,    11,     5,    12,
-       0,     0,     0,     0,     0,    32,    31,    16,     0,    28,
-      33,    13,    33,    21,    33,    33,    33,    14,     0,     0,
-       0,     0,     0,    33,    20,    33,    19,    33,    27,    26,
-      33,    24,    33,    15,    29,     0,    18,     0,     0,     0,
-      33,    33,    22,    33,    23,    30,    17,     0,    25
+      53,    58,    59,    57,     0,     2,    54,    55,     1,     8,
+      53,     9,    10,    11,    12,    13,    14,    15,    16,    17,
+      18,    19,    20,    21,    22,    23,    24,    25,    26,    53,
+       4,    53,    56,     0,     3,     0,     0,    53,    53,    53,
+      53,    53,     6,    27,    28,     0,    29,    30,    31,     5,
+       7,    32,     0,     0,     0,     0,     0,    52,    51,    36,
+       0,    48,    53,    33,    53,    41,    53,    53,    53,    34,
+       0,     0,     0,     0,     0,    53,    40,    53,    39,    53,
+      47,    46,    53,    44,    53,    35,    49,     0,    38,     0,
+       0,     0,    53,    53,    42,    53,    43,    50,    37,     0,
+      45
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     4,    10,    11,    21,    22,    23,    24,    57,    25,
-      26,    27,    60,    61,    38,    39,    40,     5,     6,     7
+      -1,     4,    29,    30,    31,    42,    43,    44,    45,    79,
+      46,    47,    48,    82,    83,    60,    61,    62,     5,     6,
+       7
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -27
+#define YYPACT_NINF -20
 static const yytype_int8 yypact[] =
 {
-      39,   -27,   -27,   -27,     6,    23,    39,   -27,   -27,    39,
-      39,   -27,   -27,    12,    23,    17,    39,    39,    39,    39,
-      39,   -27,   -27,   -27,    21,   -27,   -27,   -27,   -27,   -27,
-       2,    16,    25,    27,    29,   -27,   -27,   -27,    -2,   -27,
-      39,   -27,    39,   -27,    39,    39,    39,   -27,    35,     9,
-      -1,    14,    38,    39,   -27,    39,   -27,    39,   -27,   -27,
-      39,   -27,    39,   -27,   -27,    -1,   -27,    40,   -13,    32,
-      39,    39,   -27,    39,   -27,    34,   -27,    -1,   -27
+      49,   -20,   -20,   -20,     3,    29,    49,   -20,   -20,   -20,
+      49,   -20,   -20,   -20,   -20,   -20,   -20,   -20,   -20,   -20,
+     -20,   -20,   -20,   -20,   -20,   -20,   -20,   -20,   -20,    49,
+     -20,    49,   -20,     0,    29,    29,   -12,    49,    49,    49,
+      49,    49,   -20,   -20,   -20,     6,   -20,   -20,   -20,   -20,
+     -20,   -20,    -6,    11,    -1,    13,    46,   -20,   -20,   -20,
+      -3,   -20,    49,   -20,    49,   -20,    49,    49,    49,   -20,
+      55,    50,     1,     9,     8,    49,   -20,    49,   -20,    49,
+     -20,   -20,    49,   -20,    49,   -20,   -20,     1,   -20,    56,
+      53,    62,    49,    49,   -20,    49,   -20,    48,   -20,     1,
+     -20
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -27,   -27,   -27,    42,   -27,   -27,   -27,   -27,   -27,   -27,
-     -27,   -27,    -8,   -18,   -27,   -26,   -27,    -9,   -27,    54
+     -20,   -20,   -20,    41,   -20,   -20,   -20,   -20,   -20,   -20,
+     -20,   -20,   -20,   -14,   -19,   -20,     4,   -20,   -10,   -20,
+      75
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -679,38 +699,45 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-      13,    14,    58,    46,    72,    73,     8,    30,    31,    32,
-      33,    34,    54,    15,    55,    47,    41,    35,    16,    17,
-      59,    56,    18,    36,    35,    62,    64,     9,    19,    42,
-      36,    48,    20,    49,    29,    50,    51,    52,    37,    43,
-      44,    35,    45,    53,    65,    71,    66,    36,    67,    74,
-       1,    68,    73,    69,     2,    63,    28,    70,     3,    78,
-      12,    75,    76,     0,    77
+      33,    36,    68,     8,    80,    51,    37,    38,    63,    57,
+      39,    57,    57,    65,    69,    58,    40,    58,    58,    34,
+      41,    35,    81,    59,    64,    85,    66,    52,    53,    54,
+      55,    56,     9,    10,    11,    12,    13,    14,    15,    16,
+      17,    18,    19,    20,    21,    22,    23,    24,    25,    26,
+      27,    28,    70,    76,    71,    77,    72,    73,    74,    67,
+       1,    93,    78,    75,     2,    87,    95,    88,     3,    89,
+      94,    95,    90,    92,    91,    49,    50,    84,    86,    96,
+     100,    32,    97,    98,     0,    99
 };
 
 static const yytype_int8 yycheck[] =
 {
-       9,    10,     3,     5,    17,    18,     0,    16,    17,    18,
-      19,    20,     3,     1,     5,    17,    14,     3,     6,     7,
-      21,    12,    10,     9,     3,    51,    52,     4,    16,    13,
-       9,    40,    20,    42,    17,    44,    45,    46,    17,    14,
-      13,     3,    13,     8,    53,     5,    55,     9,    57,    17,
-      11,    60,    18,    62,    15,    17,    14,    65,    19,    77,
-       6,    70,    71,    -1,    73
+      10,     1,     5,     0,     3,    17,     6,     7,    14,     3,
+      10,     3,     3,    14,    17,     9,    16,     9,     9,    29,
+      20,    31,    21,    17,    13,    17,    13,    37,    38,    39,
+      40,    41,     3,     4,     5,     6,     7,     8,     9,    10,
+      11,    12,    13,    14,    15,    16,    17,    18,    19,    20,
+      21,    22,    62,     3,    64,     5,    66,    67,    68,    13,
+      11,     5,    12,     8,    15,    75,    18,    77,    19,    79,
+      17,    18,    82,    87,    84,    34,    35,    73,    74,    17,
+      99,     6,    92,    93,    -1,    95
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,    11,    15,    19,    24,    40,    41,    42,     0,     4,
-      25,    26,    42,    40,    40,     1,     6,     7,    10,    16,
-      20,    27,    28,    29,    30,    32,    33,    34,    26,    17,
-      40,    40,    40,    40,    40,     3,     9,    17,    37,    38,
-      39,    14,    13,    14,    13,    13,     5,    17,    40,    40,
-      40,    40,    40,     8,     3,     5,    12,    31,     3,    21,
-      35,    36,    38,    17,    38,    40,    40,    40,    40,    40,
-      35,     5,    17,    18,    17,    40,    40,    40,    36
+       0,    11,    15,    19,    24,    41,    42,    43,     0,     3,
+       4,     5,     6,     7,     8,     9,    10,    11,    12,    13,
+      14,    15,    16,    17,    18,    19,    20,    21,    22,    25,
+      26,    27,    43,    41,    41,    41,     1,     6,     7,    10,
+      16,    20,    28,    29,    30,    31,    33,    34,    35,    26,
+      26,    17,    41,    41,    41,    41,    41,     3,     9,    17,
+      38,    39,    40,    14,    13,    14,    13,    13,     5,    17,
+      41,    41,    41,    41,    41,     8,     3,     5,    12,    32,
+       3,    21,    36,    37,    39,    17,    39,    41,    41,    41,
+      41,    41,    36,     5,    17,    18,    17,    41,    41,    41,
+      37
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1257,7 +1284,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1261 "bibtex/src/bibparse.c"
+#line 1288 "bibtex/src/bibparse.c"
 	break;
       case 4: /* "TOKEN_AT" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1298,7 +1325,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1302 "bibtex/src/bibparse.c"
+#line 1329 "bibtex/src/bibparse.c"
 	break;
       case 5: /* "TOKEN_COMMA" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1339,7 +1366,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1343 "bibtex/src/bibparse.c"
+#line 1370 "bibtex/src/bibparse.c"
 	break;
       case 6: /* "TOKEN_COMMENT" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1380,7 +1407,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1384 "bibtex/src/bibparse.c"
+#line 1411 "bibtex/src/bibparse.c"
 	break;
       case 7: /* "TOKEN_ENTRY" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1421,7 +1448,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1425 "bibtex/src/bibparse.c"
+#line 1452 "bibtex/src/bibparse.c"
 	break;
       case 8: /* "TOKEN_EQUALS" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1462,7 +1489,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1466 "bibtex/src/bibparse.c"
+#line 1493 "bibtex/src/bibparse.c"
 	break;
       case 9: /* "TOKEN_FIELD" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1503,7 +1530,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1507 "bibtex/src/bibparse.c"
+#line 1534 "bibtex/src/bibparse.c"
 	break;
       case 10: /* "TOKEN_INCLUDE" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1544,7 +1571,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1548 "bibtex/src/bibparse.c"
+#line 1575 "bibtex/src/bibparse.c"
 	break;
       case 11: /* "TOKEN_INLINE" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1585,7 +1612,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1589 "bibtex/src/bibparse.c"
+#line 1616 "bibtex/src/bibparse.c"
 	break;
       case 12: /* "TOKEN_KEY" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1626,7 +1653,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1630 "bibtex/src/bibparse.c"
+#line 1657 "bibtex/src/bibparse.c"
 	break;
       case 13: /* "TOKEN_LBRACE" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1667,7 +1694,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1671 "bibtex/src/bibparse.c"
+#line 1698 "bibtex/src/bibparse.c"
 	break;
       case 14: /* "TOKEN_LITERAL" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1708,7 +1735,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1712 "bibtex/src/bibparse.c"
+#line 1739 "bibtex/src/bibparse.c"
 	break;
       case 15: /* "TOKEN_NEWLINE" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1749,7 +1776,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1753 "bibtex/src/bibparse.c"
+#line 1780 "bibtex/src/bibparse.c"
 	break;
       case 16: /* "TOKEN_PREAMBLE" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1790,7 +1817,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1794 "bibtex/src/bibparse.c"
+#line 1821 "bibtex/src/bibparse.c"
 	break;
       case 17: /* "TOKEN_RBRACE" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1831,7 +1858,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1835 "bibtex/src/bibparse.c"
+#line 1862 "bibtex/src/bibparse.c"
 	break;
       case 18: /* "TOKEN_SHARP" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1872,7 +1899,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1876 "bibtex/src/bibparse.c"
+#line 1903 "bibtex/src/bibparse.c"
 	break;
       case 19: /* "TOKEN_SPACE" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1913,7 +1940,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1917 "bibtex/src/bibparse.c"
+#line 1944 "bibtex/src/bibparse.c"
 	break;
       case 20: /* "TOKEN_STRING" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1954,7 +1981,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1958 "bibtex/src/bibparse.c"
+#line 1985 "bibtex/src/bibparse.c"
 	break;
       case 21: /* "TOKEN_VALUE" */
 #line 155 "bibtex/src/bibparse.y"
@@ -1995,7 +2022,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 1999 "bibtex/src/bibparse.c"
+#line 2026 "bibtex/src/bibparse.c"
 	break;
       case 22: /* "TOKEN_UNKNOWN" */
 #line 155 "bibtex/src/bibparse.y"
@@ -2036,9 +2063,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2040 "bibtex/src/bibparse.c"
+#line 2067 "bibtex/src/bibparse.c"
 	break;
-      case 28: /* "comment" */
+      case 29: /* "comment" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2077,9 +2104,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2081 "bibtex/src/bibparse.c"
+#line 2108 "bibtex/src/bibparse.c"
 	break;
-      case 29: /* "entry" */
+      case 30: /* "entry" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2118,9 +2145,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2122 "bibtex/src/bibparse.c"
+#line 2149 "bibtex/src/bibparse.c"
 	break;
-      case 30: /* "entry_head" */
+      case 31: /* "entry_head" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2159,9 +2186,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2163 "bibtex/src/bibparse.c"
+#line 2190 "bibtex/src/bibparse.c"
 	break;
-      case 31: /* "key_name" */
+      case 32: /* "key_name" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2200,9 +2227,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2204 "bibtex/src/bibparse.c"
+#line 2231 "bibtex/src/bibparse.c"
 	break;
-      case 32: /* "include" */
+      case 33: /* "include" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2241,9 +2268,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2245 "bibtex/src/bibparse.c"
+#line 2272 "bibtex/src/bibparse.c"
 	break;
-      case 33: /* "preamble" */
+      case 34: /* "preamble" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2282,9 +2309,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2286 "bibtex/src/bibparse.c"
+#line 2313 "bibtex/src/bibparse.c"
 	break;
-      case 34: /* "string" */
+      case 35: /* "string" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2323,9 +2350,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2327 "bibtex/src/bibparse.c"
+#line 2354 "bibtex/src/bibparse.c"
 	break;
-      case 35: /* "value" */
+      case 36: /* "value" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2364,9 +2391,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2368 "bibtex/src/bibparse.c"
+#line 2395 "bibtex/src/bibparse.c"
 	break;
-      case 36: /* "simple_value" */
+      case 37: /* "simple_value" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2405,9 +2432,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2409 "bibtex/src/bibparse.c"
+#line 2436 "bibtex/src/bibparse.c"
 	break;
-      case 37: /* "assignment_list" */
+      case 38: /* "assignment_list" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2446,9 +2473,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2450 "bibtex/src/bibparse.c"
+#line 2477 "bibtex/src/bibparse.c"
 	break;
-      case 38: /* "assignment" */
+      case 39: /* "assignment" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2487,9 +2514,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2491 "bibtex/src/bibparse.c"
+#line 2518 "bibtex/src/bibparse.c"
 	break;
-      case 39: /* "assignment_lhs" */
+      case 40: /* "assignment_lhs" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2528,9 +2555,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2532 "bibtex/src/bibparse.c"
+#line 2559 "bibtex/src/bibparse.c"
 	break;
-      case 40: /* "opt_space" */
+      case 41: /* "opt_space" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2569,9 +2596,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2573 "bibtex/src/bibparse.c"
+#line 2600 "bibtex/src/bibparse.c"
 	break;
-      case 41: /* "space" */
+      case 42: /* "space" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2610,9 +2637,9 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2614 "bibtex/src/bibparse.c"
+#line 2641 "bibtex/src/bibparse.c"
 	break;
-      case 42: /* "single_space" */
+      case 43: /* "single_space" */
 #line 155 "bibtex/src/bibparse.y"
 	{ 
 	
@@ -2651,7 +2678,7 @@ yydestruct (yymsg, yytype, yyvaluep)
 		}
 	}
 };
-#line 2655 "bibtex/src/bibparse.c"
+#line 2682 "bibtex/src/bibparse.c"
 	break;
 
       default:
@@ -2985,173 +3012,273 @@ yyreduce:
     break;
 
   case 7:
-#line 205 "bibtex/src/bibparse.y"
-    { (yyval) = xx_atobject_comment((yyvsp[(1) - (1)])); ;}
+#line 203 "bibtex/src/bibparse.y"
+    {(yyval) = xx_forward((yyvsp[(3) - (3)])); junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])) ; ;}
     break;
 
   case 8:
 #line 206 "bibtex/src/bibparse.y"
-    { (yyval) = xx_atobject_entry((yyvsp[(1) - (1)]));;}
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 9:
 #line 207 "bibtex/src/bibparse.y"
-    { (yyval) = xx_atobject_include((yyvsp[(1) - (1)]));;}
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 10:
 #line 208 "bibtex/src/bibparse.y"
-    { (yyval) = xx_atobject_preamble((yyvsp[(1) - (1)]));;}
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 11:
 #line 209 "bibtex/src/bibparse.y"
-    { (yyval) = xx_atobject_string((yyvsp[(1) - (1)]));;}
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 12:
 #line 210 "bibtex/src/bibparse.y"
-    { (yyval) = xx_null() ; YYUSE((yyvsp[(2) - (2)])) ; recovering = 0; ;}
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 13:
-#line 213 "bibtex/src/bibparse.y"
-    {junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])); (yyval) = xx_forward((yyvsp[(3) - (3)])); ;}
+#line 211 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 14:
-#line 216 "bibtex/src/bibparse.y"
-    { (yyval) = xx_token_entry( (yyvsp[(1) - (3)]), (yyvsp[(2) - (3)])); junk1((yyvsp[(3) - (3)])); ;}
+#line 212 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 15:
-#line 217 "bibtex/src/bibparse.y"
-    { (yyval) = xx_token_entry( (yyvsp[(1) - (5)]), (yyvsp[(2) - (5)])); junk3((yyvsp[(3) - (5)]),(yyvsp[(4) - (5)]),(yyvsp[(5) - (5)])); ;}
+#line 213 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 16:
-#line 218 "bibtex/src/bibparse.y"
-    { (yyval) = xx_token_entry_empty((yyvsp[(1) - (2)])) ; junk1((yyvsp[(2) - (2)])) ; ;}
+#line 214 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 17:
-#line 221 "bibtex/src/bibparse.y"
-    { (yyval) = xx_entry_head( (yyvsp[(1) - (8)]), (yyvsp[(5) - (8)])) ; junk6((yyvsp[(2) - (8)]),(yyvsp[(3) - (8)]),(yyvsp[(4) - (8)]),(yyvsp[(6) - (8)]),(yyvsp[(7) - (8)]),(yyvsp[(8) - (8)])) ; ;}
+#line 215 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 18:
-#line 222 "bibtex/src/bibparse.y"
-    { (yyval) = xx_entry_head_nokey( (yyvsp[(1) - (6)])) ; junk5((yyvsp[(2) - (6)]),(yyvsp[(3) - (6)]),(yyvsp[(4) - (6)]),(yyvsp[(5) - (6)]),(yyvsp[(6) - (6)])) ; ;}
+#line 216 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 19:
-#line 225 "bibtex/src/bibparse.y"
-    { (yyval) = xx_keyname_key( (yyvsp[(1) - (1)])) ;;}
+#line 217 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 20:
-#line 226 "bibtex/src/bibparse.y"
-    { (yyval) = xx_keyname_abbrev( (yyvsp[(1) - (1)])) ; ;}
+#line 218 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 21:
-#line 229 "bibtex/src/bibparse.y"
-    { (yyval) = xx_include( (yyvsp[(3) - (3)]) ) ; junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])) ; ;}
+#line 219 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 22:
-#line 232 "bibtex/src/bibparse.y"
-    { (yyval) = xx_preamble((yyvsp[(5) - (7)])) ; junk6((yyvsp[(1) - (7)]),(yyvsp[(2) - (7)]),(yyvsp[(3) - (7)]),(yyvsp[(4) - (7)]),(yyvsp[(6) - (7)]),(yyvsp[(7) - (7)])) ; ;}
+#line 220 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 23:
-#line 235 "bibtex/src/bibparse.y"
-    { (yyval) = xx_string((yyvsp[(5) - (7)])) ; junk6( (yyvsp[(1) - (7)]), (yyvsp[(2) - (7)]), (yyvsp[(3) - (7)]), (yyvsp[(4) - (7)]), (yyvsp[(6) - (7)]), (yyvsp[(7) - (7)])) ; ;}
+#line 221 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 24:
-#line 238 "bibtex/src/bibparse.y"
-    {(yyval) = xx_forward((yyvsp[(1) - (1)])) ; ;}
+#line 222 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 25:
-#line 239 "bibtex/src/bibparse.y"
-    { (yyval) = xx_value( (yyvsp[(1) - (5)]), (yyvsp[(5) - (5)])) ; junk3( (yyvsp[(2) - (5)]), (yyvsp[(3) - (5)]), (yyvsp[(4) - (5)]));  ;}
+#line 223 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 26:
-#line 242 "bibtex/src/bibparse.y"
-    { (yyval) = xx_simple_value((yyvsp[(1) - (1)])); ;}
+#line 224 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 27:
-#line 243 "bibtex/src/bibparse.y"
-    { (yyval) = xx_expand_abbrev((yyvsp[(1) - (1)])); ;}
+#line 226 "bibtex/src/bibparse.y"
+    { (yyval) = xx_atobject_comment((yyvsp[(1) - (1)])); ;}
     break;
 
   case 28:
-#line 246 "bibtex/src/bibparse.y"
-    { (yyval) = xx_assignement_list1((yyvsp[(1) - (1)])); ;}
+#line 227 "bibtex/src/bibparse.y"
+    { (yyval) = xx_atobject_entry((yyvsp[(1) - (1)]));;}
     break;
 
   case 29:
-#line 247 "bibtex/src/bibparse.y"
-    { (yyval) = xx_assignement_list2((yyvsp[(1) - (4)]), (yyvsp[(4) - (4)])); junk2((yyvsp[(2) - (4)]),(yyvsp[(3) - (4)])); ;}
+#line 228 "bibtex/src/bibparse.y"
+    { (yyval) = xx_atobject_include((yyvsp[(1) - (1)]));;}
     break;
 
   case 30:
-#line 250 "bibtex/src/bibparse.y"
-    {  (yyval) = xx_assignement((yyvsp[(1) - (6)]), (yyvsp[(5) - (6)])); junk4((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(4) - (6)]), (yyvsp[(6) - (6)])); ;}
+#line 229 "bibtex/src/bibparse.y"
+    { (yyval) = xx_atobject_preamble((yyvsp[(1) - (1)]));;}
     break;
 
   case 31:
-#line 253 "bibtex/src/bibparse.y"
-    { (yyval) = xx_lhs_field( (yyvsp[(1) - (1)]) ) ; ;}
+#line 230 "bibtex/src/bibparse.y"
+    { (yyval) = xx_atobject_string((yyvsp[(1) - (1)]));;}
     break;
 
   case 32:
-#line 254 "bibtex/src/bibparse.y"
-    { (yyval) = xx_lhs_abbrev( (yyvsp[(1) - (1)]) ); ;}
+#line 231 "bibtex/src/bibparse.y"
+    { (yyval) = xx_null() ; YYUSE((yyvsp[(2) - (2)])) ; recovering = 0; ;}
     break;
 
   case 33:
-#line 257 "bibtex/src/bibparse.y"
-    { (yyval) = xx_null() ; ;}
+#line 234 "bibtex/src/bibparse.y"
+    {junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])); (yyval) = xx_forward((yyvsp[(3) - (3)])); ;}
     break;
 
   case 34:
-#line 258 "bibtex/src/bibparse.y"
-    { (yyval) = xx_forward((yyvsp[(1) - (1)])) ;;}
+#line 237 "bibtex/src/bibparse.y"
+    { (yyval) = xx_token_entry( (yyvsp[(1) - (3)]), (yyvsp[(2) - (3)])); junk1((yyvsp[(3) - (3)])); ;}
     break;
 
   case 35:
-#line 261 "bibtex/src/bibparse.y"
-    { (yyval) = xx_forward((yyvsp[(1) - (1)])) ;;}
+#line 238 "bibtex/src/bibparse.y"
+    { (yyval) = xx_token_entry( (yyvsp[(1) - (5)]), (yyvsp[(2) - (5)])); junk3((yyvsp[(3) - (5)]),(yyvsp[(4) - (5)]),(yyvsp[(5) - (5)])); ;}
     break;
 
   case 36:
-#line 262 "bibtex/src/bibparse.y"
-    { (yyval) = xx_forward((yyvsp[(1) - (2)])); junk1((yyvsp[(2) - (2)])) ; ;}
+#line 239 "bibtex/src/bibparse.y"
+    { (yyval) = xx_token_entry_empty((yyvsp[(1) - (2)])) ; junk1((yyvsp[(2) - (2)])) ; ;}
     break;
 
   case 37:
-#line 265 "bibtex/src/bibparse.y"
-    { (yyval) = xx_space( (yyvsp[(1) - (1)]) ) ; ;}
+#line 242 "bibtex/src/bibparse.y"
+    { (yyval) = xx_entry_head( (yyvsp[(1) - (8)]), (yyvsp[(5) - (8)])) ; junk6((yyvsp[(2) - (8)]),(yyvsp[(3) - (8)]),(yyvsp[(4) - (8)]),(yyvsp[(6) - (8)]),(yyvsp[(7) - (8)]),(yyvsp[(8) - (8)])) ; ;}
     break;
 
   case 38:
-#line 266 "bibtex/src/bibparse.y"
-    { (yyval) = xx_space_inline( (yyvsp[(1) - (1)]) ) ; ;}
+#line 243 "bibtex/src/bibparse.y"
+    { (yyval) = xx_entry_head_nokey( (yyvsp[(1) - (6)])) ; junk5((yyvsp[(2) - (6)]),(yyvsp[(3) - (6)]),(yyvsp[(4) - (6)]),(yyvsp[(5) - (6)]),(yyvsp[(6) - (6)])) ; ;}
     break;
 
   case 39:
+#line 246 "bibtex/src/bibparse.y"
+    { (yyval) = xx_keyname_key( (yyvsp[(1) - (1)])) ;;}
+    break;
+
+  case 40:
+#line 247 "bibtex/src/bibparse.y"
+    { (yyval) = xx_keyname_abbrev( (yyvsp[(1) - (1)])) ; ;}
+    break;
+
+  case 41:
+#line 250 "bibtex/src/bibparse.y"
+    { (yyval) = xx_include( (yyvsp[(3) - (3)]) ) ; junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])) ; ;}
+    break;
+
+  case 42:
+#line 253 "bibtex/src/bibparse.y"
+    { (yyval) = xx_preamble((yyvsp[(5) - (7)])) ; junk6((yyvsp[(1) - (7)]),(yyvsp[(2) - (7)]),(yyvsp[(3) - (7)]),(yyvsp[(4) - (7)]),(yyvsp[(6) - (7)]),(yyvsp[(7) - (7)])) ; ;}
+    break;
+
+  case 43:
+#line 256 "bibtex/src/bibparse.y"
+    { (yyval) = xx_string((yyvsp[(5) - (7)])) ; junk6( (yyvsp[(1) - (7)]), (yyvsp[(2) - (7)]), (yyvsp[(3) - (7)]), (yyvsp[(4) - (7)]), (yyvsp[(6) - (7)]), (yyvsp[(7) - (7)])) ; ;}
+    break;
+
+  case 44:
+#line 259 "bibtex/src/bibparse.y"
+    {(yyval) = xx_forward((yyvsp[(1) - (1)])) ; ;}
+    break;
+
+  case 45:
+#line 260 "bibtex/src/bibparse.y"
+    { (yyval) = xx_value( (yyvsp[(1) - (5)]), (yyvsp[(5) - (5)])) ; junk3( (yyvsp[(2) - (5)]), (yyvsp[(3) - (5)]), (yyvsp[(4) - (5)]));  ;}
+    break;
+
+  case 46:
+#line 263 "bibtex/src/bibparse.y"
+    { (yyval) = xx_simple_value((yyvsp[(1) - (1)])); ;}
+    break;
+
+  case 47:
+#line 264 "bibtex/src/bibparse.y"
+    { (yyval) = xx_expand_abbrev((yyvsp[(1) - (1)])); ;}
+    break;
+
+  case 48:
 #line 267 "bibtex/src/bibparse.y"
+    { (yyval) = xx_assignement_list1((yyvsp[(1) - (1)])); ;}
+    break;
+
+  case 49:
+#line 268 "bibtex/src/bibparse.y"
+    { (yyval) = xx_assignement_list2((yyvsp[(1) - (4)]), (yyvsp[(4) - (4)])); junk2((yyvsp[(2) - (4)]),(yyvsp[(3) - (4)])); ;}
+    break;
+
+  case 50:
+#line 271 "bibtex/src/bibparse.y"
+    {  (yyval) = xx_assignement((yyvsp[(1) - (6)]), (yyvsp[(5) - (6)])); junk4((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(4) - (6)]), (yyvsp[(6) - (6)])); ;}
+    break;
+
+  case 51:
+#line 274 "bibtex/src/bibparse.y"
+    { (yyval) = xx_lhs_field( (yyvsp[(1) - (1)]) ) ; ;}
+    break;
+
+  case 52:
+#line 275 "bibtex/src/bibparse.y"
+    { (yyval) = xx_lhs_abbrev( (yyvsp[(1) - (1)]) ); ;}
+    break;
+
+  case 53:
+#line 278 "bibtex/src/bibparse.y"
+    { (yyval) = xx_null() ; ;}
+    break;
+
+  case 54:
+#line 279 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward((yyvsp[(1) - (1)])) ;;}
+    break;
+
+  case 55:
+#line 282 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward((yyvsp[(1) - (1)])) ;;}
+    break;
+
+  case 56:
+#line 283 "bibtex/src/bibparse.y"
+    { (yyval) = xx_forward((yyvsp[(1) - (2)])); junk1((yyvsp[(2) - (2)])) ; ;}
+    break;
+
+  case 57:
+#line 286 "bibtex/src/bibparse.y"
+    { (yyval) = xx_space( (yyvsp[(1) - (1)]) ) ; ;}
+    break;
+
+  case 58:
+#line 287 "bibtex/src/bibparse.y"
+    { (yyval) = xx_space_inline( (yyvsp[(1) - (1)]) ) ; ;}
+    break;
+
+  case 59:
+#line 288 "bibtex/src/bibparse.y"
     { (yyval) = xx_space_newline( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 3155 "bibtex/src/bibparse.c"
+#line 3282 "bibtex/src/bibparse.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -3365,7 +3492,7 @@ yyreturn:
 }
 
 
-#line 269 "bibtex/src/bibparse.y"
+#line 290 "bibtex/src/bibparse.y"
 
 
 /*}}} end of grammar */

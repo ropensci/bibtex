@@ -200,7 +200,28 @@ object_list: object 						{ $$ = xx_object_list_1($1);  }
 		;
 
 object:	  	  TOKEN_AT opt_space at_object {$$ = xx_object($3); junk2($1,$2); }
-		;
+		| anything opt_space object {$$ = xx_forward($3); junk2($1,$2) ; } 
+	;
+
+anything:  TOKEN_ABBREV    { $$ = xx_forward( $1) ; }	
+		|  TOKEN_COMMA     { $$ = xx_forward( $1) ; }
+		|  TOKEN_COMMENT   { $$ = xx_forward( $1) ; }
+		|  TOKEN_ENTRY     { $$ = xx_forward( $1) ; }
+		|  TOKEN_EQUALS	   { $$ = xx_forward( $1) ; }
+		|  TOKEN_FIELD     { $$ = xx_forward( $1) ; }
+		|  TOKEN_INCLUDE   { $$ = xx_forward( $1) ; }
+		|  TOKEN_INLINE	   { $$ = xx_forward( $1) ; }
+		|  TOKEN_KEY       { $$ = xx_forward( $1) ; }
+		|  TOKEN_LBRACE    { $$ = xx_forward( $1) ; }
+		|  TOKEN_LITERAL   { $$ = xx_forward( $1) ; }
+		|  TOKEN_NEWLINE   { $$ = xx_forward( $1) ; }
+		|  TOKEN_PREAMBLE   { $$ = xx_forward( $1) ; }
+		|  TOKEN_RBRACE	   { $$ = xx_forward( $1) ; }
+		|  TOKEN_SHARP     { $$ = xx_forward( $1) ; }
+		|  TOKEN_SPACE     { $$ = xx_forward( $1) ; }
+		|  TOKEN_STRING    { $$ = xx_forward( $1) ; }
+		|  TOKEN_VALUE     { $$ = xx_forward( $1) ; }
+		|  TOKEN_UNKNOWN   { $$ = xx_forward( $1) ; }
 
 at_object:	  comment 						{ $$ = xx_atobject_comment($1); }
 		| entry 							{ $$ = xx_atobject_entry($1);}
