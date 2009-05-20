@@ -29,7 +29,6 @@ static int		brace_level = 0;
 int			do_lex_output = 0;
 static token_t		last_object = TOKEN_UNKNOWN;
 static token_t		last_token = TOKEN_UNKNOWN;
-long			line_number = 1L; 
 static int		paren_level = 0;
 
 #define BYTE_VAL(c)	((unsigned int)((c) & 0xff))

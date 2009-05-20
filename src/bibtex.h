@@ -73,5 +73,7 @@ SEXP Insert(SEXP, SEXP) ;
 void setToken( const char*, int) ;
 SEXP mkString2(const char *, int) ;
 
+long line_number ;
+
 #endif
 

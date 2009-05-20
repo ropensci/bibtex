@@ -3423,6 +3423,7 @@ SEXP attribute_hidden do_read_bib(SEXP args){
 	yyset_in( fp ) ; /* so that the lexer reads from the file */
 	yydebug = 0 ;    /* setting this to 1 gives a lot of messages */
 	popping = 0; 
+	line_number = 1; 
 	/* set up the data */
 	_PROTECT_WITH_INDEX( includes = NewList() , &INCLUDE_INDEX ) ;
 	_PROTECT_WITH_INDEX( comments = NewList() , &COMMENT_INDEX ) ;

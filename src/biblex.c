@@ -570,7 +570,6 @@ static int		brace_level = 0;
 int			do_lex_output = 0;
 static token_t		last_object = TOKEN_UNKNOWN;
 static token_t		last_token = TOKEN_UNKNOWN;
-long			line_number = 1L; 
 static int		paren_level = 0;
 
 #define BYTE_VAL(c)	((unsigned int)((c) & 0xff))
@@ -597,7 +596,7 @@ static int		paren_level = 0;
 /* \013 == \v, but lex doesn't */
 /* recognize \v */
 /* optional `horizontal' space */
-#line 601 "<stdout>"
+#line 600 "<stdout>"
 
 #define INITIAL 0
 
@@ -779,9 +778,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 67 "bibtex/src/biblex.l"
+#line 66 "bibtex/src/biblex.l"
 
-#line 785 "<stdout>"
+#line 784 "<stdout>"
 
 	if ( !(yy_init) )
 		{
@@ -885,40 +884,40 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 68 "bibtex/src/biblex.l"
+#line 67 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_AT));
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 70 "bibtex/src/biblex.l"
+#line 69 "bibtex/src/biblex.l"
 {RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_COMMENT) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 74 "bibtex/src/biblex.l"
+#line 73 "bibtex/src/biblex.l"
 {RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_INCLUDE) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 78 "bibtex/src/biblex.l"
+#line 77 "bibtex/src/biblex.l"
 { RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_PREAMBLE) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 82 "bibtex/src/biblex.l"
+#line 81 "bibtex/src/biblex.l"
 { RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_STRING) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 86 "bibtex/src/biblex.l"
+#line 85 "bibtex/src/biblex.l"
 {
 				    if (last_object == TOKEN_STRING)
 					RETURN(out_token(TOKEN_ABBREV));
@@ -937,77 +936,77 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 102 "bibtex/src/biblex.l"
+#line 101 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_VALUE));
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 104 "bibtex/src/biblex.l"
+#line 103 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_INLINE));
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 106 "bibtex/src/biblex.l"
+#line 105 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_SHARP));
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 108 "bibtex/src/biblex.l"
+#line 107 "bibtex/src/biblex.l"
 RETURN (out_string());
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 110 "bibtex/src/biblex.l"
+#line 109 "bibtex/src/biblex.l"
 RETURN (out_lbrace());
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 112 "bibtex/src/biblex.l"
+#line 111 "bibtex/src/biblex.l"
 RETURN (out_rbrace());
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 114 "bibtex/src/biblex.l"
+#line 113 "bibtex/src/biblex.l"
 RETURN (out_lparen());
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 116 "bibtex/src/biblex.l"
+#line 115 "bibtex/src/biblex.l"
 RETURN (out_rparen());
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 118 "bibtex/src/biblex.l"
+#line 117 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_EQUALS));
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 120 "bibtex/src/biblex.l"
+#line 119 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_COMMA));
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 122 "bibtex/src/biblex.l"
+#line 121 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_NEWLINE));
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 124 "bibtex/src/biblex.l"
+#line 123 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_SPACE));
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 126 "bibtex/src/biblex.l"
+#line 125 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_LITERAL));
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 128 "bibtex/src/biblex.l"
+#line 127 "bibtex/src/biblex.l"
 ECHO;
 	YY_BREAK
-#line 1011 "<stdout>"
+#line 1010 "<stdout>"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1991,7 +1990,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 128 "bibtex/src/biblex.l"
+#line 127 "bibtex/src/biblex.l"
 
 
 /*}}} */
