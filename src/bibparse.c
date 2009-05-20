@@ -238,7 +238,7 @@ static void recordInclude( SEXP ) ;
 static void recordComment( SEXP ) ;
 static void recordString( SEXP ) ;
 static void recordPreamble( SEXP ) ;
-static SEXP asVector( SEXP ); 
+static SEXP asVector( SEXP, int ); 
 /*}}}*/
 
 /*{{{ Grammar */
@@ -3016,7 +3016,7 @@ yyreduce:
 
   case 13:
 #line 213 "bibtex/src/bibparse.y"
-    {junk3((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)]),(yyvsp[(3) - (3)])); (yyval) = xx_null(); ;}
+    {junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])); (yyval) = xx_forward((yyvsp[(3) - (3)])); ;}
     break;
 
   case 14:
@@ -3412,7 +3412,6 @@ static void yywarning(const char *s){
  * .Internal( "do_read_bib", file = file )
  */
 // TODO: add an "encoding" argument and deal with it
-// TODO: deal with the stack when there is an error
 SEXP attribute_hidden do_read_bib(SEXP args){
 	SEXP filename = CADR(args) ;
 	const char* fname = CHAR(STRING_ELT(filename,0) ) ;
@@ -3444,10 +3443,10 @@ SEXP attribute_hidden do_read_bib(SEXP args){
 		PROTECT( ans = CDR(entries) )  ;
 	}
 	SEXP obj ;
-	_PROTECT(obj = asVector( comments ) ); setAttrib( ans , install("comment") , obj ); _UNPROTECT_PTR( obj ) ;
-	_PROTECT(obj = asVector( includes ) ); setAttrib( ans , install("include") , obj ); _UNPROTECT_PTR( obj ) ; 
-	_PROTECT(obj = asVector( strings  ) ); setAttrib( ans , install("strings") , obj ); _UNPROTECT_PTR( obj ) ; 
-	_PROTECT(obj = asVector( preamble ) ); setAttrib( ans , install("preamble"), obj ); _UNPROTECT_PTR( obj ) ;
+	_PROTECT(obj = asVector( comments, 0 ) ); setAttrib( ans , install("comment") , obj ); _UNPROTECT_PTR( obj ) ;
+	_PROTECT(obj = asVector( includes, 0 ) ); setAttrib( ans , install("include") , obj ); _UNPROTECT_PTR( obj ) ; 
+	_PROTECT(obj = asVector( strings , 1 ) ); setAttrib( ans , install("strings") , obj ); _UNPROTECT_PTR( obj ) ; 
+	_PROTECT(obj = asVector( preamble, 0 ) ); setAttrib( ans , install("preamble"), obj ); _UNPROTECT_PTR( obj ) ;
 	_UNPROTECT_PTR( entries ) ;
 	_UNPROTECT_PTR( ans );
 	free(currentKey) ;
@@ -4134,23 +4133,29 @@ void junk7( SEXP s1, SEXP s2, SEXP s3, SEXP s4, SEXP s5, SEXP s6, SEXP s7){
 /**
  * list( a = "aa", b = "bb") -> c( a = "aa", b = "bb" ) 
  */
-static SEXP asVector( SEXP x){
+static SEXP asVector( SEXP x, int donames){
 	SEXP ans, names ; 
 	SEXP tmp ;
 	int n = length( CDR(x) ) ;
 	_PROTECT( ans   = allocVector( STRSXP, n) ) ;
-	_PROTECT( names = allocVector( STRSXP, n) ) ;
+	if( donames ){
+		_PROTECT( names = allocVector( STRSXP, n) ) ;
+	}
 	SEXP item; 
 	_PROTECT( tmp = CDR( x ) );
 	for( int i=0; i<n; i++){
 		item = CAR(tmp); 
 		SET_STRING_ELT( ans  , i, STRING_ELT(item, 0) ) ;
-		SET_STRING_ELT( names, i, STRING_ELT( getAttrib(item, install("names") ), 0) ) ;
+		if( donames){
+			SET_STRING_ELT( names, i, STRING_ELT( getAttrib(item, install("names") ), 0) ) ;
+		}
 		tmp = CDR(tmp);
 	}
 	_UNPROTECT(1) ; // tmp
-	setAttrib( ans, install("names"), names ) ;
-	_UNPROTECT_PTR(names) ;
+	if( donames ){
+		setAttrib( ans, install("names"), names ) ;
+		_UNPROTECT_PTR(names) ;
+	}
 	_UNPROTECT_PTR(x) ; 
 	_UNPROTECT_PTR(ans) ; 
 	return ans; 
