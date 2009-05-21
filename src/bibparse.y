@@ -45,7 +45,8 @@ char * currentKey;
  */
 int currentKeyLine ;
 
-static SEXP srcfile; 
+static SEXP srcfile;
+char * bibfile ; 
 
 /** 
  * this is defined as a macro, so that it has access to yylval to be able
@@ -348,7 +349,8 @@ FILE * _fopen(const char *filename, const char *mode){
 
 /*{{{ yyerror */
 void _yyerror(const char *s){
-	warning( "[line %d] : %s\n Dropping the entry `%s` (starting at line %d) ", line_number, s, currentKey, currentKeyLine ) ;
+	warning( "\n%s:%d:%d\n\t%s\n\tDropping the entry `%s` (starting at line %d) ", 
+		bibfile, line_number, col_number, s, currentKey, currentKeyLine ) ;
 	
 	/* indicates that we are recovering from an error */
 	recovering = 1 ;
@@ -357,7 +359,7 @@ void _yyerror(const char *s){
 
 /*{{{ yywarning */
 static void yywarning(const char *s){
-	warning( "warning : %s", s ) ;
+	warning( "\n%s:%d:%d\n\t%s", bibfile, line_number, col_number, s ) ;
 }
 /*}}}*/
 
@@ -368,6 +370,7 @@ static void yywarning(const char *s){
 SEXP attribute_hidden do_read_bib(SEXP args){
 	SEXP filename = CADR(args) ;
 	const char* fname = CHAR(STRING_ELT(filename,0) ) ;
+	bibfile = (char*)fname ;
 	
 	const char* encoding = CHAR(STRING_ELT( CADDR(args), 0 ) ); 
 	known_to_be_latin1 = known_to_be_utf8 = FALSE;
@@ -704,7 +707,8 @@ static SEXP xx_entry_head_nokey( SEXP kind){
 	SET_STRING_ELT( ans, 0, NA_STRING ) ;
 	SET_STRING_ELT( ans, 1, STRING_ELT(kind, 0) ) ;
 	_UNPROTECT_PTR(kind) ;
-	warning( "no key for the entry at line %d", currentKeyLine ) ;
+	warning( "\n%s:%d:%d\n\tno key for the entry at line %d", 
+			bibfile, line_number, col_number, currentKeyLine ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_entry_head>\n" ) ;
 #endif
