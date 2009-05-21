@@ -1,10 +1,11 @@
 read.bib <- function(
 	file = system.file( "REFERENCES.bib", package = package ), 
 	package = "bibtex", 
+	encoding = "unknown",
 	header = if( length(preamble) ) paste( preamble, sep = "\n" ) else "", 
 	footer = "" ){
 	
-	out <- .External( "do_read_bib", file = file )
+	out <- .External( "do_read_bib", file = file, encoding = encoding )
 	at  <- attributes(out) 
 	out <- lapply( out, function(x){
 		entry <- attr( x, "entry" )

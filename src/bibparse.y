@@ -200,7 +200,11 @@ object_list: object 						{ $$ = xx_object_list_1($1);  }
 		;
 
 object:	  	  TOKEN_AT opt_space at_object {$$ = xx_object($3); junk2($1,$2); }
-		| anything opt_space object {$$ = xx_forward($3); junk2($1,$2) ; } 
+		| anything opt_space object {
+			/* this eats whatever is between two entries, lexing until 
+				a TOKEN_AT is found */
+			$$ = xx_forward($3); junk2($1,$2) ; 
+		} 
 	;
 
 anything:  TOKEN_ABBREV    { $$ = xx_forward( $1) ; }	
