@@ -45,6 +45,13 @@ static int		paren_level = 0;
 #else
 #define YYLMAX	BIBYYLMAX
 #endif
+
+#define YY_USER_ACTION do { \
+	start_line_number = line_number ; \
+	start_col_number = col_number ; \
+	start_byte_number = byte_number ; \
+} while( 0 ) ;
+
 /* }}} */
 
 /* {{{ Lexer grammar */
@@ -159,6 +166,18 @@ static int next_char() {
 		eof_error();
 	} else if (c == '\n'){
 		line_number++;
+		col_number = 0; 
+		byte_number = 0; 
+	} else {
+		col_number++; 
+		byte_number++;
+		/* only advance column for 1st byte in UTF-8 */
+		if (0x80 <= (unsigned char)c && (unsigned char)c <= 0xBF && known_to_be_utf8){ 
+    		col_number--;
+		}
+		if( c == '\t' ) {
+			col_number = ((col_number + 7) & ~7);
+		}
 	}
 	return (c);
 }
@@ -485,6 +504,8 @@ static token_t out_token(token_t t){
     	case TOKEN_INLINE:
     	case TOKEN_NEWLINE:
 			line_number++;
+			col_number = 0; 
+			byte_number = 0; 
 			if (do_lex_output) {
 			    out_protected_string(t);
 			}
@@ -503,6 +524,11 @@ static token_t out_token(token_t t){
 	last_token = t;		/* remember last non-space token type */
     
 	const char * token = (const char*)&yytext[0] ; 
+	if( t == TOKEN_AT ){
+		last_at_location.first_line   = start_line_number ;
+		last_at_location.first_column = start_col_number ;
+		last_at_location.first_byte   = start_byte_number ;
+	}
 	setToken( token, strlen(token) );
 	
 	return (t);
@@ -514,13 +540,11 @@ int yywrap() {
 }
 
 static void overflow(){
-	// TODO: deal with this (UNPROTECT, ...)
-    error("String too long for %ld-character buffer\n", YYLMAX);
+	error("String too long for %ld-character buffer\n", YYLMAX);
 }
 
 static void eof_error(){
-	// TODO: deal with this
-    error( "End-of-file in value string\n" );
+	error( "End-of-file in value string\n" );
 }
 
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */

@@ -586,6 +586,13 @@ static int		paren_level = 0;
 #else
 #define YYLMAX	BIBYYLMAX
 #endif
+
+#define YY_USER_ACTION do { \
+	start_line_number = line_number ; \
+	start_col_number = col_number ; \
+	start_byte_number = byte_number ; \
+} while( 0 ) ;
+
 /* }}} */
 
 /* {{{ Lexer grammar */
@@ -596,7 +603,7 @@ static int		paren_level = 0;
 /* \013 == \v, but lex doesn't */
 /* recognize \v */
 /* optional `horizontal' space */
-#line 600 "<stdout>"
+#line 607 "<stdout>"
 
 #define INITIAL 0
 
@@ -778,9 +785,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 66 "bibtex/src/biblex.l"
+#line 73 "bibtex/src/biblex.l"
 
-#line 784 "<stdout>"
+#line 791 "<stdout>"
 
 	if ( !(yy_init) )
 		{
@@ -884,40 +891,40 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 67 "bibtex/src/biblex.l"
+#line 74 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_AT));
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 69 "bibtex/src/biblex.l"
+#line 76 "bibtex/src/biblex.l"
 {RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_COMMENT) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 73 "bibtex/src/biblex.l"
+#line 80 "bibtex/src/biblex.l"
 {RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_INCLUDE) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 77 "bibtex/src/biblex.l"
+#line 84 "bibtex/src/biblex.l"
 { RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_PREAMBLE) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 81 "bibtex/src/biblex.l"
+#line 88 "bibtex/src/biblex.l"
 { RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_STRING) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 85 "bibtex/src/biblex.l"
+#line 92 "bibtex/src/biblex.l"
 {
 				    if (last_object == TOKEN_STRING)
 					RETURN(out_token(TOKEN_ABBREV));
@@ -936,77 +943,77 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 101 "bibtex/src/biblex.l"
+#line 108 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_VALUE));
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 103 "bibtex/src/biblex.l"
+#line 110 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_INLINE));
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 105 "bibtex/src/biblex.l"
+#line 112 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_SHARP));
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 107 "bibtex/src/biblex.l"
+#line 114 "bibtex/src/biblex.l"
 RETURN (out_string());
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 109 "bibtex/src/biblex.l"
+#line 116 "bibtex/src/biblex.l"
 RETURN (out_lbrace());
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 111 "bibtex/src/biblex.l"
+#line 118 "bibtex/src/biblex.l"
 RETURN (out_rbrace());
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 113 "bibtex/src/biblex.l"
+#line 120 "bibtex/src/biblex.l"
 RETURN (out_lparen());
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 115 "bibtex/src/biblex.l"
+#line 122 "bibtex/src/biblex.l"
 RETURN (out_rparen());
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 117 "bibtex/src/biblex.l"
+#line 124 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_EQUALS));
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 119 "bibtex/src/biblex.l"
+#line 126 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_COMMA));
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 121 "bibtex/src/biblex.l"
+#line 128 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_NEWLINE));
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 123 "bibtex/src/biblex.l"
+#line 130 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_SPACE));
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 125 "bibtex/src/biblex.l"
+#line 132 "bibtex/src/biblex.l"
 RETURN (out_token(TOKEN_LITERAL));
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 127 "bibtex/src/biblex.l"
+#line 134 "bibtex/src/biblex.l"
 ECHO;
 	YY_BREAK
-#line 1010 "<stdout>"
+#line 1017 "<stdout>"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1990,7 +1997,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 127 "bibtex/src/biblex.l"
+#line 134 "bibtex/src/biblex.l"
 
 
 /*}}} */
@@ -2027,6 +2034,18 @@ static int next_char() {
 		eof_error();
 	} else if (c == '\n'){
 		line_number++;
+		col_number = 0; 
+		byte_number = 0; 
+	} else {
+		col_number++; 
+		byte_number++;
+		/* only advance column for 1st byte in UTF-8 */
+		if (0x80 <= (unsigned char)c && (unsigned char)c <= 0xBF && known_to_be_utf8){ 
+    		col_number--;
+		}
+		if( c == '\t' ) {
+			col_number = ((col_number + 7) & ~7);
+		}
 	}
 	return (c);
 }
@@ -2353,6 +2372,8 @@ static token_t out_token(token_t t){
     	case TOKEN_INLINE:
     	case TOKEN_NEWLINE:
 			line_number++;
+			col_number = 0; 
+			byte_number = 0; 
 			if (do_lex_output) {
 			    out_protected_string(t);
 			}
@@ -2371,6 +2392,11 @@ static token_t out_token(token_t t){
 	last_token = t;		/* remember last non-space token type */
     
 	const char * token = (const char*)&yytext[0] ; 
+	if( t == TOKEN_AT ){
+		last_at_location.first_line   = start_line_number ;
+		last_at_location.first_column = start_col_number ;
+		last_at_location.first_byte   = start_byte_number ;
+	}
 	setToken( token, strlen(token) );
 	
 	return (t);
@@ -2382,13 +2408,11 @@ int yywrap() {
 }
 
 static void overflow(){
-	// TODO: deal with this (UNPROTECT, ...)
-    error("String too long for %ld-character buffer\n", YYLMAX);
+	error("String too long for %ld-character buffer\n", YYLMAX);
 }
 
 static void eof_error(){
-	// TODO: deal with this
-    error( "End-of-file in value string\n" );
+	error( "End-of-file in value string\n" );
 }
 
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */

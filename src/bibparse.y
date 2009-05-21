@@ -45,6 +45,8 @@ char * currentKey;
  */
 int currentKeyLine ;
 
+static SEXP srcfile; 
+
 /** 
  * this is defined as a macro, so that it has access to yylval to be able
  * to unprotect it. 
@@ -61,14 +63,36 @@ do { \
 } \
 while(0) ;
 
+extern YYLTYPE yylloc ;
+
+# define YYLLOC_DEFAULT(Current, Rhs, N)				\
+	do	{ 								\
+		if (YYID (N)){								\
+		  (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;	\
+		  (Current).first_column = YYRHSLOC (Rhs, 1).first_column;	\
+		  (Current).first_byte   = YYRHSLOC (Rhs, 1).first_byte;	\
+		  (Current).last_line    = YYRHSLOC (Rhs, N).last_line;		\
+		  (Current).last_column  = YYRHSLOC (Rhs, N).last_column;	\
+		  (Current).last_byte    = YYRHSLOC (Rhs, N).last_byte;		\
+		} else	{								\
+		  (Current).first_line   = (Current).last_line   =		\
+		    YYRHSLOC (Rhs, 0).last_line;				\
+		  (Current).first_column = (Current).last_column =		\
+		    YYRHSLOC (Rhs, 0).last_column;				\
+		  (Current).first_byte   = (Current).last_byte =		\
+		    YYRHSLOC (Rhs, 0).last_byte;				\
+		} \
+	} while (YYID (0))
+
 /* #define XXDEBUG 1 */ 
 
 /* functions used in the parsing process */
+SEXP makeSrcRef(YYLTYPE) ;
 static SEXP xx_object_list_1(SEXP);
 static SEXP xx_object_list_2(SEXP,SEXP);
 static SEXP xx_object(SEXP);
 static SEXP xx_atobject_comment(SEXP);
-static SEXP xx_atobject_entry(SEXP);
+static SEXP xx_atobject_entry(SEXP, YYLTYPE);
 static SEXP xx_atobject_include(SEXP);
 static SEXP xx_atobject_preamble(SEXP);
 static SEXP xx_atobject_string(SEXP);
@@ -199,7 +223,10 @@ object_list: object 						{ $$ = xx_object_list_1($1);  }
 		| object_list opt_space object 	{ $$ = xx_object_list_2($1,$3); junk1($2) ; }
 		;
 
-object:	  	  TOKEN_AT opt_space at_object {$$ = xx_object($3); junk2($1,$2); }
+object:	TOKEN_AT opt_space at_object {
+			$$ = xx_object($3); 
+			junk2($1,$2); 
+		}
 		| anything opt_space object {
 			/* this eats whatever is between two entries, lexing until 
 				a TOKEN_AT is found */
@@ -228,7 +255,7 @@ anything:  TOKEN_ABBREV    { $$ = xx_forward( $1) ; }
 		|  TOKEN_UNKNOWN   { $$ = xx_forward( $1) ; }
 
 at_object:	  comment 						{ $$ = xx_atobject_comment($1); }
-		| entry 							{ $$ = xx_atobject_entry($1);}
+		| entry 							{ $$ = xx_atobject_entry($1, @$);}
 		| include 							{ $$ = xx_atobject_include($1);}
 		| preamble 							{ $$ = xx_atobject_preamble($1);}
 		| string							{ $$ = xx_atobject_string($1);}
@@ -295,6 +322,7 @@ single_space:	  TOKEN_SPACE		{ $$ = xx_space( $1 ) ; }
 
 /*}}} end of grammar */
 
+
 /*{{{ functions borrowed from gram.y */
 #ifdef Win32
 static char * fixmode(const char *mode){
@@ -321,6 +349,7 @@ FILE * _fopen(const char *filename, const char *mode){
 /*{{{ yyerror */
 void _yyerror(const char *s){
 	warning( "[line %d] : %s\n Dropping the entry `%s` (starting at line %d) ", line_number, s, currentKey, currentKeyLine ) ;
+	
 	/* indicates that we are recovering from an error */
 	recovering = 1 ;
 }
@@ -336,10 +365,22 @@ static void yywarning(const char *s){
 /**
  * .Internal( "do_read_bib", file = file )
  */
-// TODO: add an "encoding" argument and deal with it
 SEXP attribute_hidden do_read_bib(SEXP args){
 	SEXP filename = CADR(args) ;
 	const char* fname = CHAR(STRING_ELT(filename,0) ) ;
+	
+	const char* encoding = CHAR(STRING_ELT( CADDR(args), 0 ) ); 
+	known_to_be_latin1 = known_to_be_utf8 = FALSE;
+	if(streql(encoding, "latin1")) {
+		known_to_be_latin1 = TRUE;
+	} else if(streql(encoding, "UTF-8"))  {
+		known_to_be_utf8 = TRUE;
+	} else if(!streql( encoding, "unknown") ){
+		warning( "encoding '%s' will be ignored", encoding ) ;
+	}
+	
+	srcfile = CADDDR(args);
+	
 	FILE* fp ;
 	if((fp = _fopen(R_ExpandFileName( fname ), "r")) == NULL){
 		error( "unable to open file to read", 0);
@@ -347,7 +388,9 @@ SEXP attribute_hidden do_read_bib(SEXP args){
 	yyset_in( fp ) ; /* so that the lexer reads from the file */
 	yydebug = 0 ;    /* setting this to 1 gives a lot of messages */
 	popping = 0; 
-	line_number = 1; 
+	line_number = 1;
+	col_number = 0; 
+	byte_number = 0; 
 	/* set up the data */
 	_PROTECT_WITH_INDEX( includes = NewList() , &INCLUDE_INDEX ) ;
 	_PROTECT_WITH_INDEX( comments = NewList() , &COMMENT_INDEX ) ;
@@ -451,6 +494,7 @@ static SEXP xx_object(SEXP object){
 #ifdef XXDEBUG
 	Rprintf( "</xx_aobject>\n" ) ;
 #endif
+
 	return ans ;
 }
 
@@ -477,7 +521,7 @@ static SEXP xx_atobject_comment(SEXP object){
  *
  * @param object the entry object
  */
-static SEXP xx_atobject_entry(SEXP object){
+static SEXP xx_atobject_entry(SEXP object, YYLTYPE loc){
 #ifdef XXDEBUG
 	Rprintf( "<xx_atobject_entry>\n" ) ;
 #endif
@@ -517,6 +561,12 @@ static SEXP xx_atobject_entry(SEXP object){
 	_PROTECT( res = GrowList( entries , ans ) ) ;
 	_REPROTECT( entries = res , ENTRIES_INDEX ) ;
 	_UNPROTECT_PTR( res ) ;
+	
+	SEXP srcref ; 
+	_PROTECT( srcref = makeSrcRef( loc ) );
+	setAttrib( ans, install( "srcref"), srcref );
+	_UNPROTECT( 1) ; // srcref
+	
 	
 #ifdef XXDEBUG
 	Rprintf( "</xx_atobject_entry>\n" ) ;
@@ -591,6 +641,7 @@ static SEXP xx_token_entry( SEXP head, SEXP list){
 	setAttrib( data, install("head"), head) ;
 	_UNPROTECT_PTR( list ) ;
 	_UNPROTECT_PTR( head ) ;
+	
 #ifdef XXDEBUG
 	Rprintf( "</xx_token_entry>\n" ) ;
 #endif
@@ -980,6 +1031,12 @@ void setToken( const char* token, int len ){
 		recovering++; 
 	} else{
 		_PROTECT( yylval = mkString2(token,  len) ) ;
+		yylloc.first_line   = start_line_number ;
+		yylloc.first_column = start_col_number ;
+		yylloc.first_byte   = start_byte_number ;
+		yylloc.last_line    = line_number ;
+		yylloc.last_column  = col_number ;
+		yylloc.last_byte    = byte_number ;
 	}
 }
 
@@ -1087,6 +1144,23 @@ static SEXP asVector( SEXP x, int donames){
 }
 /*}}}*/
 
-
+SEXP makeSrcRef(YYLTYPE loc){
+	/* the '+ 1' here adjust the columns and bytes to 
+look like the srcref class of R that does 
+not work with offsets 
+	*/
+	SEXP ans; 
+	_PROTECT( ans = allocVector( INTSXP, 6) ) ;
+	INTEGER(ans)[0] = last_at_location.first_line; 
+	INTEGER(ans)[1] = last_at_location.first_byte + 1; 
+	INTEGER(ans)[2] = loc.last_line; 
+	INTEGER(ans)[3] = loc.last_byte + 1; 
+	INTEGER(ans)[4] = last_at_location.first_column + 1; 
+	INTEGER(ans)[5] = loc.last_column + 1; 
+	_UNPROTECT( 1) ;
+	setAttrib( ans, install("srcfile"), srcfile ) ;
+	setAttrib( ans, install("class"), mkString2( "srcref", 6 ) ) ;
+	return ans ;
+}
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
 

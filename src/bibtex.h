@@ -49,7 +49,13 @@ char			*program_name;	/* for error messages */
 
 /* These variables are defined in biblex.c: */
 int		do_lex_output;
-long		line_number;
+long line_number;
+long col_number ;
+long byte_number ;
+long start_line_number; 
+long start_col_number ;
+long start_byte_number; 
+
 const char	*the_filename;
 
 #define	ERROR_PREFIX	"??"	/* this prefixes all error messages */
@@ -73,7 +79,20 @@ SEXP Insert(SEXP, SEXP) ;
 void setToken( const char*, int) ;
 SEXP mkString2(const char *, int) ;
 
-long line_number ;
+Rboolean known_to_be_utf8  ;
+Rboolean known_to_be_latin1 ;
+typedef struct yyltype{
+  int first_line;
+  int first_column;
+  int first_byte;
+
+  int last_line;
+  int last_column;
+  int last_byte;
+} yyltype;
+# define YYLTYPE yyltype
+YYLTYPE last_at_location ;
+
 
 #endif
 
