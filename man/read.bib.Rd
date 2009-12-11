@@ -38,7 +38,7 @@ A \samp{citationList} object, similar to those made by the
 \samp{\link[utils]{citation}} function.
 }
 \references{
-Nelson H. F. Beebe. bibparse 1.04. 1999. http://www.math.utah.edu/~beebe
+Nelson H. F. Beebe. bibparse 1.04. 1999. \url{http://www.math.utah.edu/~beebe}
 }
 \author{
 Romain Francois <francoisromain@free.fr>
@@ -50,9 +50,9 @@ Romain Francois <francoisromain@free.fr>
 \code{\link[utils]{citation}}
 }
 \examples{
-	\dontrun{
-		bib <- read.bib( package = "bibtex" )
-	}
+\dontrun{
+bib <- read.bib( package = "bibtex" )
+}
 }
 \keyword{ manip }
 
