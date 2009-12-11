@@ -10,6 +10,7 @@ bibtex parser
 \usage{
 read.bib(file = system.file("REFERENCES.bib", package = package), 
 	package = "bibtex", 
+	encoding = "unknown", 
 	header = if( length(preamble) ) paste( preamble, sep = "\n" ) else "", 
 	footer = "" )
 }
@@ -20,6 +21,9 @@ root directory of the package given by the \code{package} argument is used
 }
   \item{package}{
 package from which we want to read the bibliography
+}
+\item{encoding}{
+	encoding
 }
   \item{header}{
 header of the citation list. By default this is made from the \samp{Preamble}

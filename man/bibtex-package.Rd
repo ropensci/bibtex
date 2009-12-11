@@ -13,8 +13,8 @@ parser for bibliography files written in bibtex format
 \tabular{ll}{
 Package: \tab bibtex\cr
 Type: \tab Package\cr
-Version: \tab 0.0\cr
-Date: \tab 2009-05-11\cr
+Version: \tab 0.1-0\cr
+Date: \tab 2009-12-11\cr
 License: \tab GPL-3\cr
 LazyLoad: \tab yes\cr
 }
@@ -25,7 +25,7 @@ Romain Francois
 Maintainer: Romain Francois <francoisromain@free.fr>
 }
 \references{
-Nelson H. F. Beebe. bibparse 1.04. 1999. http://www.math.utah.edu/~beebe
+Nelson H. F. Beebe. bibparse 1.04. 1999. \url{http://www.math.utah.edu/~beebe}
 }
 \keyword{ package }
 \seealso{

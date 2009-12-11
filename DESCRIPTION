@@ -1,11 +1,13 @@
 Package: bibtex
 Type: Package
 Title: bibtex parser
-Version: 0.0
-Date: 2009-05-11
+Version: 0.1-0
+Date: 2009-12-11
 Author: Romain Francois
 Maintainer: Romain Francois <francoisromain@free.fr>
-Description: bibtex parser
+Description: Utility to parse a bibtex file
 License: GPL-3
 LazyLoad: yes
+BugReports: http://r-forge.r-project.org/tracker/?atid=1587&group_id=384&func=browse
+URL: http://r-forge.r-project.org/projects/highlight/, http://romainfrancois.blog.free.fr/index.php?category/R-package/bibtex
 
