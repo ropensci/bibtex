@@ -5,7 +5,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
-#include <alloca.h>
 #include <Rinternals.h>
 
 #ifdef SUPPORT_MBCS
