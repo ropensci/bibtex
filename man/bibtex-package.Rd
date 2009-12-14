@@ -13,8 +13,8 @@ parser for bibliography files written in bibtex format
 \tabular{ll}{
 Package: \tab bibtex\cr
 Type: \tab Package\cr
-Version: \tab 0.1-2\cr
-Date: \tab 2009-12-12\cr
+Version: \tab 0.1-3\cr
+Date: \tab 2009-12-14\cr
 License: \tab GPL-3\cr
 LazyLoad: \tab yes\cr
 }

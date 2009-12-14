@@ -25,7 +25,7 @@ read.bib <- function(
 			key = attr( x, "key") ) 
 	} )
 	preamble <- at[["preamble"]] 
-	structure( list( out ), class = "citationList", 
+	structure( out, class = "citationList", 
 		header = header, 
 		footer = footer, 
 		strings = at[["strings"]] )

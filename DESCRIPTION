@@ -1,8 +1,8 @@
 Package: bibtex
 Type: Package
 Title: bibtex parser
-Version: 0.1-2
-Date: 2009-12-12
+Version: 0.1-3
+Date: 2009-12-14
 Author: Romain Francois
 Maintainer: Romain Francois <francoisromain@free.fr>
 Description: Utility to parse a bibtex file
