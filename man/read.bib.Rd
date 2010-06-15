@@ -51,6 +51,9 @@ Romain Francois <romain@r-enthusiasts.com>
 }
 \examples{
 bib <- read.bib( package = "bibtex" )
+base.bib <- read.bib( 
+	system.file( "bib", "base.bib", package = "bibtex" )
+	)
 }
 \keyword{ manip }
 

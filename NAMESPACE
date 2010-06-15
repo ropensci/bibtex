@@ -4,6 +4,7 @@ if(getRversion() >= "2.12.0") {
 	importFrom( utils, bibentry )
 }
 importFrom( utils, as.personList )
+importFrom( utils, as.person )
 
 export( read.bib )
 

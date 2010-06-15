@@ -20,18 +20,36 @@ R2.12.0 <- getRversion() >= "2.12.0"
 	}
 }
 
+arrange.authors <- function( x ){
+	rx <- "[[:space:]]+and[[:space:]]+"
+	authors <- lapply( strsplit( x, rx )[[1]], function(y){
+		if( grepl( ",", y) ) {
+			y <- sub( "^([^,]+)[[:space:]]*,[[:space:]]*(.*?)$", "\\2 \\1", y , perl = TRUE )
+		}
+		rx <-  "^[{](.*)[}]$"
+		if( grepl( rx, y ) ){
+			person( sub( rx, "\\1", y ) )
+		} else{
+			as.person( y )
+		}
+	} )
+	as.personList( authors )
+}
+
 make.bib.entry <- function( x ){
 		type <- attr( x, "entry" )
 		key  <- attr( x, "key" )
 		
 		y <- as.list( x )
 		
+		if( "author" %in% names(x) ){
+			y[["author"]] <- arrange.authors( y[["author"]] )
+		}
 		textVersion <- sprintf( "%s. %s (%s)", 
-			if( "author" %in% names(x) ) x[["author"]] else "?", 
+			if( "author" %in% names(x) ) paste( as.character( y[["author"]] ), collapse = " and ") else "?", 
 			if( "title" %in% names(x) ) x[["title"]] else "?", 
 			if( "year" %in% names(x) ) x[["year"]] else "?"
 			)
-		
 		
 		tryCatch(  
 			.bibentry( bibtype = type, key = key, textVersion = textVersion ,
