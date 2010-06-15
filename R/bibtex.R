@@ -83,7 +83,7 @@ read.bib <- function(
 	preamble <- at[["preamble"]]
 	
 	out <- make.citation.list( out, header, footer )
-	# attr( out, "strings") <- at[["strings"]]
+	attr( out, "strings") <- at[["strings"]]
 	out
 }
 
