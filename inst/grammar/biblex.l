@@ -547,5 +547,11 @@ static void eof_error(){
 	error( "End-of-file in value string\n" );
 }
 
+/* never called, but calms down -Wall */
+void dummy(){
+	yyunput( 0, 0 ) ;
+	yy_flex_strlen(0) ;
+}
+
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
 

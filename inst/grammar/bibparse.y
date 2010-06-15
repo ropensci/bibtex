@@ -117,7 +117,6 @@ static SEXP xx_space_inline( SEXP ) ;
 static SEXP xx_space_newline( SEXP ) ;
 static SEXP xx_forward( SEXP ) ;
 static SEXP xx_null( ) ;
-static void xx_result( SEXP );
 static SEXP xx_expand_abbrev( SEXP ) ;
 static SEXP xx_simple_value( SEXP ) ;
 
@@ -403,7 +402,8 @@ SEXP attribute_hidden do_read_bib(SEXP args){
 	
 	/* call the parser */
 	recovering = 0; 
-	int res = yyparse() ;
+	/* int res = yyparse() ; */
+	yyparse() ;
 	
 	/* structure the data */
 	SEXP ans; 
@@ -426,14 +426,6 @@ SEXP attribute_hidden do_read_bib(SEXP args){
 /*}}}*/
 
 /*{{{ xx_* parser helpers */
-
-/**
- * called at the end
- */
-static void xx_result( SEXP objlist ){
-	_UNPROTECT_PTR(objlist) ;
-}
- 
  
 /** 
  * Object list with one object
@@ -1120,7 +1112,7 @@ void junk7( SEXP s1, SEXP s2, SEXP s3, SEXP s4, SEXP s5, SEXP s6, SEXP s7){
  * list( a = "aa", b = "bb") -> c( a = "aa", b = "bb" ) 
  */
 static SEXP asVector( SEXP x, int donames){
-	SEXP ans, names ; 
+	SEXP ans, names = R_NilValue ; 
 	SEXP tmp ;
 	int n = length( CDR(x) ) ;
 	_PROTECT( ans   = allocVector( STRSXP, n) ) ;
@@ -1166,5 +1158,11 @@ not work with offsets
 	setAttrib( ans, install("class"), mkString2( "srcref", 6 ) ) ;
 	return ans ;
 }
+
+void dummy_bibparse(){
+	yywarning( "" ) ;
+}
+
+
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
 

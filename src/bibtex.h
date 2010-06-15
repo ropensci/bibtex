@@ -39,9 +39,7 @@ int		yywrap(void);
 
 #endif /* defined(FLEX_SCANNER) */
 
-static void		recognize(const char *s_);
 int				yyparse();
-static void		yywarning(const char *s_);
 
 int			error_count;
 char			*program_name;	/* for error messages */

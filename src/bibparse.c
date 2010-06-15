@@ -1,23 +1,24 @@
-
-/* A Bison parser, made by GNU Bison 2.4.1.  */
+/* A Bison parser, made by GNU Bison 2.3.  */
 
 /* Skeleton implementation for Bison's Yacc-like parsers in C
-   
-      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
+
+   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
    Free Software Foundation, Inc.
-   
-   This program is free software: you can redistribute it and/or modify
+
+   This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-   
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor,
+   Boston, MA 02110-1301, USA.  */
 
 /* As a special exception, you may create a larger work that contains
    part or all of the Bison parser skeleton and distribute that work
@@ -28,7 +29,7 @@
    special exception, which will cause the skeleton and the resulting
    Bison output files to be licensed under the GNU General Public
    License without this special exception.
-   
+
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
@@ -46,7 +47,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "2.4.1"
+#define YYBISON_VERSION "2.3"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -54,20 +55,65 @@
 /* Pure parsers.  */
 #define YYPURE 0
 
-/* Push parsers.  */
-#define YYPUSH 0
-
-/* Pull parsers.  */
-#define YYPULL 1
-
 /* Using locations.  */
 #define YYLSP_NEEDED 1
 
 
 
-/* Copy the first part of user declarations.  */
+/* Tokens.  */
+#ifndef YYTOKENTYPE
+# define YYTOKENTYPE
+   /* Put the tokens into the symbol table, so that GDB and other debuggers
+      know about them.  */
+   enum yytokentype {
+     TOKEN_ABBREV = 258,
+     TOKEN_AT = 259,
+     TOKEN_COMMA = 260,
+     TOKEN_COMMENT = 261,
+     TOKEN_ENTRY = 262,
+     TOKEN_EQUALS = 263,
+     TOKEN_FIELD = 264,
+     TOKEN_INCLUDE = 265,
+     TOKEN_INLINE = 266,
+     TOKEN_KEY = 267,
+     TOKEN_LBRACE = 268,
+     TOKEN_LITERAL = 269,
+     TOKEN_NEWLINE = 270,
+     TOKEN_PREAMBLE = 271,
+     TOKEN_RBRACE = 272,
+     TOKEN_SHARP = 273,
+     TOKEN_SPACE = 274,
+     TOKEN_STRING = 275,
+     TOKEN_VALUE = 276,
+     TOKEN_UNKNOWN = 277
+   };
+#endif
+/* Tokens.  */
+#define TOKEN_ABBREV 258
+#define TOKEN_AT 259
+#define TOKEN_COMMA 260
+#define TOKEN_COMMENT 261
+#define TOKEN_ENTRY 262
+#define TOKEN_EQUALS 263
+#define TOKEN_FIELD 264
+#define TOKEN_INCLUDE 265
+#define TOKEN_INLINE 266
+#define TOKEN_KEY 267
+#define TOKEN_LBRACE 268
+#define TOKEN_LITERAL 269
+#define TOKEN_NEWLINE 270
+#define TOKEN_PREAMBLE 271
+#define TOKEN_RBRACE 272
+#define TOKEN_SHARP 273
+#define TOKEN_SPACE 274
+#define TOKEN_STRING 275
+#define TOKEN_VALUE 276
+#define TOKEN_UNKNOWN 277
 
-/* Line 189 of yacc.c  */
+
+
+
+/* Copy the first part of user declarations.  */
 #line 1 "bibparse.y"
 
 /*{{{ first part of declarations */
@@ -188,7 +234,6 @@ static SEXP xx_space_inline( SEXP ) ;
 static SEXP xx_space_newline( SEXP ) ;
 static SEXP xx_forward( SEXP ) ;
 static SEXP xx_null( ) ;
-static void xx_result( SEXP );
 static SEXP xx_expand_abbrev( SEXP ) ;
 static SEXP xx_simple_value( SEXP ) ;
 
@@ -223,9 +268,6 @@ static SEXP asVector( SEXP, int );
 /*{{{ Grammar */
 
 
-/* Line 189 of yacc.c  */
-#line 228 "bibparse.c"
-
 /* Enabling traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 1
@@ -244,43 +286,11 @@ static SEXP asVector( SEXP, int );
 # define YYTOKEN_TABLE 0
 #endif
 
-
-/* Tokens.  */
-#ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
-      know about them.  */
-   enum yytokentype {
-     TOKEN_ABBREV = 258,
-     TOKEN_AT = 259,
-     TOKEN_COMMA = 260,
-     TOKEN_COMMENT = 261,
-     TOKEN_ENTRY = 262,
-     TOKEN_EQUALS = 263,
-     TOKEN_FIELD = 264,
-     TOKEN_INCLUDE = 265,
-     TOKEN_INLINE = 266,
-     TOKEN_KEY = 267,
-     TOKEN_LBRACE = 268,
-     TOKEN_LITERAL = 269,
-     TOKEN_NEWLINE = 270,
-     TOKEN_PREAMBLE = 271,
-     TOKEN_RBRACE = 272,
-     TOKEN_SHARP = 273,
-     TOKEN_SPACE = 274,
-     TOKEN_STRING = 275,
-     TOKEN_VALUE = 276,
-     TOKEN_UNKNOWN = 277
-   };
-#endif
-
-
-
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef int YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
+# define YYSTYPE_IS_TRIVIAL 1
 #endif
 
 #if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
@@ -300,8 +310,8 @@ typedef struct YYLTYPE
 /* Copy the second part of user declarations.  */
 
 
-/* Line 264 of yacc.c  */
-#line 305 "bibparse.c"
+/* Line 216 of yacc.c.  */
+#line 315 "bibparse.c"
 
 #ifdef short
 # undef short
@@ -351,7 +361,7 @@ typedef short int yytype_int16;
 #define YYSIZE_MAXIMUM ((YYSIZE_T) -1)
 
 #ifndef YY_
-# if YYENABLE_NLS
+# if defined YYENABLE_NLS && YYENABLE_NLS
 #  if ENABLE_NLS
 #   include <libintl.h> /* INFRINGES ON USER NAME SPACE */
 #   define YY_(msgid) dgettext ("bison-runtime", msgid)
@@ -376,14 +386,14 @@ typedef short int yytype_int16;
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static int
-YYID (int yyi)
+YYID (int i)
 #else
 static int
-YYID (yyi)
-    int yyi;
+YYID (i)
+    int i;
 #endif
 {
-  return yyi;
+  return i;
 }
 #endif
 
@@ -465,9 +475,9 @@ void free (void *); /* INFRINGES ON USER NAME SPACE */
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
 {
-  yytype_int16 yyss_alloc;
-  YYSTYPE yyvs_alloc;
-  YYLTYPE yyls_alloc;
+  yytype_int16 yyss;
+  YYSTYPE yyvs;
+    YYLTYPE yyls;
 };
 
 /* The size of the maximum gap between one aligned stack and the next.  */
@@ -502,12 +512,12 @@ union yyalloc
    elements in the stack, and YYPTR gives the new location of the
    stack.  Advance YYPTR to a properly aligned location for the next
    stack.  */
-# define YYSTACK_RELOCATE(Stack_alloc, Stack)				\
+# define YYSTACK_RELOCATE(Stack)					\
     do									\
       {									\
 	YYSIZE_T yynewbytes;						\
-	YYCOPY (&yyptr->Stack_alloc, Stack, yysize);			\
-	Stack = &yyptr->Stack_alloc;					\
+	YYCOPY (&yyptr->Stack, Stack, yysize);				\
+	Stack = &yyptr->Stack;						\
 	yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
 	yyptr += yynewbytes / sizeof (*yyptr);				\
       }									\
@@ -608,12 +618,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   219,   219,   220,   223,   224,   227,   231,   238,   239,
-     240,   241,   242,   243,   244,   245,   246,   247,   248,   249,
-     250,   251,   252,   253,   254,   255,   256,   258,   259,   260,
-     261,   262,   263,   266,   269,   270,   271,   274,   275,   278,
-     279,   282,   285,   288,   291,   292,   295,   296,   299,   300,
-     303,   306,   307,   310,   311,   314,   315,   318,   319,   320
+       0,   218,   218,   219,   222,   223,   226,   230,   237,   238,
+     239,   240,   241,   242,   243,   244,   245,   246,   247,   248,
+     249,   250,   251,   252,   253,   254,   255,   257,   258,   259,
+     260,   261,   262,   265,   268,   269,   270,   273,   274,   277,
+     278,   281,   284,   287,   290,   291,   294,   295,   298,   299,
+     302,   305,   306,   309,   310,   313,   314,   317,   318,   319
 };
 #endif
 
@@ -839,7 +849,7 @@ while (YYID (0))
    we won't break user code: when these are the locations we know.  */
 
 #ifndef YY_LOCATION_PRINT
-# if YYLTYPE_IS_TRIVIAL
+# if defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL
 #  define YY_LOCATION_PRINT(File, Loc)			\
      fprintf (File, "%d.%d-%d.%d",			\
 	      (Loc).first_line, (Loc).first_column,	\
@@ -955,20 +965,17 @@ yy_symbol_print (yyoutput, yytype, yyvaluep, yylocationp)
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_stack_print (yytype_int16 *yybottom, yytype_int16 *yytop)
+yy_stack_print (yytype_int16 *bottom, yytype_int16 *top)
 #else
 static void
-yy_stack_print (yybottom, yytop)
-    yytype_int16 *yybottom;
-    yytype_int16 *yytop;
+yy_stack_print (bottom, top)
+    yytype_int16 *bottom;
+    yytype_int16 *top;
 #endif
 {
   YYFPRINTF (stderr, "Stack now");
-  for (; yybottom <= yytop; yybottom++)
-    {
-      int yybot = *yybottom;
-      YYFPRINTF (stderr, " %d", yybot);
-    }
+  for (; bottom <= top; ++bottom)
+    YYFPRINTF (stderr, " %d", *bottom);
   YYFPRINTF (stderr, "\n");
 }
 
@@ -1003,11 +1010,11 @@ yy_reduce_print (yyvsp, yylsp, yyrule)
   /* The symbols being reduced.  */
   for (yyi = 0; yyi < yynrhs; yyi++)
     {
-      YYFPRINTF (stderr, "   $%d = ", yyi + 1);
+      fprintf (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr, yyrhs[yyprhs[yyrule] + yyi],
 		       &(yyvsp[(yyi + 1) - (yynrhs)])
 		       , &(yylsp[(yyi + 1) - (yynrhs)])		       );
-      YYFPRINTF (stderr, "\n");
+      fprintf (stderr, "\n");
     }
 }
 
@@ -1285,9 +1292,7 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
   switch (yytype)
     {
       case 3: /* "TOKEN_ABBREV" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1325,14 +1330,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1331 "bibparse.c"
+#line 1334 "bibparse.c"
 	break;
       case 4: /* "TOKEN_AT" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1370,14 +1371,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1376 "bibparse.c"
+#line 1375 "bibparse.c"
 	break;
       case 5: /* "TOKEN_COMMA" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1415,14 +1412,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1421 "bibparse.c"
+#line 1416 "bibparse.c"
 	break;
       case 6: /* "TOKEN_COMMENT" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1460,14 +1453,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1466 "bibparse.c"
+#line 1457 "bibparse.c"
 	break;
       case 7: /* "TOKEN_ENTRY" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1505,14 +1494,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1511 "bibparse.c"
+#line 1498 "bibparse.c"
 	break;
       case 8: /* "TOKEN_EQUALS" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1550,14 +1535,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1556 "bibparse.c"
+#line 1539 "bibparse.c"
 	break;
       case 9: /* "TOKEN_FIELD" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1595,14 +1576,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1601 "bibparse.c"
+#line 1580 "bibparse.c"
 	break;
       case 10: /* "TOKEN_INCLUDE" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1640,14 +1617,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1646 "bibparse.c"
+#line 1621 "bibparse.c"
 	break;
       case 11: /* "TOKEN_INLINE" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1685,14 +1658,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1691 "bibparse.c"
+#line 1662 "bibparse.c"
 	break;
       case 12: /* "TOKEN_KEY" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1730,14 +1699,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1736 "bibparse.c"
+#line 1703 "bibparse.c"
 	break;
       case 13: /* "TOKEN_LBRACE" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1775,14 +1740,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1781 "bibparse.c"
+#line 1744 "bibparse.c"
 	break;
       case 14: /* "TOKEN_LITERAL" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1820,14 +1781,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1826 "bibparse.c"
+#line 1785 "bibparse.c"
 	break;
       case 15: /* "TOKEN_NEWLINE" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1865,14 +1822,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1871 "bibparse.c"
+#line 1826 "bibparse.c"
 	break;
       case 16: /* "TOKEN_PREAMBLE" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1910,14 +1863,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1916 "bibparse.c"
+#line 1867 "bibparse.c"
 	break;
       case 17: /* "TOKEN_RBRACE" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -1955,14 +1904,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 1961 "bibparse.c"
+#line 1908 "bibparse.c"
 	break;
       case 18: /* "TOKEN_SHARP" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2000,14 +1945,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2006 "bibparse.c"
+#line 1949 "bibparse.c"
 	break;
       case 19: /* "TOKEN_SPACE" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2045,14 +1986,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2051 "bibparse.c"
+#line 1990 "bibparse.c"
 	break;
       case 20: /* "TOKEN_STRING" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2090,14 +2027,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2096 "bibparse.c"
+#line 2031 "bibparse.c"
 	break;
       case 21: /* "TOKEN_VALUE" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2135,14 +2068,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2141 "bibparse.c"
+#line 2072 "bibparse.c"
 	break;
       case 22: /* "TOKEN_UNKNOWN" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2180,14 +2109,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2186 "bibparse.c"
+#line 2113 "bibparse.c"
 	break;
       case 29: /* "comment" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2225,14 +2150,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2231 "bibparse.c"
+#line 2154 "bibparse.c"
 	break;
       case 30: /* "entry" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2270,14 +2191,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2276 "bibparse.c"
+#line 2195 "bibparse.c"
 	break;
       case 31: /* "entry_head" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2315,14 +2232,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2321 "bibparse.c"
+#line 2236 "bibparse.c"
 	break;
       case 32: /* "key_name" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2360,14 +2273,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2366 "bibparse.c"
+#line 2277 "bibparse.c"
 	break;
       case 33: /* "include" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2405,14 +2314,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2411 "bibparse.c"
+#line 2318 "bibparse.c"
 	break;
       case 34: /* "preamble" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2450,14 +2355,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2456 "bibparse.c"
+#line 2359 "bibparse.c"
 	break;
       case 35: /* "string" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2495,14 +2396,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2501 "bibparse.c"
+#line 2400 "bibparse.c"
 	break;
       case 36: /* "value" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2540,14 +2437,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2546 "bibparse.c"
+#line 2441 "bibparse.c"
 	break;
       case 37: /* "simple_value" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2585,14 +2478,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2591 "bibparse.c"
+#line 2482 "bibparse.c"
 	break;
       case 38: /* "assignment_list" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2630,14 +2519,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2636 "bibparse.c"
+#line 2523 "bibparse.c"
 	break;
       case 39: /* "assignment" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2675,14 +2560,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2681 "bibparse.c"
+#line 2564 "bibparse.c"
 	break;
       case 40: /* "assignment_lhs" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2720,14 +2601,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2726 "bibparse.c"
+#line 2605 "bibparse.c"
 	break;
       case 41: /* "opt_space" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2765,14 +2642,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2771 "bibparse.c"
+#line 2646 "bibparse.c"
 	break;
       case 42: /* "space" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2810,14 +2683,10 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2816 "bibparse.c"
+#line 2687 "bibparse.c"
 	break;
       case 43: /* "single_space" */
-
-/* Line 1000 of yacc.c  */
-#line 180 "bibparse.y"
+#line 179 "bibparse.y"
 	{ 
 	
 	/* 
@@ -2855,17 +2724,17 @@ yydestruct (yymsg, yytype, yyvaluep, yylocationp)
 		}
 	}
 };
-
-/* Line 1000 of yacc.c  */
-#line 2861 "bibparse.c"
+#line 2728 "bibparse.c"
 	break;
 
       default:
 	break;
     }
 }
+
 
 /* Prevent warnings from -Wmissing-prototypes.  */
+
 #ifdef YYPARSE_PARAM
 #if defined __STDC__ || defined __cplusplus
 int yyparse (void *YYPARSE_PARAM);
@@ -2881,23 +2750,23 @@ int yyparse ();
 #endif /* ! YYPARSE_PARAM */
 
 
-/* The lookahead symbol.  */
+
+/* The look-ahead symbol.  */
 int yychar;
 
-/* The semantic value of the lookahead symbol.  */
+/* The semantic value of the look-ahead symbol.  */
 YYSTYPE yylval;
-
-/* Location data for the lookahead symbol.  */
-YYLTYPE yylloc;
 
 /* Number of syntax errors so far.  */
 int yynerrs;
+/* Location data for the look-ahead symbol.  */
+YYLTYPE yylloc;
 
 
 
-/*-------------------------.
-| yyparse or yypush_parse.  |
-`-------------------------*/
+/*----------.
+| yyparse.  |
+`----------*/
 
 #ifdef YYPARSE_PARAM
 #if (defined __STDC__ || defined __C99__FUNC__ \
@@ -2921,49 +2790,14 @@ yyparse ()
 #endif
 #endif
 {
-
-
-    int yystate;
-    /* Number of tokens to shift before error messages enabled.  */
-    int yyerrstatus;
-
-    /* The stacks and their tools:
-       `yyss': related to states.
-       `yyvs': related to semantic values.
-       `yyls': related to locations.
-
-       Refer to the stacks thru separate pointers, to allow yyoverflow
-       to reallocate them elsewhere.  */
-
-    /* The state stack.  */
-    yytype_int16 yyssa[YYINITDEPTH];
-    yytype_int16 *yyss;
-    yytype_int16 *yyssp;
-
-    /* The semantic value stack.  */
-    YYSTYPE yyvsa[YYINITDEPTH];
-    YYSTYPE *yyvs;
-    YYSTYPE *yyvsp;
-
-    /* The location stack.  */
-    YYLTYPE yylsa[YYINITDEPTH];
-    YYLTYPE *yyls;
-    YYLTYPE *yylsp;
-
-    /* The locations where the error started and ended.  */
-    YYLTYPE yyerror_range[2];
-
-    YYSIZE_T yystacksize;
-
+  
+  int yystate;
   int yyn;
   int yyresult;
-  /* Lookahead token as an internal (translated) token number.  */
-  int yytoken;
-  /* The variables used to return semantic value and location from the
-     action routines.  */
-  YYSTYPE yyval;
-  YYLTYPE yyloc;
-
+  /* Number of tokens to shift before error messages enabled.  */
+  int yyerrstatus;
+  /* Look-ahead token as an internal (translated) token number.  */
+  int yytoken = 0;
 #if YYERROR_VERBOSE
   /* Buffer for error messages, and its allocated size.  */
   char yymsgbuf[128];
@@ -2971,37 +2805,63 @@ yyparse ()
   YYSIZE_T yymsg_alloc = sizeof yymsgbuf;
 #endif
 
+  /* Three stacks and their tools:
+     `yyss': related to states,
+     `yyvs': related to semantic values,
+     `yyls': related to locations.
+
+     Refer to the stacks thru separate pointers, to allow yyoverflow
+     to reallocate them elsewhere.  */
+
+  /* The state stack.  */
+  yytype_int16 yyssa[YYINITDEPTH];
+  yytype_int16 *yyss = yyssa;
+  yytype_int16 *yyssp;
+
+  /* The semantic value stack.  */
+  YYSTYPE yyvsa[YYINITDEPTH];
+  YYSTYPE *yyvs = yyvsa;
+  YYSTYPE *yyvsp;
+
+  /* The location stack.  */
+  YYLTYPE yylsa[YYINITDEPTH];
+  YYLTYPE *yyls = yylsa;
+  YYLTYPE *yylsp;
+  /* The locations where the error started and ended.  */
+  YYLTYPE yyerror_range[2];
+
 #define YYPOPSTACK(N)   (yyvsp -= (N), yyssp -= (N), yylsp -= (N))
+
+  YYSIZE_T yystacksize = YYINITDEPTH;
+
+  /* The variables used to return semantic value and location from the
+     action routines.  */
+  YYSTYPE yyval;
+  YYLTYPE yyloc;
 
   /* The number of symbols on the RHS of the reduced rule.
      Keep to zero when no symbol should be popped.  */
   int yylen = 0;
-
-  yytoken = 0;
-  yyss = yyssa;
-  yyvs = yyvsa;
-  yyls = yylsa;
-  yystacksize = YYINITDEPTH;
 
   YYDPRINTF ((stderr, "Starting parse\n"));
 
   yystate = 0;
   yyerrstatus = 0;
   yynerrs = 0;
-  yychar = YYEMPTY; /* Cause a token to be read.  */
+  yychar = YYEMPTY;		/* Cause a token to be read.  */
 
   /* Initialize stack pointers.
      Waste one element of value and location stack
      so that they stay on the same level as the state stack.
      The wasted elements are never initialized.  */
+
   yyssp = yyss;
   yyvsp = yyvs;
   yylsp = yyls;
-
-#if YYLTYPE_IS_TRIVIAL
+#if defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL
   /* Initialize the default location before parsing starts.  */
   yylloc.first_line   = yylloc.last_line   = 1;
-  yylloc.first_column = yylloc.last_column = 1;
+  yylloc.first_column = yylloc.last_column = 0;
 #endif
 
   goto yysetstate;
@@ -3040,7 +2900,6 @@ yyparse ()
 		    &yyvs1, yysize * sizeof (*yyvsp),
 		    &yyls1, yysize * sizeof (*yylsp),
 		    &yystacksize);
-
 	yyls = yyls1;
 	yyss = yyss1;
 	yyvs = yyvs1;
@@ -3062,9 +2921,9 @@ yyparse ()
 	  (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
 	if (! yyptr)
 	  goto yyexhaustedlab;
-	YYSTACK_RELOCATE (yyss_alloc, yyss);
-	YYSTACK_RELOCATE (yyvs_alloc, yyvs);
-	YYSTACK_RELOCATE (yyls_alloc, yyls);
+	YYSTACK_RELOCATE (yyss);
+	YYSTACK_RELOCATE (yyvs);
+	YYSTACK_RELOCATE (yyls);
 #  undef YYSTACK_RELOCATE
 	if (yyss1 != yyssa)
 	  YYSTACK_FREE (yyss1);
@@ -3085,9 +2944,6 @@ yyparse ()
 
   YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
-  if (yystate == YYFINAL)
-    YYACCEPT;
-
   goto yybackup;
 
 /*-----------.
@@ -3096,16 +2952,16 @@ yyparse ()
 yybackup:
 
   /* Do appropriate processing given the current state.  Read a
-     lookahead token if we need one and don't already have one.  */
+     look-ahead token if we need one and don't already have one.  */
 
-  /* First try to decide what to do without reference to lookahead token.  */
+  /* First try to decide what to do without reference to look-ahead token.  */
   yyn = yypact[yystate];
   if (yyn == YYPACT_NINF)
     goto yydefault;
 
-  /* Not known => get a lookahead token if don't already have one.  */
+  /* Not known => get a look-ahead token if don't already have one.  */
 
-  /* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */
+  /* YYCHAR is either YYEMPTY or YYEOF or a valid look-ahead symbol.  */
   if (yychar == YYEMPTY)
     {
       YYDPRINTF ((stderr, "Reading a token: "));
@@ -3137,16 +2993,20 @@ yybackup:
       goto yyreduce;
     }
 
+  if (yyn == YYFINAL)
+    YYACCEPT;
+
   /* Count tokens shifted since error; after three, turn off error
      status.  */
   if (yyerrstatus)
     yyerrstatus--;
 
-  /* Shift the lookahead token.  */
+  /* Shift the look-ahead token.  */
   YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
 
-  /* Discard the shifted token.  */
-  yychar = YYEMPTY;
+  /* Discard the shifted token unless it is eof.  */
+  if (yychar != YYEOF)
+    yychar = YYEMPTY;
 
   yystate = yyn;
   *++yyvsp = yylval;
@@ -3187,37 +3047,27 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-
-/* Line 1455 of yacc.c  */
-#line 219 "bibparse.y"
+#line 218 "bibparse.y"
     { junk1((yyvsp[(1) - (1)])); YYACCEPT ; ;}
     break;
 
   case 3:
-
-/* Line 1455 of yacc.c  */
-#line 220 "bibparse.y"
+#line 219 "bibparse.y"
     { junk3((yyvsp[(1) - (3)]), (yyvsp[(2) - (3)]), (yyvsp[(3) - (3)])) ; YYACCEPT ; ;}
     break;
 
   case 4:
-
-/* Line 1455 of yacc.c  */
-#line 223 "bibparse.y"
+#line 222 "bibparse.y"
     { (yyval) = xx_object_list_1((yyvsp[(1) - (1)]));  ;}
     break;
 
   case 5:
-
-/* Line 1455 of yacc.c  */
-#line 224 "bibparse.y"
+#line 223 "bibparse.y"
     { (yyval) = xx_object_list_2((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])); junk1((yyvsp[(2) - (3)])) ; ;}
     break;
 
   case 6:
-
-/* Line 1455 of yacc.c  */
-#line 227 "bibparse.y"
+#line 226 "bibparse.y"
     {
 			(yyval) = xx_object((yyvsp[(3) - (3)])); 
 			junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])); 
@@ -3225,9 +3075,7 @@ yyreduce:
     break;
 
   case 7:
-
-/* Line 1455 of yacc.c  */
-#line 231 "bibparse.y"
+#line 230 "bibparse.y"
     {
 			/* this eats whatever is between two entries, lexing until 
 				a TOKEN_AT is found */
@@ -3236,373 +3084,268 @@ yyreduce:
     break;
 
   case 8:
-
-/* Line 1455 of yacc.c  */
-#line 238 "bibparse.y"
+#line 237 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 9:
-
-/* Line 1455 of yacc.c  */
-#line 239 "bibparse.y"
+#line 238 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 10:
-
-/* Line 1455 of yacc.c  */
-#line 240 "bibparse.y"
+#line 239 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 11:
-
-/* Line 1455 of yacc.c  */
-#line 241 "bibparse.y"
+#line 240 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 12:
-
-/* Line 1455 of yacc.c  */
-#line 242 "bibparse.y"
+#line 241 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 13:
-
-/* Line 1455 of yacc.c  */
-#line 243 "bibparse.y"
+#line 242 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 14:
-
-/* Line 1455 of yacc.c  */
-#line 244 "bibparse.y"
+#line 243 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 15:
-
-/* Line 1455 of yacc.c  */
-#line 245 "bibparse.y"
+#line 244 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 16:
-
-/* Line 1455 of yacc.c  */
-#line 246 "bibparse.y"
+#line 245 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 17:
-
-/* Line 1455 of yacc.c  */
-#line 247 "bibparse.y"
+#line 246 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 18:
-
-/* Line 1455 of yacc.c  */
-#line 248 "bibparse.y"
+#line 247 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 19:
-
-/* Line 1455 of yacc.c  */
-#line 249 "bibparse.y"
+#line 248 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 20:
-
-/* Line 1455 of yacc.c  */
-#line 250 "bibparse.y"
+#line 249 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 21:
-
-/* Line 1455 of yacc.c  */
-#line 251 "bibparse.y"
+#line 250 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 22:
-
-/* Line 1455 of yacc.c  */
-#line 252 "bibparse.y"
+#line 251 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 23:
-
-/* Line 1455 of yacc.c  */
-#line 253 "bibparse.y"
+#line 252 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 24:
-
-/* Line 1455 of yacc.c  */
-#line 254 "bibparse.y"
+#line 253 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 25:
-
-/* Line 1455 of yacc.c  */
-#line 255 "bibparse.y"
+#line 254 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 26:
-
-/* Line 1455 of yacc.c  */
-#line 256 "bibparse.y"
+#line 255 "bibparse.y"
     { (yyval) = xx_forward( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 27:
-
-/* Line 1455 of yacc.c  */
-#line 258 "bibparse.y"
+#line 257 "bibparse.y"
     { (yyval) = xx_atobject_comment((yyvsp[(1) - (1)])); ;}
     break;
 
   case 28:
-
-/* Line 1455 of yacc.c  */
-#line 259 "bibparse.y"
+#line 258 "bibparse.y"
     { (yyval) = xx_atobject_entry((yyvsp[(1) - (1)]), (yyloc));;}
     break;
 
   case 29:
-
-/* Line 1455 of yacc.c  */
-#line 260 "bibparse.y"
+#line 259 "bibparse.y"
     { (yyval) = xx_atobject_include((yyvsp[(1) - (1)]));;}
     break;
 
   case 30:
-
-/* Line 1455 of yacc.c  */
-#line 261 "bibparse.y"
+#line 260 "bibparse.y"
     { (yyval) = xx_atobject_preamble((yyvsp[(1) - (1)]));;}
     break;
 
   case 31:
-
-/* Line 1455 of yacc.c  */
-#line 262 "bibparse.y"
+#line 261 "bibparse.y"
     { (yyval) = xx_atobject_string((yyvsp[(1) - (1)]));;}
     break;
 
   case 32:
-
-/* Line 1455 of yacc.c  */
-#line 263 "bibparse.y"
+#line 262 "bibparse.y"
     { (yyval) = xx_null() ; YYUSE((yyvsp[(2) - (2)])) ; recovering = 0; ;}
     break;
 
   case 33:
-
-/* Line 1455 of yacc.c  */
-#line 266 "bibparse.y"
+#line 265 "bibparse.y"
     {junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])); (yyval) = xx_forward((yyvsp[(3) - (3)])); ;}
     break;
 
   case 34:
-
-/* Line 1455 of yacc.c  */
-#line 269 "bibparse.y"
+#line 268 "bibparse.y"
     { (yyval) = xx_token_entry( (yyvsp[(1) - (3)]), (yyvsp[(2) - (3)])); junk1((yyvsp[(3) - (3)])); ;}
     break;
 
   case 35:
-
-/* Line 1455 of yacc.c  */
-#line 270 "bibparse.y"
+#line 269 "bibparse.y"
     { (yyval) = xx_token_entry( (yyvsp[(1) - (5)]), (yyvsp[(2) - (5)])); junk3((yyvsp[(3) - (5)]),(yyvsp[(4) - (5)]),(yyvsp[(5) - (5)])); ;}
     break;
 
   case 36:
-
-/* Line 1455 of yacc.c  */
-#line 271 "bibparse.y"
+#line 270 "bibparse.y"
     { (yyval) = xx_token_entry_empty((yyvsp[(1) - (2)])) ; junk1((yyvsp[(2) - (2)])) ; ;}
     break;
 
   case 37:
-
-/* Line 1455 of yacc.c  */
-#line 274 "bibparse.y"
+#line 273 "bibparse.y"
     { (yyval) = xx_entry_head( (yyvsp[(1) - (8)]), (yyvsp[(5) - (8)])) ; junk6((yyvsp[(2) - (8)]),(yyvsp[(3) - (8)]),(yyvsp[(4) - (8)]),(yyvsp[(6) - (8)]),(yyvsp[(7) - (8)]),(yyvsp[(8) - (8)])) ; ;}
     break;
 
   case 38:
-
-/* Line 1455 of yacc.c  */
-#line 275 "bibparse.y"
+#line 274 "bibparse.y"
     { (yyval) = xx_entry_head_nokey( (yyvsp[(1) - (6)])) ; junk5((yyvsp[(2) - (6)]),(yyvsp[(3) - (6)]),(yyvsp[(4) - (6)]),(yyvsp[(5) - (6)]),(yyvsp[(6) - (6)])) ; ;}
     break;
 
   case 39:
-
-/* Line 1455 of yacc.c  */
-#line 278 "bibparse.y"
+#line 277 "bibparse.y"
     { (yyval) = xx_keyname_key( (yyvsp[(1) - (1)])) ;;}
     break;
 
   case 40:
-
-/* Line 1455 of yacc.c  */
-#line 279 "bibparse.y"
+#line 278 "bibparse.y"
     { (yyval) = xx_keyname_abbrev( (yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 41:
-
-/* Line 1455 of yacc.c  */
-#line 282 "bibparse.y"
+#line 281 "bibparse.y"
     { (yyval) = xx_include( (yyvsp[(3) - (3)]) ) ; junk2((yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])) ; ;}
     break;
 
   case 42:
-
-/* Line 1455 of yacc.c  */
-#line 285 "bibparse.y"
+#line 284 "bibparse.y"
     { (yyval) = xx_preamble((yyvsp[(5) - (7)])) ; junk6((yyvsp[(1) - (7)]),(yyvsp[(2) - (7)]),(yyvsp[(3) - (7)]),(yyvsp[(4) - (7)]),(yyvsp[(6) - (7)]),(yyvsp[(7) - (7)])) ; ;}
     break;
 
   case 43:
-
-/* Line 1455 of yacc.c  */
-#line 288 "bibparse.y"
+#line 287 "bibparse.y"
     { (yyval) = xx_string((yyvsp[(5) - (7)])) ; junk6( (yyvsp[(1) - (7)]), (yyvsp[(2) - (7)]), (yyvsp[(3) - (7)]), (yyvsp[(4) - (7)]), (yyvsp[(6) - (7)]), (yyvsp[(7) - (7)])) ; ;}
     break;
 
   case 44:
-
-/* Line 1455 of yacc.c  */
-#line 291 "bibparse.y"
+#line 290 "bibparse.y"
     {(yyval) = xx_forward((yyvsp[(1) - (1)])) ; ;}
     break;
 
   case 45:
-
-/* Line 1455 of yacc.c  */
-#line 292 "bibparse.y"
+#line 291 "bibparse.y"
     { (yyval) = xx_value( (yyvsp[(1) - (5)]), (yyvsp[(5) - (5)])) ; junk3( (yyvsp[(2) - (5)]), (yyvsp[(3) - (5)]), (yyvsp[(4) - (5)]));  ;}
     break;
 
   case 46:
-
-/* Line 1455 of yacc.c  */
-#line 295 "bibparse.y"
+#line 294 "bibparse.y"
     { (yyval) = xx_simple_value((yyvsp[(1) - (1)])); ;}
     break;
 
   case 47:
-
-/* Line 1455 of yacc.c  */
-#line 296 "bibparse.y"
+#line 295 "bibparse.y"
     { (yyval) = xx_expand_abbrev((yyvsp[(1) - (1)])); ;}
     break;
 
   case 48:
-
-/* Line 1455 of yacc.c  */
-#line 299 "bibparse.y"
+#line 298 "bibparse.y"
     { (yyval) = xx_assignement_list1((yyvsp[(1) - (1)])); ;}
     break;
 
   case 49:
-
-/* Line 1455 of yacc.c  */
-#line 300 "bibparse.y"
+#line 299 "bibparse.y"
     { (yyval) = xx_assignement_list2((yyvsp[(1) - (4)]), (yyvsp[(4) - (4)])); junk2((yyvsp[(2) - (4)]),(yyvsp[(3) - (4)])); ;}
     break;
 
   case 50:
-
-/* Line 1455 of yacc.c  */
-#line 303 "bibparse.y"
+#line 302 "bibparse.y"
     {  (yyval) = xx_assignement((yyvsp[(1) - (6)]), (yyvsp[(5) - (6)])); junk4((yyvsp[(2) - (6)]), (yyvsp[(3) - (6)]), (yyvsp[(4) - (6)]), (yyvsp[(6) - (6)])); ;}
     break;
 
   case 51:
-
-/* Line 1455 of yacc.c  */
-#line 306 "bibparse.y"
+#line 305 "bibparse.y"
     { (yyval) = xx_lhs_field( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
   case 52:
-
-/* Line 1455 of yacc.c  */
-#line 307 "bibparse.y"
+#line 306 "bibparse.y"
     { (yyval) = xx_lhs_abbrev( (yyvsp[(1) - (1)]) ); ;}
     break;
 
   case 53:
-
-/* Line 1455 of yacc.c  */
-#line 310 "bibparse.y"
+#line 309 "bibparse.y"
     { (yyval) = xx_null() ; ;}
     break;
 
   case 54:
-
-/* Line 1455 of yacc.c  */
-#line 311 "bibparse.y"
+#line 310 "bibparse.y"
     { (yyval) = xx_forward((yyvsp[(1) - (1)])) ;;}
     break;
 
   case 55:
-
-/* Line 1455 of yacc.c  */
-#line 314 "bibparse.y"
+#line 313 "bibparse.y"
     { (yyval) = xx_forward((yyvsp[(1) - (1)])) ;;}
     break;
 
   case 56:
-
-/* Line 1455 of yacc.c  */
-#line 315 "bibparse.y"
+#line 314 "bibparse.y"
     { (yyval) = xx_forward((yyvsp[(1) - (2)])); junk1((yyvsp[(2) - (2)])) ; ;}
     break;
 
   case 57:
-
-/* Line 1455 of yacc.c  */
-#line 318 "bibparse.y"
+#line 317 "bibparse.y"
     { (yyval) = xx_space( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
   case 58:
-
-/* Line 1455 of yacc.c  */
-#line 319 "bibparse.y"
+#line 318 "bibparse.y"
     { (yyval) = xx_space_inline( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
   case 59:
-
-/* Line 1455 of yacc.c  */
-#line 320 "bibparse.y"
+#line 319 "bibparse.y"
     { (yyval) = xx_space_newline( (yyvsp[(1) - (1)]) ) ; ;}
     break;
 
 
-
-/* Line 1455 of yacc.c  */
-#line 3606 "bibparse.c"
+/* Line 1267 of yacc.c.  */
+#line 3349 "bibparse.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -3678,7 +3421,7 @@ yyerrlab:
 
   if (yyerrstatus == 3)
     {
-      /* If just tried and failed to reuse lookahead token after an
+      /* If just tried and failed to reuse look-ahead token after an
 	 error, discard it.  */
 
       if (yychar <= YYEOF)
@@ -3695,7 +3438,7 @@ yyerrlab:
 	}
     }
 
-  /* Else will try to reuse lookahead token after shifting the error
+  /* Else will try to reuse look-ahead token after shifting the error
      token.  */
   goto yyerrlab1;
 
@@ -3753,11 +3496,14 @@ yyerrlab1:
       YY_STACK_PRINT (yyss, yyssp);
     }
 
+  if (yyn == YYFINAL)
+    YYACCEPT;
+
   *++yyvsp = yylval;
 
   yyerror_range[1] = yylloc;
   /* Using YYLLOC is tempting, but would change the location of
-     the lookahead.  YYLOC is available though.  */
+     the look-ahead.  YYLOC is available though.  */
   YYLLOC_DEFAULT (yyloc, (yyerror_range - 1), 2);
   *++yylsp = yyloc;
 
@@ -3782,7 +3528,7 @@ yyabortlab:
   yyresult = 1;
   goto yyreturn;
 
-#if !defined(yyoverflow) || YYERROR_VERBOSE
+#ifndef yyoverflow
 /*-------------------------------------------------.
 | yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
@@ -3793,7 +3539,7 @@ yyexhaustedlab:
 #endif
 
 yyreturn:
-  if (yychar != YYEMPTY)
+  if (yychar != YYEOF && yychar != YYEMPTY)
      yydestruct ("Cleanup: discarding lookahead",
 		 yytoken, &yylval, &yylloc);
   /* Do not reclaim the symbols of the rule which action triggered
@@ -3819,9 +3565,7 @@ yyreturn:
 }
 
 
-
-/* Line 1675 of yacc.c  */
-#line 322 "bibparse.y"
+#line 321 "bibparse.y"
 
 
 /*}}} end of grammar */
@@ -3906,7 +3650,8 @@ SEXP attribute_hidden do_read_bib(SEXP args){
 	
 	/* call the parser */
 	recovering = 0; 
-	int res = yyparse() ;
+	/* int res = yyparse() ; */
+	yyparse() ;
 	
 	/* structure the data */
 	SEXP ans; 
@@ -3929,14 +3674,6 @@ SEXP attribute_hidden do_read_bib(SEXP args){
 /*}}}*/
 
 /*{{{ xx_* parser helpers */
-
-/**
- * called at the end
- */
-static void xx_result( SEXP objlist ){
-	_UNPROTECT_PTR(objlist) ;
-}
- 
  
 /** 
  * Object list with one object
@@ -4623,7 +4360,7 @@ void junk7( SEXP s1, SEXP s2, SEXP s3, SEXP s4, SEXP s5, SEXP s6, SEXP s7){
  * list( a = "aa", b = "bb") -> c( a = "aa", b = "bb" ) 
  */
 static SEXP asVector( SEXP x, int donames){
-	SEXP ans, names ; 
+	SEXP ans, names = R_NilValue ; 
 	SEXP tmp ;
 	int n = length( CDR(x) ) ;
 	_PROTECT( ans   = allocVector( STRSXP, n) ) ;
@@ -4669,6 +4406,12 @@ not work with offsets
 	setAttrib( ans, install("class"), mkString2( "srcref", 6 ) ) ;
 	return ans ;
 }
+
+void dummy_bibparse(){
+	yywarning( "" ) ;
+}
+
+
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
 
 

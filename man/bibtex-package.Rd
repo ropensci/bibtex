@@ -13,16 +13,16 @@ parser for bibliography files written in bibtex format
 \tabular{ll}{
 Package: \tab bibtex\cr
 Type: \tab Package\cr
-Version: \tab 0.1-3\cr
-Date: \tab 2009-12-14\cr
-License: \tab GPL-3\cr
+Version: \tab 0.2-0\cr
+Date: \tab 2010-06-15\cr
+License: \tab GPL (>= 2)\cr
 LazyLoad: \tab yes\cr
 }
 }
 \author{
 Romain Francois
 
-Maintainer: Romain Francois <francoisromain@free.fr>
+Maintainer: Romain Francois <romain@r-enthusiasts.com>
 }
 \references{
 Nelson H. F. Beebe. bibparse 1.04. 1999. \url{http://www.math.utah.edu/~beebe}
