@@ -74,9 +74,22 @@ make.citation.list <- if( R2.12.0 ){
 	}
 }
 
+findBibFile <- function(package){
+	if( package %in% c("base", "datasets", "graphics", "grDevices", 
+		"methods", "stats", "stats4", "tools", "utils" ) ){
+		system.file( "bib", sprintf( "%s.bib", package ), package = "bibtex" )
+	} else {
+		attempt <- system.file( "REFERENCES.bib", package = package )
+		if( !nzchar(attempt) ){
+			stop( sprintf( "no bibtex database for package `s`", package ) ) 
+		}
+		attempt
+	}
+}
+
 
 read.bib <- function(
-	file = system.file( "REFERENCES.bib", package = package ), 
+	file = findBibFile(package) , 
 	package = "bibtex", 
 	encoding = "unknown",
 	header = if( length(preamble) ) paste( preamble, sep = "\n" ) else "", 

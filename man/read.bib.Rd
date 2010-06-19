@@ -8,24 +8,27 @@ bibtex parser
 	parser for bibliography databases written in the bib format
 }
 \usage{
-read.bib(file = system.file("REFERENCES.bib", package = package), 
+read.bib(file = findBibFile(package), 
 	package = "bibtex", 
 	encoding = "unknown", 
 	header = if( length(preamble) ) paste( preamble, sep = "\n" ) else "", 
 	footer = "" )
 }
 \arguments{
-  \item{file}{
+\item{file}{
 bib file to parse. By default, the file \samp{REFERENCES.bib} in the 
-root directory of the package given by the \code{package} argument is used
+root directory of the package given by the \code{package} argument is used. 
 }
-  \item{package}{
-package from which we want to read the bibliography
+\item{package}{
+package from which we want to read the bibliography. Only used if \code{file}
+is unspecified. 
+  	  
+Core R packages (base, datasets, graphics, grDevices, methods, stats, 
+stats4, tools and utils) are treated specially: this package contains bibtex
+entries for these packages.
 }
-\item{encoding}{
-	encoding
-}
-  \item{header}{
+\item{encoding}{encoding}
+\item{header}{
 header of the citation list. By default this is made from the \samp{Preamble}
 entries found in the bib file.
 }
@@ -50,10 +53,11 @@ Romain Francois <romain@r-enthusiasts.com>
 \code{\link[utils]{citation}}
 }
 \examples{
+# this package has a a REFERENCES.bib file
 bib <- read.bib( package = "bibtex" )
-base.bib <- read.bib( 
-	system.file( "bib", "base.bib", package = "bibtex" )
-	)
+
+# bibtex collects bibtex entries for R core packages
+base.bib <- read.bib( package = "base" )
 }
 \keyword{ manip }
 
