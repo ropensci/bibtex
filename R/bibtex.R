@@ -4,7 +4,7 @@ R2.12.0 <- getRversion() >= "2.12.0"
 .bibentry <- if(R2.12.0) {
 	get( "bibentry", asNamespace( "utils" ) )
 } else {
-	function( bibtype, textVersion, header = NULL, 
+	function( bibtype, textVersion = NULL , header = NULL, 
 		footer = NULL, key = NULL, ..., other = list(), 
 		mheader = NULL, mfooter = NULL ){
 		
@@ -45,15 +45,9 @@ make.bib.entry <- function( x ){
 		if( "author" %in% names(x) ){
 			y[["author"]] <- arrange.authors( y[["author"]] )
 		}
-		textVersion <- sprintf( "%s. %s (%s)", 
-			if( "author" %in% names(x) ) paste( as.character( y[["author"]] ), collapse = " and ") else "?", 
-			if( "title" %in% names(x) ) x[["title"]] else "?", 
-			if( "year" %in% names(x) ) x[["year"]] else "?"
-			)
 		
 		tryCatch(  
-			.bibentry( bibtype = type, key = key, textVersion = textVersion ,
-				other = y ), 
+			.bibentry( bibtype = type, key = key, other = y ), 
 		error = function(e){
 			message( sprintf( "ignoring entry '%s' (line %d) because :\n\t%s\n", 
 				key, 
