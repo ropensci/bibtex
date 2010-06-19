@@ -542,7 +542,7 @@ char *yytext_ptr;
 #line 2 "biblex.l"
 /* {{{ Declarations */
 #include "bibtex.h"
-#include "bibparse.h" 
+#include "bibparse.hpp" 
 
 #define YYSTYPE SEXP 
 #include <stdio.h>
@@ -551,6 +551,7 @@ char *yytext_ptr;
 #include <stdlib.h>
 
 typedef int token_t ;
+static YYLTYPE last_at_location ;
 
 static void		compact_space();
 static void		eof_error();
@@ -569,7 +570,7 @@ static void		overflow();
 static int		brace_level = 0;
 int			do_lex_output = 0;
 static token_t		last_object = TOKEN_UNKNOWN;
-static token_t		last_token = TOKEN_UNKNOWN;
+static token_t		last_token  = TOKEN_UNKNOWN;
 static int		paren_level = 0;
 
 #define BYTE_VAL(c)	((unsigned int)((c) & 0xff))
@@ -603,7 +604,7 @@ static int		paren_level = 0;
 /* \013 == \v, but lex doesn't */
 /* recognize \v */
 /* optional `horizontal' space */
-#line 607 "<stdout>"
+#line 608 "<stdout>"
 
 #define INITIAL 0
 
@@ -785,9 +786,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 73 "biblex.l"
+#line 74 "biblex.l"
 
-#line 791 "<stdout>"
+#line 792 "<stdout>"
 
 	if ( !(yy_init) )
 		{
@@ -892,40 +893,40 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 74 "biblex.l"
+#line 75 "biblex.l"
 RETURN (out_token(TOKEN_AT));
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 76 "biblex.l"
+#line 77 "biblex.l"
 {RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_COMMENT) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 80 "biblex.l"
+#line 81 "biblex.l"
 {RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_INCLUDE) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 84 "biblex.l"
+#line 85 "biblex.l"
 { RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_PREAMBLE) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 88 "biblex.l"
+#line 89 "biblex.l"
 { RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_STRING) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 92 "biblex.l"
+#line 93 "biblex.l"
 {
 				    if (last_object == TOKEN_STRING)
 					RETURN(out_token(TOKEN_ABBREV));
@@ -944,77 +945,77 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 108 "biblex.l"
+#line 109 "biblex.l"
 RETURN (out_token(TOKEN_VALUE));
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 110 "biblex.l"
+#line 111 "biblex.l"
 RETURN (out_token(TOKEN_INLINE));
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 112 "biblex.l"
+#line 113 "biblex.l"
 RETURN (out_token(TOKEN_SHARP));
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 114 "biblex.l"
+#line 115 "biblex.l"
 RETURN (out_string());
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 116 "biblex.l"
+#line 117 "biblex.l"
 RETURN (out_lbrace());
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 118 "biblex.l"
+#line 119 "biblex.l"
 RETURN (out_rbrace());
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 120 "biblex.l"
+#line 121 "biblex.l"
 RETURN (out_lparen());
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 122 "biblex.l"
+#line 123 "biblex.l"
 RETURN (out_rparen());
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 124 "biblex.l"
+#line 125 "biblex.l"
 RETURN (out_token(TOKEN_EQUALS));
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 126 "biblex.l"
+#line 127 "biblex.l"
 RETURN (out_token(TOKEN_COMMA));
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 128 "biblex.l"
+#line 129 "biblex.l"
 RETURN (out_token(TOKEN_NEWLINE));
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 130 "biblex.l"
+#line 131 "biblex.l"
 RETURN (out_token(TOKEN_SPACE));
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 132 "biblex.l"
+#line 133 "biblex.l"
 RETURN (out_token(TOKEN_LITERAL));
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 134 "biblex.l"
+#line 135 "biblex.l"
 ECHO;
 	YY_BREAK
-#line 1018 "<stdout>"
+#line 1019 "<stdout>"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1997,7 +1998,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 134 "biblex.l"
+#line 135 "biblex.l"
 
 
 /*}}} */
@@ -2408,17 +2409,35 @@ int yywrap() {
 }
 
 static void overflow(){
-	error("String too long for %ld-character buffer\n", YYLMAX);
+	Rf_error("String too long for %ld-character buffer\n", YYLMAX);
 }
 
 static void eof_error(){
-	error( "End-of-file in value string\n" );
+	Rf_error( "End-of-file in value string\n" );
 }
 
 /* never called, but calms down -Wall */
 void dummy(){
 	yyunput( 0, 0 ) ;
 	yy_flex_strlen(0) ;
+}
+
+SEXP makeSrcRef(YYLTYPE loc, SEXP srcfile ){
+	/* the '+ 1' here adjust the columns and bytes to 
+look like the srcref class of R that does 
+not work with offsets 
+	*/
+	
+	Rcpp::IntegerVector ans = Rcpp::IntegerVector::create(
+		last_at_location.first_line, 
+		last_at_location.first_byte + 1,
+		loc.last_line, 
+		loc.last_byte + 1, 
+		last_at_location.first_column + 1, 
+		loc.last_column + 1 ) ;
+	ans.attr( "srcfile") = srcfile ;
+	ans.attr( "class" ) = "srcref" ;
+	return ans ;
 }
 
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */

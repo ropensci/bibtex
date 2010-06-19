@@ -1,7 +1,7 @@
 %{
 /* {{{ Declarations */
 #include "bibtex.h"
-#include "bibparse.h" 
+#include "bibparse.hpp" 
 
 #define YYSTYPE SEXP 
 #include <stdio.h>
@@ -10,6 +10,7 @@
 #include <stdlib.h>
 
 typedef int token_t ;
+static YYLTYPE last_at_location ;
 
 static void		compact_space();
 static void		eof_error();
@@ -28,7 +29,7 @@ static void		overflow();
 static int		brace_level = 0;
 int			do_lex_output = 0;
 static token_t		last_object = TOKEN_UNKNOWN;
-static token_t		last_token = TOKEN_UNKNOWN;
+static token_t		last_token  = TOKEN_UNKNOWN;
 static int		paren_level = 0;
 
 #define BYTE_VAL(c)	((unsigned int)((c) & 0xff))
@@ -540,17 +541,35 @@ int yywrap() {
 }
 
 static void overflow(){
-	error("String too long for %ld-character buffer\n", YYLMAX);
+	Rf_error("String too long for %ld-character buffer\n", YYLMAX);
 }
 
 static void eof_error(){
-	error( "End-of-file in value string\n" );
+	Rf_error( "End-of-file in value string\n" );
 }
 
 /* never called, but calms down -Wall */
 void dummy(){
 	yyunput( 0, 0 ) ;
 	yy_flex_strlen(0) ;
+}
+
+SEXP makeSrcRef(YYLTYPE loc, SEXP srcfile ){
+	/* the '+ 1' here adjust the columns and bytes to 
+look like the srcref class of R that does 
+not work with offsets 
+	*/
+	
+	Rcpp::IntegerVector ans = Rcpp::IntegerVector::create(
+		last_at_location.first_line, 
+		last_at_location.first_byte + 1,
+		loc.last_line, 
+		loc.last_byte + 1, 
+		last_at_location.first_column + 1, 
+		loc.last_column + 1 ) ;
+	ans.attr( "srcfile") = srcfile ;
+	ans.attr( "class" ) = "srcref" ;
+	return ans ;
 }
 
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
