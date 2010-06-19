@@ -9,9 +9,6 @@ R2.12.0 <- getRversion() >= "2.12.0"
 		mheader = NULL, mfooter = NULL ){
 		
 		y <- append( list(...), other )
-		if( "author" %in% names(y) ){
-			y[["author"]] <- as.personList( y[["author"]] )
-		}
 		structure( y,
 			entry = bibtype, 
 			key = key, 
