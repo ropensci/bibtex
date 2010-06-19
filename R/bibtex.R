@@ -8,7 +8,7 @@ R2.12.0 <- getRversion() >= "2.12.0"
 		footer = NULL, key = NULL, ..., other = list(), 
 		mheader = NULL, mfooter = NULL ){
 		
-		y <- list(...)
+		y <- append( list(...), other )
 		if( "author" %in% names(y) ){
 			y[["author"]] <- as.personList( y[["author"]] )
 		}
