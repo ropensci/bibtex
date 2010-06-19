@@ -69,7 +69,7 @@ make.citation.list <- if( R2.12.0 ){
 	}  
 } else {
 	function( x , header, footer ){
-		structure( out, class = "citationList", 
+		structure( x, class = "citationList", 
 			header = header, footer = footer )
 	}
 }
