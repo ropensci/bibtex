@@ -10,11 +10,9 @@
 
 /**
  * Creates a stretchy-list dotted pair
- */ 
-SEXP NewList(void) {
-    SEXP s = Rf_cons(R_NilValue, R_NilValue);
-    SETCAR(s, s);
-    return s;
+ */
+inline SEXP NewList(void){
+	return Rcpp::Language() ; 
 }
 
 /**
@@ -196,7 +194,7 @@ static void recordInclude( SEXP ) ;
 static void recordComment( SEXP ) ;
 static void recordString( SEXP ) ;
 static void recordPreamble( SEXP ) ;
-static SEXP asVector( SEXP, int ); 
+static SEXP asVector( SEXP, bool ); 
 /*}}}*/
 
 /*{{{ Grammar */
@@ -465,10 +463,10 @@ RcppExport SEXP do_read_bib(SEXP args){
 		PROTECT( ans = CDR(entries) )  ;
 	}
 	SEXP obj ;
-	_PROTECT(obj = asVector( comments, 0 ) ); Rf_setAttrib( ans , Rf_install("comment") , obj ); _UNPROTECT_PTR( obj ) ;
-	_PROTECT(obj = asVector( includes, 0 ) ); Rf_setAttrib( ans , Rf_install("include") , obj ); _UNPROTECT_PTR( obj ) ; 
-	_PROTECT(obj = asVector( strings , 1 ) ); Rf_setAttrib( ans , Rf_install("strings") , obj ); _UNPROTECT_PTR( obj ) ; 
-	_PROTECT(obj = asVector( preamble, 0 ) ); Rf_setAttrib( ans , Rf_install("preamble"), obj ); _UNPROTECT_PTR( obj ) ;
+	_PROTECT(obj = asVector( comments, false ) ); Rf_setAttrib( ans , Rf_install("comment") , obj ); _UNPROTECT_PTR( obj ) ;
+	_PROTECT(obj = asVector( includes, false ) ); Rf_setAttrib( ans , Rf_install("include") , obj ); _UNPROTECT_PTR( obj ) ; 
+	_PROTECT(obj = asVector( strings , true ) ); Rf_setAttrib( ans , Rf_install("strings") , obj ); _UNPROTECT_PTR( obj ) ; 
+	_PROTECT(obj = asVector( preamble, false ) ); Rf_setAttrib( ans , Rf_install("preamble"), obj ); _UNPROTECT_PTR( obj ) ;
 	_UNPROTECT_PTR( entries ) ;
 	_UNPROTECT_PTR( ans );
 	free(currentKey) ;
@@ -1160,9 +1158,9 @@ void junk7( SEXP s1, SEXP s2, SEXP s3, SEXP s4, SEXP s5, SEXP s6, SEXP s7){
 
 /*{{{ asVector */
 /**
- * list( a = "aa", b = "bb") -> c( a = "aa", b = "bb" ) 
+ * pairlist( a = "aa", b = "bb") -> c( a = "aa", b = "bb" ) 
  */
-static SEXP asVector( SEXP x, int donames){
+static SEXP asVector( SEXP x, bool donames){
 	SEXP ans, names = R_NilValue ; 
 	SEXP tmp ;
 	int n = Rf_length( CDR(x) ) ;
