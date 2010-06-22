@@ -544,6 +544,9 @@ char *yytext_ptr;
 #include "bibtex.h"
 #include "bibparse.h" 
 
+// enable some debugging with this:
+// #define LEXER_DEBUG 1
+
 #define YYSTYPE SEXP 
 #include <stdio.h>
 #include <string.h>
@@ -564,7 +567,7 @@ static token_t		out_rbrace();
 static token_t		out_rparen();
 static token_t		out_string();
 static token_t		out_token(token_t t_);
-static void		overflow();
+static void		overflow( const char* );
 
 static int		brace_level = 0;
 int			do_lex_output = 0;
@@ -603,7 +606,7 @@ static int		paren_level = 0;
 /* \013 == \v, but lex doesn't */
 /* recognize \v */
 /* optional `horizontal' space */
-#line 607 "<stdout>"
+#line 610 "<stdout>"
 
 #define INITIAL 0
 
@@ -785,9 +788,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 73 "biblex.l"
+#line 76 "biblex.l"
 
-#line 791 "<stdout>"
+#line 794 "<stdout>"
 
 	if ( !(yy_init) )
 		{
@@ -892,40 +895,40 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 74 "biblex.l"
+#line 77 "biblex.l"
 RETURN (out_token(TOKEN_AT));
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 76 "biblex.l"
+#line 79 "biblex.l"
 {RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_COMMENT) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 80 "biblex.l"
+#line 83 "biblex.l"
 {RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_INCLUDE) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 84 "biblex.l"
+#line 87 "biblex.l"
 { RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_PREAMBLE) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 88 "biblex.l"
+#line 91 "biblex.l"
 { RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_STRING) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 92 "biblex.l"
+#line 95 "biblex.l"
 {
 				    if (last_object == TOKEN_STRING)
 					RETURN(out_token(TOKEN_ABBREV));
@@ -944,77 +947,77 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 108 "biblex.l"
+#line 111 "biblex.l"
 RETURN (out_token(TOKEN_VALUE));
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 110 "biblex.l"
+#line 113 "biblex.l"
 RETURN (out_token(TOKEN_INLINE));
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 112 "biblex.l"
+#line 115 "biblex.l"
 RETURN (out_token(TOKEN_SHARP));
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 114 "biblex.l"
+#line 117 "biblex.l"
 RETURN (out_string());
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 116 "biblex.l"
+#line 119 "biblex.l"
 RETURN (out_lbrace());
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 118 "biblex.l"
+#line 121 "biblex.l"
 RETURN (out_rbrace());
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 120 "biblex.l"
+#line 123 "biblex.l"
 RETURN (out_lparen());
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 122 "biblex.l"
+#line 125 "biblex.l"
 RETURN (out_rparen());
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 124 "biblex.l"
+#line 127 "biblex.l"
 RETURN (out_token(TOKEN_EQUALS));
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 126 "biblex.l"
+#line 129 "biblex.l"
 RETURN (out_token(TOKEN_COMMA));
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 128 "biblex.l"
+#line 131 "biblex.l"
 RETURN (out_token(TOKEN_NEWLINE));
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 130 "biblex.l"
+#line 133 "biblex.l"
 RETURN (out_token(TOKEN_SPACE));
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 132 "biblex.l"
+#line 135 "biblex.l"
 RETURN (out_token(TOKEN_LITERAL));
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 134 "biblex.l"
+#line 137 "biblex.l"
 ECHO;
 	YY_BREAK
-#line 1018 "<stdout>"
+#line 1021 "<stdout>"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1997,7 +2000,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 134 "biblex.l"
+#line 137 "biblex.l"
 
 
 /*}}} */
@@ -2063,7 +2066,7 @@ static token_t out_braced_literal(){
 		    break;
 		}
 		if (n > (YYLMAX - 2)){
-		    overflow();
+		    overflow( "out_braced_literal" );
 		}
 		yytext[n++] = c;
 		switch (c){
@@ -2104,10 +2107,22 @@ static token_t out_braced_string() {
 		    break;
 		}
 		if (n > (YYLMAX - 5)){
-		    overflow();
+		    overflow("out_braced_string");
 		}
 		yytext[n++] = c;
 		switch (c){
+			case '\\':
+				c = next_char() ;
+				if( c == '"' ){
+#ifdef LEXER_DEBUG
+					Rprintf( "seeing bs and quote : %s\n", yytext ) ;
+#endif
+					yytext[n++] = '"' ;
+				} else {
+					Rprintf( "seeing backslash and %s, not sure what to do with it\n", c ) ;
+				}
+				break ;
+			
 			case '{':
 			    blevel++;
 			    break;
@@ -2143,6 +2158,9 @@ static token_t out_braced_string() {
     yytext[0] = '"';
     yytext[n-1] = '"';
     yytext[n] = '\0';
+#ifdef LEXER_DEBUG
+    Rprintf( "[out_braced_string] yytext = ///%s///\n", yytext ) ;
+#endif	
     return (out_token(TOKEN_VALUE));
 }
 
@@ -2288,7 +2306,7 @@ static token_t out_string(){
 		    break;
 		}
 		if (n > (YYLMAX - 2)){
-		    overflow();
+		    overflow("out_string");
 		}
 		yytext[n++] = c;
 		switch (c){
@@ -2308,7 +2326,10 @@ static token_t out_string(){
     }
  LOOP_EXIT:
     yytext[n++] = '\0';
-    return (out_token(TOKEN_VALUE));
+#ifdef LEXER_DEBUG
+    Rprintf( "[out_string] yytext = ///%s///\n", yytext ) ;
+#endif
+	return (out_token(TOKEN_VALUE));
 }
 
 /* ALL token output is directed through this function */
@@ -2331,7 +2352,7 @@ static token_t out_token(token_t t){
 			    	if (ISDIGIT(yytext[0])) {
 					n = strlen((const char*)&yytext[0]);
 					if ((n + 3) > YYLMAX){
-					    overflow();
+					    overflow("out_token");
 					}
 					yytext[n+2] = '\0';
 					yytext[n+1] = '"';
@@ -2407,7 +2428,10 @@ int yywrap() {
     return 1;
 }
 
-static void overflow(){
+static void overflow(const char* from){
+#ifdef LEXER_DEBUG
+	Rprintf( "[overflow/%s] yytext = ///%s///\n", from, yytext ) ;
+#endif
 	error("String too long for %ld-character buffer\n", YYLMAX);
 }
 

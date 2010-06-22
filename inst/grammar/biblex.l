@@ -3,6 +3,9 @@
 #include "bibtex.h"
 #include "bibparse.h" 
 
+// enable some debugging with this:
+// #define LEXER_DEBUG 1
+
 #define YYSTYPE SEXP 
 #include <stdio.h>
 #include <string.h>
@@ -23,7 +26,7 @@ static token_t		out_rbrace();
 static token_t		out_rparen();
 static token_t		out_string();
 static token_t		out_token(token_t t_);
-static void		overflow();
+static void		overflow( const char* );
 
 static int		brace_level = 0;
 int			do_lex_output = 0;
@@ -195,7 +198,7 @@ static token_t out_braced_literal(){
 		    break;
 		}
 		if (n > (YYLMAX - 2)){
-		    overflow();
+		    overflow( "out_braced_literal" );
 		}
 		yytext[n++] = c;
 		switch (c){
@@ -236,10 +239,22 @@ static token_t out_braced_string() {
 		    break;
 		}
 		if (n > (YYLMAX - 5)){
-		    overflow();
+		    overflow("out_braced_string");
 		}
 		yytext[n++] = c;
 		switch (c){
+			case '\\':
+				c = next_char() ;
+				if( c == '"' ){
+#ifdef LEXER_DEBUG
+					Rprintf( "seeing bs and quote : %s\n", yytext ) ;
+#endif
+					yytext[n++] = '"' ;
+				} else {
+					Rprintf( "seeing backslash and %s, not sure what to do with it\n", c ) ;
+				}
+				break ;
+			
 			case '{':
 			    blevel++;
 			    break;
@@ -275,6 +290,9 @@ static token_t out_braced_string() {
     yytext[0] = '"';
     yytext[n-1] = '"';
     yytext[n] = '\0';
+#ifdef LEXER_DEBUG
+    Rprintf( "[out_braced_string] yytext = ///%s///\n", yytext ) ;
+#endif	
     return (out_token(TOKEN_VALUE));
 }
 
@@ -420,7 +438,7 @@ static token_t out_string(){
 		    break;
 		}
 		if (n > (YYLMAX - 2)){
-		    overflow();
+		    overflow("out_string");
 		}
 		yytext[n++] = c;
 		switch (c){
@@ -440,7 +458,10 @@ static token_t out_string(){
     }
  LOOP_EXIT:
     yytext[n++] = '\0';
-    return (out_token(TOKEN_VALUE));
+#ifdef LEXER_DEBUG
+    Rprintf( "[out_string] yytext = ///%s///\n", yytext ) ;
+#endif
+	return (out_token(TOKEN_VALUE));
 }
 
 /* ALL token output is directed through this function */
@@ -463,7 +484,7 @@ static token_t out_token(token_t t){
 			    	if (ISDIGIT(yytext[0])) {
 					n = strlen((const char*)&yytext[0]);
 					if ((n + 3) > YYLMAX){
-					    overflow();
+					    overflow("out_token");
 					}
 					yytext[n+2] = '\0';
 					yytext[n+1] = '"';
@@ -539,7 +560,10 @@ int yywrap() {
     return 1;
 }
 
-static void overflow(){
+static void overflow(const char* from){
+#ifdef LEXER_DEBUG
+	Rprintf( "[overflow/%s] yytext = ///%s///\n", from, yytext ) ;
+#endif
 	error("String too long for %ld-character buffer\n", YYLMAX);
 }
 

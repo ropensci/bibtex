@@ -202,7 +202,7 @@ extern YYLTYPE yylloc ;
 		} \
 	} while (YYID (0))
 
-/* #define XXDEBUG 1 */ 
+/* #define XXDEBUG 1 */
 
 /* functions used in the parsing process */
 SEXP makeSrcRef(YYLTYPE) ;
