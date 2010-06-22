@@ -8,8 +8,6 @@ Maintainer: Romain Francois <romain@r-enthusiasts.com>
 Description: Utility to parse a bibtex file
 License: GPL (>= 2)
 LazyLoad: yes
-Depends: Rcpp (>= 0.8.2)
-LinkingTo: Rcpp
 BugReports: http://r-forge.r-project.org/tracker/?atid=1587&group_id=384&func=browse
 URL: http://r-forge.r-project.org/projects/highlight/, http://romainfrancois.blog.free.fr/index.php?category/R-package/bibtex
 
