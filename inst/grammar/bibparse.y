@@ -1,57 +1,7 @@
 %{
 /*{{{ first part of declarations */
 #include "bibtex.h" 
-
-/* Stretchy List Structures : Lists are created and grown using a special */
-/* dotted pair.  The CAR of the list points to the last cons-cell in the */
-/* list and the CDR points to the first.  The list can be extracted from */
-/* the pair by taking its CDR, while the CAR gives fast access to the end */
-/* of the list. */
-
-/**
- * Creates a stretchy-list dotted pair
- */
-inline SEXP NewList(void){
-	return Rcpp::Language() ; 
-}
-
-/**
- * Add a new element at the __end__ of a stretchy list
- * 
- * @param l stretchy list to expand
- * @param s element to add at the __end__ of the list
- * @return 
- */ 
-SEXP GrowList(SEXP l, SEXP s) {
-    SEXP tmp;
-    PROTECT(s);
-    tmp = Rf_cons(s, R_NilValue);
-    UNPROTECT(1);
-    SETCDR(CAR(l), tmp);
-    SETCAR(l, tmp);
-    return l;
-}
-
-/**
- * Insert a new element at the __head__ of a stretchy list
- * 
- * @param l stretchy list in which we want to insert s
- * @param s element to add to l
- * @return the stretchy list l appended by s
- */ 
-SEXP Insert(SEXP l, SEXP s){
-    SEXP tmp;
-    PROTECT(s);
-    tmp = Rf_cons(s, CDR(l));
-    UNPROTECT(1);
-    SETCDR(l, tmp);
-    return l;
-}
-
-#define YY_TYPEDEF_YY_SIZE_T
-typedef int yy_size_t;
-
-// static char		yytext[BIBYYLMAX];
+char		yytext[BIBYYLMAX];
 #define YYDEBUG		1		/* need for -d option support */
 #define YYERROR_VERBOSE 1  /* better warning messages */
 #define YYSTYPE		SEXP    /* semantic values */
@@ -95,7 +45,7 @@ char * currentKey;
  */
 int currentKeyLine ;
 
-static SEXP srcfile = R_NilValue ;
+static SEXP srcfile;
 char * bibfile ; 
 
 /** 
@@ -138,6 +88,7 @@ extern YYLTYPE yylloc ;
 /* #define XXDEBUG 1 */ 
 
 /* functions used in the parsing process */
+SEXP makeSrcRef(YYLTYPE) ;
 static SEXP xx_object_list_1(SEXP);
 static SEXP xx_object_list_2(SEXP,SEXP);
 static SEXP xx_object(SEXP);
@@ -194,7 +145,7 @@ static void recordInclude( SEXP ) ;
 static void recordComment( SEXP ) ;
 static void recordString( SEXP ) ;
 static void recordPreamble( SEXP ) ;
-static SEXP asVector( SEXP, bool ); 
+static SEXP asVector( SEXP, int ); 
 /*}}}*/
 
 /*{{{ Grammar */
@@ -397,7 +348,7 @@ FILE * _fopen(const char *filename, const char *mode){
 
 /*{{{ yyerror */
 void _yyerror(const char *s){
-	Rf_warning( "\n%s:%d:%d\n\t%s\n\tDropping the entry `%s` (starting at line %d) ", 
+	warning( "\n%s:%d:%d\n\t%s\n\tDropping the entry `%s` (starting at line %d) ", 
 		bibfile, line_number, col_number, s, currentKey, currentKeyLine ) ;
 	
 	/* indicates that we are recovering from an error */
@@ -406,16 +357,16 @@ void _yyerror(const char *s){
 /*}}}*/
 
 /*{{{ yywarning */
-void yywarning(const char *s){
-	Rf_warning( "\n%s:%d:%d\n\t%s", bibfile, line_number, col_number, s ) ;
+static void yywarning(const char *s){
+	warning( "\n%s:%d:%d\n\t%s", bibfile, line_number, col_number, s ) ;
 }
 /*}}}*/
 
 /*{{{ R interface */
 /**
- * .External( "do_read_bib", file = file )
+ * .Internal( "do_read_bib", file = file )
  */
-RcppExport SEXP do_read_bib(SEXP args){
+SEXP attribute_hidden do_read_bib(SEXP args){
 	SEXP filename = CADR(args) ;
 	const char* fname = CHAR(STRING_ELT(filename,0) ) ;
 	bibfile = (char*)fname ;
@@ -427,14 +378,14 @@ RcppExport SEXP do_read_bib(SEXP args){
 	} else if(streql(encoding, "UTF-8"))  {
 		known_to_be_utf8 = TRUE;
 	} else if(!streql( encoding, "unknown") ){
-		Rf_warning( "encoding '%s' will be ignored", encoding ) ;
+		warning( "encoding '%s' will be ignored", encoding ) ;
 	}
 	
 	srcfile = CADDDR(args);
 	
 	FILE* fp ;
 	if((fp = _fopen(R_ExpandFileName( fname ), "r")) == NULL){
-		Rf_error( "unable to open file to read", 0);
+		error( "unable to open file to read", 0);
 	}
 	yyset_in( fp ) ; /* so that the lexer reads from the file */
 	yydebug = 0 ;    /* setting this to 1 gives a lot of messages */
@@ -456,17 +407,17 @@ RcppExport SEXP do_read_bib(SEXP args){
 	
 	/* structure the data */
 	SEXP ans; 
-	if( Rf_length( CDR(entries) ) == 0 ){
-		PROTECT( ans = Rf_allocVector( INTSXP, 1)  ) ;
+	if( length( CDR(entries) ) == 0 ){
+		PROTECT( ans = allocVector( INTSXP, 1)  ) ;
 		INTEGER(ans)[0] = 0; 
 	} else {
 		PROTECT( ans = CDR(entries) )  ;
 	}
 	SEXP obj ;
-	_PROTECT(obj = asVector( comments, false ) ); Rf_setAttrib( ans , Rf_install("comment") , obj ); _UNPROTECT_PTR( obj ) ;
-	_PROTECT(obj = asVector( includes, false ) ); Rf_setAttrib( ans , Rf_install("include") , obj ); _UNPROTECT_PTR( obj ) ; 
-	_PROTECT(obj = asVector( strings , true ) ); Rf_setAttrib( ans , Rf_install("strings") , obj ); _UNPROTECT_PTR( obj ) ; 
-	_PROTECT(obj = asVector( preamble, false ) ); Rf_setAttrib( ans , Rf_install("preamble"), obj ); _UNPROTECT_PTR( obj ) ;
+	_PROTECT(obj = asVector( comments, 0 ) ); setAttrib( ans , install("comment") , obj ); _UNPROTECT_PTR( obj ) ;
+	_PROTECT(obj = asVector( includes, 0 ) ); setAttrib( ans , install("include") , obj ); _UNPROTECT_PTR( obj ) ; 
+	_PROTECT(obj = asVector( strings , 1 ) ); setAttrib( ans , install("strings") , obj ); _UNPROTECT_PTR( obj ) ; 
+	_PROTECT(obj = asVector( preamble, 0 ) ); setAttrib( ans , install("preamble"), obj ); _UNPROTECT_PTR( obj ) ;
 	_UNPROTECT_PTR( entries ) ;
 	_UNPROTECT_PTR( ans );
 	free(currentKey) ;
@@ -570,31 +521,31 @@ static SEXP xx_atobject_entry(SEXP object, YYLTYPE loc){
 	Rprintf( "<xx_atobject_entry>\n" ) ;
 #endif
 	SEXP ans, head, o, names; 
-	_PROTECT( head = Rf_getAttrib( object, Rf_install("head") ) ); 
-	int n = Rf_length( object ) ;
-	_PROTECT( ans   = Rf_allocVector( STRSXP, n) ) ;
-	_PROTECT( names = Rf_allocVector( STRSXP, n) ) ;
+	_PROTECT( head = getAttrib( object, install("head") ) ); 
+	int n = length( object ) ;
+	_PROTECT( ans   = allocVector( STRSXP, n) ) ;
+	_PROTECT( names = allocVector( STRSXP, n) ) ;
 	
 	_PROTECT( o = object ) ; 
 	int i;
 	for( i=0; i<n; i++){
 		SET_STRING_ELT( ans  , i, STRING_ELT(CAR(o),0) ) ;
-		SET_STRING_ELT( names, i, STRING_ELT(Rf_getAttrib(CAR(o), Rf_install("names")),0) ) ;
+		SET_STRING_ELT( names, i, STRING_ELT(getAttrib(CAR(o), install("names")),0) ) ;
 		o = CDR(o ) ;
 	}
 	_UNPROTECT(1); // o
 	
 	SEXP entry ;
-	_PROTECT( entry = Rf_allocVector( STRSXP, 1 ) ) ;
+	_PROTECT( entry = allocVector( STRSXP, 1 ) ) ;
 	SET_STRING_ELT( entry  , 0, STRING_ELT(head, 1) ) ;
 	
 	SEXP h ;
-	_PROTECT( h = Rf_allocVector( STRSXP, 1 ) ) ;
+	_PROTECT( h = allocVector( STRSXP, 1 ) ) ;
 	SET_STRING_ELT( h  , 0, STRING_ELT(head, 0) ) ;
 	
-	Rf_setAttrib( ans, Rf_install( "entry"), entry ) ;
-	Rf_setAttrib( ans, Rf_install( "names"), names ) ;
-	Rf_setAttrib( ans, Rf_install( "key"), h ) ;
+	setAttrib( ans, install( "entry"), entry ) ;
+	setAttrib( ans, install( "names"), names ) ;
+	setAttrib( ans, install( "key"), h ) ;
 	
 	_UNPROTECT( 2 ) ; // entry, h, o
 	_UNPROTECT_PTR( object ); 
@@ -607,8 +558,8 @@ static SEXP xx_atobject_entry(SEXP object, YYLTYPE loc){
 	_UNPROTECT_PTR( res ) ;
 	
 	SEXP srcref ; 
-	_PROTECT( srcref = makeSrcRef( loc, srcfile ) );
-	Rf_setAttrib( ans, Rf_install( "srcref"), srcref );
+	_PROTECT( srcref = makeSrcRef( loc ) );
+	setAttrib( ans, install( "srcref"), srcref );
 	_UNPROTECT( 1) ; // srcref
 	
 	
@@ -682,7 +633,7 @@ static SEXP xx_token_entry( SEXP head, SEXP list){
 #endif
 	SEXP data ;
 	_PROTECT( data = CDR(list) )  ;
-	Rf_setAttrib( data, Rf_install("head"), head) ;
+	setAttrib( data, install("head"), head) ;
 	_UNPROTECT_PTR( list ) ;
 	_UNPROTECT_PTR( head ) ;
 	
@@ -703,7 +654,7 @@ static SEXP xx_token_entry_empty(SEXP head){
 #endif
 	SEXP ans; 
 	_PROTECT( ans = R_NilValue ) ;
-	Rf_setAttrib( ans, Rf_install("head"), head) ;
+	setAttrib( ans, install("head"), head) ;
 	_UNPROTECT_PTR( head ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_token_entry_empty>\n" ) ;
@@ -722,7 +673,7 @@ static SEXP xx_entry_head( SEXP kind, SEXP keyname ){
 	Rprintf( "<xx_entry_head>\n" ) ;
 #endif
 	SEXP ans ;
-	_PROTECT( ans = Rf_allocVector( STRSXP, 2) ) ;
+	_PROTECT( ans = allocVector( STRSXP, 2) ) ;
 	SET_STRING_ELT( ans, 0, STRING_ELT(keyname, 0) ) ;
 	SET_STRING_ELT( ans, 1, STRING_ELT(kind, 0) ) ;
 	_UNPROTECT_PTR(kind) ;
@@ -744,11 +695,11 @@ static SEXP xx_entry_head_nokey( SEXP kind){
 	Rprintf( "<xx_entry_head>\n" ) ;
 #endif
 	SEXP ans ;
-	_PROTECT( ans = Rf_allocVector( STRSXP, 2) ) ;
+	_PROTECT( ans = allocVector( STRSXP, 2) ) ;
 	SET_STRING_ELT( ans, 0, NA_STRING ) ;
 	SET_STRING_ELT( ans, 1, STRING_ELT(kind, 0) ) ;
 	_UNPROTECT_PTR(kind) ;
-	Rf_warning( "\n%s:%d:%d\n\tno key for the entry at line %d", 
+	warning( "\n%s:%d:%d\n\tno key for the entry at line %d", 
 			bibfile, line_number, col_number, currentKeyLine ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_entry_head>\n" ) ;
@@ -840,7 +791,7 @@ static SEXP xx_value( SEXP left , SEXP right ){
 		res[i] = right_[j] ;
 	}
 	
-	_PROTECT( ans = Rf_allocVector( STRSXP, 1) ) ;
+	_PROTECT( ans = allocVector( STRSXP, 1) ) ;
 	SET_STRING_ELT( ans, 0, STRING_ELT( mkString2( res, n_left + n_right ), 0) ) ;
 	_UNPROTECT_PTR( right ) ; 
 	_UNPROTECT_PTR( left ) ; 
@@ -902,7 +853,7 @@ static SEXP xx_assignement(SEXP lhs, SEXP value){
 #endif
 	SEXP ans;
 	_PROTECT( ans = value ) ;
-	Rf_setAttrib( ans, Rf_install("names"), lhs ) ;
+	setAttrib( ans, install("names"), lhs ) ;
 	_UNPROTECT_PTR( lhs ) ;
 	_UNPROTECT_PTR( value ) ;
 #ifdef XXDEBUG
@@ -973,7 +924,7 @@ static SEXP xx_simple_value( SEXP s ){
 			for( int i=1; i<n-1; i++){
 				noquote[i-1] = data[i] ;
 			}
-			_PROTECT( ans = Rf_allocVector( STRSXP, 1 ) ); 
+			_PROTECT( ans = allocVector( STRSXP, 1 ) ); 
 			SET_STRING_ELT( ans, 0, STRING_ELT(mkString2(noquote, n-2), 0) ) ;
 		} else{
 			_PROTECT( ans = s ) ;
@@ -1039,16 +990,16 @@ static void recordPreamble( SEXP object ){
 static SEXP xx_expand_abbrev( SEXP abbrev ){
 	SEXP ans, tmp ;
 	/* use the abbreviation name by default */
-	_PROTECT( ans = Rf_allocVector( STRSXP, 1 ) ) ;
+	_PROTECT( ans = allocVector( STRSXP, 1 ) ) ;
 	SET_STRING_ELT( ans, 0, STRING_ELT( abbrev, 0) ) ;
 	
 	_PROTECT( tmp = CDR(strings) ) ;
-	int n = Rf_length( tmp ) ;
+	int n = length( tmp ) ;
 	const char * target = CHAR( STRING_ELT( abbrev, 0) ) ;
 	SEXP item ;
 	for(int i=0; i<n; i++){
 		item = CAR(tmp);
-		if( streql( CHAR( STRING_ELT( Rf_getAttrib( item, Rf_install("names") ), 0 ) ) , target ) ){
+		if( streql( CHAR( STRING_ELT( getAttrib( item, install("names") ), 0 ) ) , target ) ){
 				SET_STRING_ELT( ans, 0, STRING_ELT( item, 0) ) ;
 				break ;
 		};
@@ -1094,8 +1045,8 @@ void setToken( const char* token, int len ){
 SEXP mkString2(const char *s, int len){
     SEXP t;
     cetype_t enc = CE_NATIVE;
-    _PROTECT(t = Rf_allocVector(STRSXP, 1));
-    SET_STRING_ELT(t, 0, Rf_mkCharLenCE(s, len, enc));
+    _PROTECT(t = allocVector(STRSXP, 1));
+    SET_STRING_ELT(t, 0, mkCharLenCE(s, len, enc));
     _UNPROTECT_PTR(t);
     return t;
 }
@@ -1158,15 +1109,15 @@ void junk7( SEXP s1, SEXP s2, SEXP s3, SEXP s4, SEXP s5, SEXP s6, SEXP s7){
 
 /*{{{ asVector */
 /**
- * pairlist( a = "aa", b = "bb") -> c( a = "aa", b = "bb" ) 
+ * list( a = "aa", b = "bb") -> c( a = "aa", b = "bb" ) 
  */
-static SEXP asVector( SEXP x, bool donames){
+static SEXP asVector( SEXP x, int donames){
 	SEXP ans, names = R_NilValue ; 
 	SEXP tmp ;
-	int n = Rf_length( CDR(x) ) ;
-	_PROTECT( ans   = Rf_allocVector( STRSXP, n) ) ;
+	int n = length( CDR(x) ) ;
+	_PROTECT( ans   = allocVector( STRSXP, n) ) ;
 	if( donames ){
-		_PROTECT( names = Rf_allocVector( STRSXP, n) ) ;
+		_PROTECT( names = allocVector( STRSXP, n) ) ;
 	}
 	SEXP item; 
 	_PROTECT( tmp = CDR( x ) );
@@ -1174,13 +1125,13 @@ static SEXP asVector( SEXP x, bool donames){
 		item = CAR(tmp); 
 		SET_STRING_ELT( ans  , i, STRING_ELT(item, 0) ) ;
 		if( donames){
-			SET_STRING_ELT( names, i, STRING_ELT( Rf_getAttrib(item, Rf_install("names") ), 0) ) ;
+			SET_STRING_ELT( names, i, STRING_ELT( getAttrib(item, install("names") ), 0) ) ;
 		}
 		tmp = CDR(tmp);
 	}
 	_UNPROTECT(1) ; // tmp
 	if( donames ){
-		Rf_setAttrib( ans, Rf_install("names"), names ) ;
+		setAttrib( ans, install("names"), names ) ;
 		_UNPROTECT_PTR(names) ;
 	}
 	_UNPROTECT_PTR(x) ; 
@@ -1189,6 +1140,24 @@ static SEXP asVector( SEXP x, bool donames){
 }
 /*}}}*/
 
+SEXP makeSrcRef(YYLTYPE loc){
+	/* the '+ 1' here adjust the columns and bytes to 
+look like the srcref class of R that does 
+not work with offsets 
+	*/
+	SEXP ans; 
+	_PROTECT( ans = allocVector( INTSXP, 6) ) ;
+	INTEGER(ans)[0] = last_at_location.first_line; 
+	INTEGER(ans)[1] = last_at_location.first_byte + 1; 
+	INTEGER(ans)[2] = loc.last_line; 
+	INTEGER(ans)[3] = loc.last_byte + 1; 
+	INTEGER(ans)[4] = last_at_location.first_column + 1; 
+	INTEGER(ans)[5] = loc.last_column + 1; 
+	_UNPROTECT( 1) ;
+	setAttrib( ans, install("srcfile"), srcfile ) ;
+	setAttrib( ans, install("class"), mkString2( "srcref", 6 ) ) ;
+	return ans ;
+}
 
 void dummy_bibparse(){
 	yywarning( "" ) ;
