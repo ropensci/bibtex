@@ -2118,6 +2118,11 @@ static token_t out_braced_string() {
 					Rprintf( "seeing bs and quote : %s\n", yytext ) ;
 #endif
 					yytext[n++] = '"' ;
+				} else if( c == '&' ) {
+#ifdef LEXER_DEBUG
+					Rprintf( "seeing bs and & : %s\n", yytext ) ;
+#endif
+					yytext[n++] = '&' ;
 				} else {
 					Rprintf( "seeing backslash and %s, not sure what to do with it\n", c ) ;
 				}
