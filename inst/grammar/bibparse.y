@@ -85,7 +85,7 @@ extern YYLTYPE yylloc ;
 		} \
 	} while (YYID (0))
 
-/* #define XXDEBUG 1 */
+// #define XXDEBUG 1
 
 /* functions used in the parsing process */
 SEXP makeSrcRef(YYLTYPE) ;
@@ -911,7 +911,7 @@ static SEXP xx_simple_value( SEXP s ){
 #ifdef XXDEBUG
 	Rprintf( "<xx_simple_value>\n" ) ;
 #endif
-	SEXP ans; 
+	SEXP ans;
 	/* all of what follows simply removes the " from the start and the end
 	  of the value, it might be better to do this in the lexer instead */
 	const char* data = CHAR( STRING_ELT( s, 0 ) ); 
@@ -935,7 +935,7 @@ static SEXP xx_simple_value( SEXP s ){
 	
 	_UNPROTECT_PTR( s ) ;
 #ifdef XXDEBUG
-	Rprintf( "<xx_simple_value>\n" ) ;
+	Rprintf( "</xx_simple_value>\n" ) ;
 #endif
 	return ans ;
 }

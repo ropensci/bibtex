@@ -174,7 +174,7 @@ extern FILE *yyin, *yyout;
      */
     #define  YY_LESS_LINENO(n) \
             do { \
-                int yyl;\
+                yy_size_t yyl;\
                 for ( yyl = n; yyl < yyleng; ++yyl )\
                     if ( yytext[yyl] == '\n' )\
                         --yylineno;\
@@ -881,7 +881,7 @@ find_rule: /* we branch to this label when backing up */
 
 		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
 			{
-			int yyl;
+			yy_size_t yyl;
 			for ( yyl = (yy_prev_more_offset); yyl < yyleng; ++yyl )
 				if ( yytext[yyl] == '\n' )
 					   
@@ -2097,12 +2097,16 @@ static token_t out_braced_literal(){
 
 /* convert braced to quoted string */
 static token_t out_braced_string() {
-    int blevel;
+#ifdef LEXER_DEBUG
+	Rprintf( "     <out_braced_string>\n" ) ;
+#endif
+	int blevel;
     int c;
     int n;
 
     for (blevel = 1, n = 1; (blevel > 0); ){
-		c = next_char();
+    	c = next_char();
+		
 		if (c == EOF){
 		    break;
 		}
@@ -2111,23 +2115,25 @@ static token_t out_braced_string() {
 		}
 		yytext[n++] = c;
 		switch (c){
-			case '\\':
-				c = next_char() ;
-				if( c == '"' ){
-#ifdef LEXER_DEBUG
-					Rprintf( "seeing bs and quote : %s\n", yytext ) ;
-#endif
-					yytext[n++] = '"' ;
-				} else if( c == '&' ) {
-#ifdef LEXER_DEBUG
-					Rprintf( "seeing bs and & : %s\n", yytext ) ;
-#endif
-					yytext[n++] = '&' ;
-				} else {
-					Rprintf( "seeing backslash and %s, not sure what to do with it\n", c ) ;
-				}
-				break ;
-			
+// 			case '\\':
+// 				{
+// 				c = next_char() ;
+// 				Rprintf( "\n[c = %c]", c) ;
+// 				if( c == '"' ){
+// #ifdef LEXER_DEBUG
+// 					Rprintf( "seeing bs and quote : %s\n", yytext ) ;
+// #endif
+// 					yytext[n++] = '"' ;
+// 				} else if( c == '&' ) {
+// #ifdef LEXER_DEBUG
+// 					Rprintf( "seeing bs and ampersand : %s\n", yytext ) ;
+// #endif
+// 					yytext[n++] = '&' ;
+// 				} else {
+// 					Rprintf( "seeing backslash and %c, not sure what to do with it\n", c ) ;
+// 				}
+// 				break ;
+// 			}
 			case '{':
 			    blevel++;
 			    break;
@@ -2137,24 +2143,26 @@ static token_t out_braced_string() {
 			    break;
     		
 			case '"':
-			    if (blevel == 1){
-					if (yytext[n-2] == '\\') {
-					    c = next_char();
-					    if (c == EOF){
-							break;
+				{
+					if (blevel == 1){
+						if (yytext[n-2] == '\\') {
+						    c = next_char();
+						    if (c == EOF){
+								break;
+							}
+						    yytext[n-2] = '{';
+						    yytext[n-1] = '\\';
+						    yytext[n++] = '"';
+						    yytext[n++] = c;
+						    yytext[n++] = '}';
+						} else {
+						    yytext[n-1] = '{';
+						    yytext[n++] = '"';
+						    yytext[n++] = '}';
 						}
-					    yytext[n-2] = '{';
-					    yytext[n-1] = '\\';
-					    yytext[n++] = '"';
-					    yytext[n++] = c;
-					    yytext[n++] = '}';
-					} else {
-					    yytext[n-1] = '{';
-					    yytext[n++] = '"';
-					    yytext[n++] = '}';
-					}
+			    	}
+			    	break;
 			    }
-			    break;
     		
 			default:
 			    break;

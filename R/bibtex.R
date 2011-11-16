@@ -1,22 +1,4 @@
 
-R2.12.0 <- getRversion() >= "2.12.0"
-
-.bibentry <- if(R2.12.0) {
-	get( "bibentry", asNamespace( "utils" ) )
-} else {
-	function( bibtype, textVersion = NULL , header = NULL, 
-		footer = NULL, key = NULL, ..., other = list(), 
-		mheader = NULL, mfooter = NULL ){
-		
-		y <- append( list(...), other )
-		structure( y,
-			entry = bibtype, 
-			key = key, 
-			class = "citation" 
-			)
-	}
-}
-
 arrange.single.author <- function(y) {
 	if( grepl( ",", y) ) {
 		y <- sub( "^([^,]+)[[:space:]]*,[[:space:]]*(.*?)$", "\\2 \\1", y , perl = TRUE )
@@ -53,7 +35,7 @@ make.bib.entry <- function( x ){
 		}
 		
 		tryCatch(  
-			.bibentry( bibtype = type, key = key, other = y ), 
+			bibentry( bibtype = type, key = key, other = y ), 
 		error = function(e){
 			message( sprintf( "ignoring entry '%s' (line %d) because :\n\t%s\n", 
 				key, 
@@ -63,21 +45,14 @@ make.bib.entry <- function( x ){
 		} )
 }
 
-make.citation.list <- if( R2.12.0 ){
-	function( x, header, footer) {
-		rval <- list()
-		for( i in seq_along(x) ){
-			if( !is.null(x[[i]] ) )
-				rval <- c( rval, x[[i]] )
-		}
-		class(rval) <- c( "citation", "bibentry" )
-		rval
-	}  
-} else {
-	function( x , header, footer ){
-		structure( x, class = "citationList", 
-			header = header, footer = footer )
+make.citation.list <- function( x, header, footer) {
+	rval <- list()
+	for( i in seq_along(x) ){
+		if( !is.null(x[[i]] ) )
+			rval <- c( rval, x[[i]] )
 	}
+	class(rval) <- c( "bibentry" )
+	rval
 }
 
 findBibFile <- function(package){
