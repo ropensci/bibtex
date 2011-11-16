@@ -63,7 +63,7 @@ static int		paren_level = 0;
 %a		3000
 %o		6000
 				/* abbrev, entry, key, field name syntax */
-N		[A-Za-z][-A-Za-z0-9:.+/']*
+N		[A-Za-z][-A-Za-z0-9:.+/'_]*
 					/* BibTeX entry opening delimiter */
 O		[({]
 					/* one white space character */
@@ -247,25 +247,24 @@ static token_t out_braced_string() {
 		}
 		yytext[n++] = c;
 		switch (c){
-// 			case '\\':
-// 				{
-// 				c = next_char() ;
-// 				Rprintf( "\n[c = %c]", c) ;
-// 				if( c == '"' ){
-// #ifdef LEXER_DEBUG
-// 					Rprintf( "seeing bs and quote : %s\n", yytext ) ;
-// #endif
-// 					yytext[n++] = '"' ;
-// 				} else if( c == '&' ) {
-// #ifdef LEXER_DEBUG
-// 					Rprintf( "seeing bs and ampersand : %s\n", yytext ) ;
-// #endif
-// 					yytext[n++] = '&' ;
-// 				} else {
-// 					Rprintf( "seeing backslash and %c, not sure what to do with it\n", c ) ;
-// 				}
-// 				break ;
-// 			}
+			case '\\':
+				{
+				c = next_char() ;
+				if( c == '"' ){
+#ifdef LEXER_DEBUG
+					Rprintf( "seeing bs and quote : %s\n", yytext ) ;
+#endif
+					yytext[n++] = '"' ;
+				} else if( c == '&' ) {
+#ifdef LEXER_DEBUG
+					Rprintf( "seeing bs and ampersand : %s\n", yytext ) ;
+#endif
+					yytext[n++] = '&' ;
+				} else {
+					Rprintf( "seeing backslash and %c, not sure what to do with it\n", c ) ;
+				}
+				break ;
+			}
 			case '{':
 			    blevel++;
 			    break;

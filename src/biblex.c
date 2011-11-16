@@ -421,7 +421,7 @@ static yyconst flex_int32_t yy_ec[256] =
        12,    1,    1,   13,   14,   15,   16,   17,   18,   19,
        20,   19,   21,   19,   19,   22,   23,   24,   25,   26,
        19,   27,   28,   29,   30,   19,   19,   19,   19,   19,
-        1,    1,    1,    1,    1,    1,   14,   15,   16,   17,
+        1,    1,    1,    1,    7,    1,   14,   15,   16,   17,
 
        18,   19,   20,   19,   21,   19,   19,   22,   23,   24,
        25,   26,   19,   27,   28,   29,   30,   19,   19,   19,
@@ -2115,25 +2115,24 @@ static token_t out_braced_string() {
 		}
 		yytext[n++] = c;
 		switch (c){
-// 			case '\\':
-// 				{
-// 				c = next_char() ;
-// 				Rprintf( "\n[c = %c]", c) ;
-// 				if( c == '"' ){
-// #ifdef LEXER_DEBUG
-// 					Rprintf( "seeing bs and quote : %s\n", yytext ) ;
-// #endif
-// 					yytext[n++] = '"' ;
-// 				} else if( c == '&' ) {
-// #ifdef LEXER_DEBUG
-// 					Rprintf( "seeing bs and ampersand : %s\n", yytext ) ;
-// #endif
-// 					yytext[n++] = '&' ;
-// 				} else {
-// 					Rprintf( "seeing backslash and %c, not sure what to do with it\n", c ) ;
-// 				}
-// 				break ;
-// 			}
+			case '\\':
+				{
+				c = next_char() ;
+				if( c == '"' ){
+#ifdef LEXER_DEBUG
+					Rprintf( "seeing bs and quote : %s\n", yytext ) ;
+#endif
+					yytext[n++] = '"' ;
+				} else if( c == '&' ) {
+#ifdef LEXER_DEBUG
+					Rprintf( "seeing bs and ampersand : %s\n", yytext ) ;
+#endif
+					yytext[n++] = '&' ;
+				} else {
+					Rprintf( "seeing backslash and %c, not sure what to do with it\n", c ) ;
+				}
+				break ;
+			}
 			case '{':
 			    blevel++;
 			    break;
