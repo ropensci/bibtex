@@ -63,7 +63,7 @@ static int		paren_level = 0;
 %a		3000
 %o		6000
 				/* abbrev, entry, key, field name syntax */
-N		[A-Za-z][-A-Za-z0-9:.+/'_]*
+N		[-A-Za-z0-9:.+/'_]*
 					/* BibTeX entry opening delimiter */
 O		[({]
 					/* one white space character */
@@ -261,7 +261,7 @@ static token_t out_braced_string() {
 #endif
 					yytext[n++] = '&' ;
 				} else {
-					Rprintf( "seeing backslash and %c, not sure what to do with it\n", c ) ;
+					yytext[n++] = c ;
 				}
 				break ;
 			}
