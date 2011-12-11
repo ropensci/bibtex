@@ -62,7 +62,7 @@ findBibFile <- function(package){
 	} else {
 		attempt <- system.file( "REFERENCES.bib", package = package )
 		if( !nzchar(attempt) ){
-			stop( sprintf( "no bibtex database for package `s`", package ) ) 
+			stop( sprintf( "no bibtex database for package `%s`", package ) ) 
 		}
 		attempt
 	}
@@ -92,4 +92,100 @@ read.bib <- function(
 	attr( out, "strings") <- at[["strings"]]
 	out
 }
+
+#' Generate a Bibtex File from Package Citations
+#'
+#' Generates a Bibtex file from a list of packages or all the installed packages.
+#' It is useful for adding relevant citations in Sweave documents.
+#'
+#' @param entry a \code{\link{bibentry}} object or a character vector of package
+#' names. If \code{NULL}, then the list of all installed packages is used.
+#' @param file output Bibtex file.
+#' @param verbose a logical to toggle verbosity.
+#'
+#' @return the list of Bibtex objects -- invisibly.
+#' @author
+#' Renaud Gaujoux, based on the function \code{Rpackages.bib}
+#' from Achim Zeileis (see \emph{References}).
+#'
+#' @references
+#' \emph{[R] Creating bibtex file of all installed packages?}
+#' Achim Zeileis. R-help mailing list.
+#' \url{https://stat.ethz.ch/pipermail/r-help/2009-December/222201.html}
+#'
+#' @export
+#' @examples
+#'
+#' write.bib(c('bibtex', 'utils', 'tools'), file='references')
+#' bibs <- read.bib('references.bib')
+#' write.bib(bibs, 'references2.bib')
+#' tools::md5sum(c('references.bib', 'references2.bib'))
+#' md5[1] == md5[2]
+#'
+write.bib <- function(entry, file="Rpackages.bib", append = FALSE, verbose = TRUE)
+{
+    bibs <-
+    if( is(entry, 'bibentry') )    entry
+    else if( is.character(entry) ){
+        if( length(entry) == 0 ){
+            if( verbose ) message("Empty package list: nothing to be done.")
+            return(invisible())
+        }
+        pkgs <- entry
+        if( is.null(pkgs) ) ## use all installed packages
+            pkgs <- unique(installed.packages()[,1])
+        bibs <- sapply(pkgs, function(x) try(citation(x)), simplify=FALSE)
+        #bibs <- lapply(pkgs, function(x) try(toBibtex(citation(x))))
+        n.installed <- length(bibs)
+
+        ## omit failed citation calls
+        ok <- sapply(bibs, is, 'bibentry')
+        pkgs <- pkgs[ok]
+        bibs <- bibs[ok]
+        n.converted <- sum(ok)
+
+        ## add bibtex keys to each entry
+        pkgs <- lapply(seq_along(pkgs), function(i) if(length(bibs[[i]]) > 1)
+                        paste(pkgs[i], 1:length(bibs[[i]]), sep = "") else pkgs[i])
+        pkgs <- do.call("c", pkgs)
+        bibs <- do.call("c", bibs)
+        # formatting function for bibtex keys:
+        # names with special characters must be enclosed in {}, others not.
+        as.bibkey <- function(x){
+            i <- grep("[.]", x)
+            if( length(i) > 0 )
+                x[i] <- paste("{", x[i], "}", sep='')
+            x
+        }
+        bibs <- mapply(function(b,k){ b$key <- k; b}, bibs, pkgs, SIMPLIFY=FALSE)
+        bibs <- do.call("c", bibs)
+
+        if(verbose) message("Converted ", n.converted, " of ", n.installed, " package citations to BibTeX")
+        bibs
+    } else
+        stop("Invalid argument `entry`: expected a bibentry object or a character vector of package names.")
+
+    if( length(bibs) == 0 ){
+        if( verbose ) message("Empty bibentry list: nothing to be done.")
+        return(invisible())
+    }
+
+    ## write everything to a single .bib file
+    if( is.null(file) )
+        file <- stdout()
+    else if( is.character(file) ){
+        if( !grepl("\\.bib$", file) ) # add .bib extension if necessary
+        file <- paste(file, '.bib', sep='')
+    }
+
+    fh <- file(file, open = if(append) "a+" else "w+" )
+    on.exit( if( isOpen(fh) ) close(fh) )
+    if( verbose ) message("Writting ", length(bibs) , " Bibtex entries ... ", appendLF=FALSE)
+    writeLines(toBibtex(bibs), fh)
+    #writeLines(do.call("c", lapply(bibs, as.character)), fh)
+    if(verbose) message("OK\nResults written to file '", file, "'")
+
+    ## return Bibtex items invisibly
+    invisible(bibs)
+} 
 

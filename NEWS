@@ -1,0 +1,11 @@
+0.3-1   2011-12-11
+
+   o    New function write.bib contributed by Renaud Gaujoux
+   
+   o    Missing % in error reporting in read.bib. Fix provided by Renaud Gaujoux. 
+
+0.3-0   2011-11-17
+
+   o    Fixed long standing bug re. backslahes. 
+
+
