@@ -31,8 +31,11 @@ make.bib.entry <- function( x ){
 		names(y) <- tolower( names(y) )
 		
 		if( "author" %in% names(y) ){
-			y[["author"]] <- arrange.authors( y[["author"]] )
+                    y[["author"]] <- arrange.authors( y[["author"]] )
 		}
+                if( "editor" %in% names(y) ){
+                    y[["editor"]] <- arrange.authors( y[["editor"]] )
+                }
 		
 		tryCatch(  
 			bibentry( bibtype = type, key = key, other = y ), 
@@ -62,7 +65,7 @@ findBibFile <- function(package){
 	} else {
 		attempt <- system.file( "REFERENCES.bib", package = package )
 		if( !nzchar(attempt) ){
-			stop( sprintf( "no bibtex database for package `%s`", package ) ) 
+			stop( sprintf( "no bibtex database for package '%s'", package ) ) 
 		}
 		attempt
 	}
@@ -77,7 +80,7 @@ read.bib <- function(
 	footer = "" ){
 	
 	if( !is.character( file ) ){
-		stop( "'read.bib' only supports reading from files, `file` should be a character vector of length one" )
+		stop( "'read.bib' only supports reading from files, 'file' should be a character vector of length one" )
 	}
 	srcfile <- switch( encoding, 
 		"unknown" = srcfile( file ), 
@@ -163,7 +166,7 @@ write.bib <- function(entry, file="Rpackages.bib", append = FALSE, verbose = TRU
         if(verbose) message("Converted ", n.converted, " of ", n.installed, " package citations to BibTeX")
         bibs
     } else
-        stop("Invalid argument `entry`: expected a bibentry object or a character vector of package names.")
+        stop("Invalid argument 'entry': expected a bibentry object or a character vector of package names.")
 
     if( length(bibs) == 0 ){
         if( verbose ) message("Empty bibentry list: nothing to be done.")
