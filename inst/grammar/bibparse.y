@@ -2,7 +2,7 @@
 /*{{{ first part of declarations */
 #include "bibtex.h" 
 char		yytext[BIBYYLMAX];
-#define YYDEBUG		1		/* need for -d option support */
+// #define YYDEBUG		1		/* need for -d option support */
 #define YYERROR_VERBOSE 1  /* better warning messages */
 #define YYSTYPE		SEXP    /* semantic values */
 #define streql(s, t)	(!strcmp((s), (t)))

@@ -1,3 +1,5 @@
+%option nodefault
+
 %{
 /* {{{ Declarations */
 #include "bibtex.h"
