@@ -53,7 +53,6 @@ typedef int flex_int32_t;
 typedef unsigned char flex_uint8_t; 
 typedef unsigned short int flex_uint16_t;
 typedef unsigned int flex_uint32_t;
-#endif /* ! C99 */
 
 /* Limits of integral types. */
 #ifndef INT8_MIN
@@ -83,6 +82,8 @@ typedef unsigned int flex_uint32_t;
 #ifndef UINT32_MAX
 #define UINT32_MAX             (4294967295U)
 #endif
+
+#endif /* ! C99 */
 
 #endif /* ! FLEXINT_H */
 
@@ -140,7 +141,15 @@ typedef unsigned int flex_uint32_t;
 
 /* Size of default input buffer. */
 #ifndef YY_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k.
+ * Moreover, YY_BUF_SIZE is 2*YY_READ_BUF_SIZE in the general case.
+ * Ditto for the __ia64__ case accordingly.
+ */
+#define YY_BUF_SIZE 32768
+#else
 #define YY_BUF_SIZE 16384
+#endif /* __ia64__ */
 #endif
 
 /* The state buf must be large enough to hold one state per character in the main buffer.
@@ -152,12 +161,7 @@ typedef unsigned int flex_uint32_t;
 typedef struct yy_buffer_state *YY_BUFFER_STATE;
 #endif
 
-#ifndef YY_TYPEDEF_YY_SIZE_T
-#define YY_TYPEDEF_YY_SIZE_T
-typedef size_t yy_size_t;
-#endif
-
-extern yy_size_t yyleng;
+extern int yyleng;
 
 extern FILE *yyin, *yyout;
 
@@ -174,7 +178,7 @@ extern FILE *yyin, *yyout;
      */
     #define  YY_LESS_LINENO(n) \
             do { \
-                yy_size_t yyl;\
+                int yyl;\
                 for ( yyl = n; yyl < yyleng; ++yyl )\
                     if ( yytext[yyl] == '\n' )\
                         --yylineno;\
@@ -196,6 +200,11 @@ extern FILE *yyin, *yyout;
 
 #define unput(c) yyunput( c, (yytext_ptr)  )
 
+#ifndef YY_TYPEDEF_YY_SIZE_T
+#define YY_TYPEDEF_YY_SIZE_T
+typedef size_t yy_size_t;
+#endif
+
 #ifndef YY_STRUCT_YY_BUFFER_STATE
 #define YY_STRUCT_YY_BUFFER_STATE
 struct yy_buffer_state
@@ -213,7 +222,7 @@ struct yy_buffer_state
 	/* Number of characters read into yy_ch_buf, not including EOB
 	 * characters.
 	 */
-	yy_size_t yy_n_chars;
+	int yy_n_chars;
 
 	/* Whether we "own" the buffer - i.e., we know we created it,
 	 * and can realloc() it to grow it, and should free() it to
@@ -283,8 +292,8 @@ static YY_BUFFER_STATE * yy_buffer_stack = 0; /**< Stack as an array. */
 
 /* yy_hold_char holds the character lost when yytext is formed. */
 static char yy_hold_char;
-static yy_size_t yy_n_chars;		/* number of characters read into yy_ch_buf */
-yy_size_t yyleng;
+static int yy_n_chars;		/* number of characters read into yy_ch_buf */
+int yyleng;
 
 /* Points to current character in buffer. */
 static char *yy_c_buf_p = (char *) 0;
@@ -312,7 +321,7 @@ static void yy_init_buffer (YY_BUFFER_STATE b,FILE *file  );
 
 YY_BUFFER_STATE yy_scan_buffer (char *base,yy_size_t size  );
 YY_BUFFER_STATE yy_scan_string (yyconst char *yy_str  );
-YY_BUFFER_STATE yy_scan_bytes (yyconst char *bytes,yy_size_t len  );
+YY_BUFFER_STATE yy_scan_bytes (yyconst char *bytes,int len  );
 
 void *yyalloc (yy_size_t  );
 void *yyrealloc (void *,yy_size_t  );
@@ -539,7 +548,7 @@ static int yy_prev_more_offset = 0;
 char yytext[YYLMAX];
 char *yytext_ptr;
 #line 1 "biblex.l"
-#line 2 "biblex.l"
+#line 4 "biblex.l"
 /* {{{ Declarations */
 #include "bibtex.h"
 #include "bibparse.h" 
@@ -606,7 +615,7 @@ static int		paren_level = 0;
 /* \013 == \v, but lex doesn't */
 /* recognize \v */
 /* optional `horizontal' space */
-#line 610 "<stdout>"
+#line 619 "<stdout>"
 
 #define INITIAL 0
 
@@ -645,7 +654,7 @@ FILE *yyget_out (void );
 
 void yyset_out  (FILE * out_str  );
 
-yy_size_t yyget_leng (void );
+int yyget_leng (void );
 
 char *yyget_text (void );
 
@@ -687,7 +696,12 @@ static int input (void );
 
 /* Amount of stuff to slurp up with each read. */
 #ifndef YY_READ_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k */
+#define YY_READ_BUF_SIZE 16384
+#else
 #define YY_READ_BUF_SIZE 8192
+#endif /* __ia64__ */
 #endif
 
 /* Copy whatever the last rule matched to the standard output. */
@@ -695,7 +709,7 @@ static int input (void );
 /* This used to be an fputs(), but since the string might contain NUL's,
  * we now use fwrite().
  */
-#define ECHO fwrite( yytext, yyleng, 1, yyout )
+#define ECHO do { if (fwrite( yytext, yyleng, 1, yyout )) {} } while (0)
 #endif
 
 /* Gets input and stuffs it into "buf".  number of characters read, or YY_NULL,
@@ -706,7 +720,7 @@ static int input (void );
 	if ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \
 		{ \
 		int c = '*'; \
-		yy_size_t n; \
+		size_t n; \
 		for ( n = 0; n < max_size && \
 			     (c = getc( yyin )) != EOF && c != '\n'; ++n ) \
 			buf[n] = (char) c; \
@@ -788,9 +802,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 76 "biblex.l"
+#line 78 "biblex.l"
 
-#line 794 "<stdout>"
+#line 808 "<stdout>"
 
 	if ( !(yy_init) )
 		{
@@ -860,7 +874,6 @@ yy_match:
 yy_find_action:
 		yy_current_state = *--(yy_state_ptr);
 		(yy_lp) = yy_accept[yy_current_state];
-goto find_rule; /* Shut up GCC warning -Wall */
 find_rule: /* we branch to this label when backing up */
 		for ( ; ; ) /* until we find what rule we matched */
 			{
@@ -881,7 +894,7 @@ find_rule: /* we branch to this label when backing up */
 
 		if ( yy_act != YY_END_OF_BUFFER && yy_rule_can_match_eol[yy_act] )
 			{
-			yy_size_t yyl;
+			int yyl;
 			for ( yyl = (yy_prev_more_offset); yyl < yyleng; ++yyl )
 				if ( yytext[yyl] == '\n' )
 					   
@@ -895,40 +908,40 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 77 "biblex.l"
+#line 79 "biblex.l"
 RETURN (out_token(TOKEN_AT));
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 79 "biblex.l"
+#line 81 "biblex.l"
 {RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_COMMENT) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 83 "biblex.l"
+#line 85 "biblex.l"
 {RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_INCLUDE) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 87 "biblex.l"
+#line 89 "biblex.l"
 { RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_PREAMBLE) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 91 "biblex.l"
+#line 93 "biblex.l"
 { RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_STRING) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 95 "biblex.l"
+#line 97 "biblex.l"
 {
 				    if (last_object == TOKEN_STRING)
 					RETURN(out_token(TOKEN_ABBREV));
@@ -947,77 +960,77 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 111 "biblex.l"
+#line 113 "biblex.l"
 RETURN (out_token(TOKEN_VALUE));
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 113 "biblex.l"
+#line 115 "biblex.l"
 RETURN (out_token(TOKEN_INLINE));
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 115 "biblex.l"
+#line 117 "biblex.l"
 RETURN (out_token(TOKEN_SHARP));
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 117 "biblex.l"
+#line 119 "biblex.l"
 RETURN (out_string());
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 119 "biblex.l"
+#line 121 "biblex.l"
 RETURN (out_lbrace());
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 121 "biblex.l"
+#line 123 "biblex.l"
 RETURN (out_rbrace());
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 123 "biblex.l"
+#line 125 "biblex.l"
 RETURN (out_lparen());
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 125 "biblex.l"
+#line 127 "biblex.l"
 RETURN (out_rparen());
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 127 "biblex.l"
+#line 129 "biblex.l"
 RETURN (out_token(TOKEN_EQUALS));
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 129 "biblex.l"
+#line 131 "biblex.l"
 RETURN (out_token(TOKEN_COMMA));
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 131 "biblex.l"
+#line 133 "biblex.l"
 RETURN (out_token(TOKEN_NEWLINE));
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 133 "biblex.l"
+#line 135 "biblex.l"
 RETURN (out_token(TOKEN_SPACE));
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 135 "biblex.l"
+#line 137 "biblex.l"
 RETURN (out_token(TOKEN_LITERAL));
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 137 "biblex.l"
-ECHO;
+#line 139 "biblex.l"
+YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 1021 "<stdout>"
+#line 1034 "<stdout>"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1203,7 +1216,7 @@ static int yy_get_next_buffer (void)
 
 	else
 		{
-			yy_size_t num_to_read =
+			int num_to_read =
 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
 
 		while ( num_to_read <= 0 )
@@ -1219,7 +1232,7 @@ static int yy_get_next_buffer (void)
 
 		/* Read in more data. */
 		YY_INPUT( (&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move]),
-			(yy_n_chars), num_to_read );
+			(yy_n_chars), (size_t) num_to_read );
 
 		YY_CURRENT_BUFFER_LVALUE->yy_n_chars = (yy_n_chars);
 		}
@@ -1324,7 +1337,7 @@ static int yy_get_next_buffer (void)
 	if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
 		{ /* need to shift things up to make room */
 		/* +2 for EOB chars. */
-		register yy_size_t number_to_move = (yy_n_chars) + 2;
+		register int number_to_move = (yy_n_chars) + 2;
 		register char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
 					YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
 		register char *source =
@@ -1377,7 +1390,7 @@ static int yy_get_next_buffer (void)
 
 		else
 			{ /* need more input */
-			yy_size_t offset = (yy_c_buf_p) - (yytext_ptr);
+			int offset = (yy_c_buf_p) - (yytext_ptr);
 			++(yy_c_buf_p);
 
 			switch ( yy_get_next_buffer(  ) )
@@ -1401,7 +1414,7 @@ static int yy_get_next_buffer (void)
 				case EOB_ACT_END_OF_FILE:
 					{
 					if ( yywrap( ) )
-						return 0;
+						return EOF;
 
 					if ( ! (yy_did_buffer_switch_on_eof) )
 						YY_NEW_FILE;
@@ -1658,7 +1671,7 @@ void yypop_buffer_state (void)
  */
 static void yyensure_buffer_stack (void)
 {
-	yy_size_t num_to_alloc;
+	int num_to_alloc;
     
 	if (!(yy_buffer_stack)) {
 
@@ -1750,16 +1763,17 @@ YY_BUFFER_STATE yy_scan_string (yyconst char * yystr )
 
 /** Setup the input buffer state to scan the given bytes. The next call to yylex() will
  * scan from a @e copy of @a bytes.
- * @param bytes the byte buffer to scan
- * @param len the number of bytes in the buffer pointed to by @a bytes.
+ * @param yybytes the byte buffer to scan
+ * @param _yybytes_len the number of bytes in the buffer pointed to by @a bytes.
  * 
  * @return the newly allocated buffer state object.
  */
-YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes_len )
+YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, int  _yybytes_len )
 {
 	YY_BUFFER_STATE b;
 	char *buf;
-	yy_size_t n, i;
+	yy_size_t n;
+	int i;
     
 	/* Get memory for full buffer, including space for trailing EOB's. */
 	n = _yybytes_len + 2;
@@ -1841,7 +1855,7 @@ FILE *yyget_out  (void)
 /** Get the length of the current token.
  * 
  */
-yy_size_t yyget_leng  (void)
+int yyget_leng  (void)
 {
         return yyleng;
 }
@@ -2000,7 +2014,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 137 "biblex.l"
+#line 139 "biblex.l"
 
 
 /*}}} */
