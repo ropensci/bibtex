@@ -90,6 +90,8 @@ typedef struct yyltype{
 # define YYLTYPE yyltype
 YYLTYPE last_at_location ;
 
+#define YY_FATAL_ERROR(msg) \
+    Rf_error("lex fatal error:\n%s\n", msg);
 
 #endif
 
