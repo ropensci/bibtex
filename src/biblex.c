@@ -553,6 +553,11 @@ char *yytext_ptr;
 #include "bibtex.h"
 #include "bibparse.h" 
 
+#ifdef stdout 
+#  undef stdout
+#endif
+#define stdout 0
+
 // enable some debugging with this:
 // #define LEXER_DEBUG 1
 
@@ -615,7 +620,7 @@ static int		paren_level = 0;
 /* \013 == \v, but lex doesn't */
 /* recognize \v */
 /* optional `horizontal' space */
-#line 619 "<stdout>"
+#line 624 "<stdout>"
 
 #define INITIAL 0
 
@@ -802,9 +807,9 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 78 "biblex.l"
+#line 83 "biblex.l"
 
-#line 808 "<stdout>"
+#line 813 "<stdout>"
 
 	if ( !(yy_init) )
 		{
@@ -908,40 +913,40 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 79 "biblex.l"
+#line 84 "biblex.l"
 RETURN (out_token(TOKEN_AT));
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 81 "biblex.l"
+#line 86 "biblex.l"
 {RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_COMMENT) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 85 "biblex.l"
+#line 90 "biblex.l"
 {RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_INCLUDE) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 89 "biblex.l"
+#line 94 "biblex.l"
 { RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_PREAMBLE) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 93 "biblex.l"
+#line 98 "biblex.l"
 { RETURN ((last_token == TOKEN_AT) ?
 					out_token(TOKEN_STRING) :
 					out_token(TOKEN_ABBREV)); }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 97 "biblex.l"
+#line 102 "biblex.l"
 {
 				    if (last_object == TOKEN_STRING)
 					RETURN(out_token(TOKEN_ABBREV));
@@ -960,77 +965,77 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 113 "biblex.l"
+#line 118 "biblex.l"
 RETURN (out_token(TOKEN_VALUE));
 	YY_BREAK
 case 8:
 /* rule 8 can match eol */
 YY_RULE_SETUP
-#line 115 "biblex.l"
+#line 120 "biblex.l"
 RETURN (out_token(TOKEN_INLINE));
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 117 "biblex.l"
+#line 122 "biblex.l"
 RETURN (out_token(TOKEN_SHARP));
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 119 "biblex.l"
+#line 124 "biblex.l"
 RETURN (out_string());
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 121 "biblex.l"
+#line 126 "biblex.l"
 RETURN (out_lbrace());
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 123 "biblex.l"
+#line 128 "biblex.l"
 RETURN (out_rbrace());
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 125 "biblex.l"
+#line 130 "biblex.l"
 RETURN (out_lparen());
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 127 "biblex.l"
+#line 132 "biblex.l"
 RETURN (out_rparen());
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 129 "biblex.l"
+#line 134 "biblex.l"
 RETURN (out_token(TOKEN_EQUALS));
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 131 "biblex.l"
+#line 136 "biblex.l"
 RETURN (out_token(TOKEN_COMMA));
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 133 "biblex.l"
+#line 138 "biblex.l"
 RETURN (out_token(TOKEN_NEWLINE));
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 135 "biblex.l"
+#line 140 "biblex.l"
 RETURN (out_token(TOKEN_SPACE));
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 137 "biblex.l"
+#line 142 "biblex.l"
 RETURN (out_token(TOKEN_LITERAL));
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 139 "biblex.l"
+#line 144 "biblex.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 1034 "<stdout>"
+#line 1039 "<stdout>"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -2014,7 +2019,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 139 "biblex.l"
+#line 144 "biblex.l"
 
 
 /*}}} */

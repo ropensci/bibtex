@@ -3949,7 +3949,9 @@ SEXP attribute_hidden do_read_bib(SEXP args){
 		error( "unable to open file to read", 0);
 	}
 	yyset_in( fp ) ; /* so that the lexer reads from the file */
+#if YYDEBUG
 	yydebug = 0 ;    /* setting this to 1 gives a lot of messages */
+#endif
 	popping = 0; 
 	line_number = 1;
 	col_number = 0; 
