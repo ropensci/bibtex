@@ -5,6 +5,11 @@
 #include "bibtex.h"
 #include "bibparse.h" 
 
+#ifdef stdout 
+#  undef stdout
+#endif
+#define stdout 0
+
 // enable some debugging with this:
 // #define LEXER_DEBUG 1
 
