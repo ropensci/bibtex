@@ -366,7 +366,7 @@ static void yywarning(const char *s){
 /**
  * .Internal( "do_read_bib", file = file )
  */
-SEXP attribute_hidden do_read_bib(SEXP args){
+SEXP do_read_bib(SEXP args) {
 	SEXP filename = CADR(args) ;
 	const char* fname = CHAR(STRING_ELT(filename,0) ) ;
 	bibfile = (char*)fname ;
