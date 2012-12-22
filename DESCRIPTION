@@ -1,13 +1,13 @@
 Package: bibtex
-Type: Package
-Title: bibtex parser
 Version: 0.3-4
-Date: 2012-11-28
-Author: Romain Francois <romain@r-enthusiasts.com>
-Maintainer: Kurt Hornik <Kurt.Hornik@R-project.org>
+Title: bibtex parser
+Authors@R: c(person("Romain", "Francois", role = "aut",
+                    email = "romain@r-enthusiasts.com"),
+             person("Kurt", "Hornik", role = c("ctb", "cre"),
+                    email = "Kurt.Hornik@R-project.org"))
 Description: Utility to parse a bibtex file
+Depends: R (>= 2.13.0)
 License: GPL (>= 2)
 LazyLoad: yes
 BugReports: http://r-forge.r-project.org/tracker/?atid=1587&group_id=384&func=browse
 URL: http://r-forge.r-project.org/projects/highlight/, http://romainfrancois.blog.free.fr/index.php?category/R-package/bibtex
-Depends: R (>= 2.13.0)
