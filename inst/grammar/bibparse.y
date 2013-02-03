@@ -414,6 +414,7 @@ SEXP do_read_bib(SEXP args) {
 		INTEGER(ans)[0] = 0; 
 	} else {
 		PROTECT( ans = CDR(entries) )  ;
+		free(currentKey) ;
 	}
 	SEXP obj ;
 	_PROTECT(obj = asVector( comments, 0 ) ); setAttrib( ans , install("comment") , obj ); _UNPROTECT_PTR( obj ) ;
@@ -422,7 +423,6 @@ SEXP do_read_bib(SEXP args) {
 	_PROTECT(obj = asVector( preamble, 0 ) ); setAttrib( ans , install("preamble"), obj ); _UNPROTECT_PTR( obj ) ;
 	_UNPROTECT_PTR( entries ) ;
 	_UNPROTECT_PTR( ans );
-	free(currentKey) ;
 	return ans ;
 }
 /*}}}*/

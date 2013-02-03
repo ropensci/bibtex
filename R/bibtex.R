@@ -96,8 +96,11 @@ function(file = findBibFile(package) ,
                       srcfile( file, encoding = encoding ) )
     out <- .External( "do_read_bib", file = file, 
                      encoding = encoding, srcfile = srcfile )
-    at  <- attributes(out) 
-    out <- lapply( out, make.bib.entry )
+    at  <- attributes(out)
+    if((typeof(out) != "integer") || (getRversion() < "3.0.0"))
+        out <- lapply( out, make.bib.entry )
+    else
+        out <- list()
     preamble <- at[["preamble"]]
 	
     out <- make.citation.list( out, header, footer )
