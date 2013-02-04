@@ -38,7 +38,7 @@ const char* error_msg_popping = "Error: popping";
 /** 
  * The keyname of the current entry (used in warning messages)
  */
-char * currentKey; 
+static char* currentKey = 0 ; 
 
 /**
  * the line number where the current entry starts (used in warning messages)
@@ -409,12 +409,10 @@ SEXP do_read_bib(SEXP args) {
 	
 	/* structure the data */
 	SEXP ans; 
-	if( length( CDR(entries) ) == 0 ){
-		PROTECT( ans = allocVector( INTSXP, 1)  ) ;
-		INTEGER(ans)[0] = 0; 
+	if( isNull( CDR(entries) ) ){
+		PROTECT( ans = allocVector( VECSXP, 0)  ) ;
 	} else {
 		PROTECT( ans = CDR(entries) )  ;
-		free(currentKey) ;
 	}
 	SEXP obj ;
 	_PROTECT(obj = asVector( comments, 0 ) ); setAttrib( ans , install("comment") , obj ); _UNPROTECT_PTR( obj ) ;
@@ -686,7 +684,7 @@ static SEXP xx_entry_head( SEXP kind, SEXP keyname ){
 #endif
 	return ans ;
 }  
-
+   
 /** 
  * entry head
  *
@@ -710,6 +708,19 @@ static SEXP xx_entry_head_nokey( SEXP kind){
 }  
 
 /** 
+ * sets the currentKey as the first element of the 'key' parameter
+ * and returns currentKey
+ */
+char* set_current_key( SEXP key ){
+	// free currentKey if needed 
+	if( currentKey ) free( currentKey ) ;
+	
+	// grab the first element of key
+	currentKey = ( length( key ) > 0 ) ? strdup( CHAR( STRING_ELT(key,0) ) ) : 0 ;
+	return currentKey ;
+}
+
+/** 
  * name of an entry
  *
  * @param key keyname
@@ -718,7 +729,7 @@ static SEXP xx_keyname_key( SEXP key){
 #ifdef XXDEBUG
 	Rprintf( "<xx_keyname_key/>\n" ) ;
 #endif
-	currentKey = strdup( CHAR( STRING_ELT(key,0) ) ) ;
+	currentKey = set_current_key( key ) ;
 	currentKeyLine = line_number ;
 	return key; 
 }
@@ -728,7 +739,7 @@ static SEXP xx_keyname_key( SEXP key){
  */ 
 static SEXP xx_keyname_abbrev( SEXP abbrev){
 	SEXP res =  xx_expand_abbrev( abbrev ) ;
-	currentKey = strdup( CHAR( STRING_ELT(abbrev,0) ) ) ; 
+	currentKey = set_current_key( abbrev ) ; 
 	currentKeyLine = line_number ;
 	return res; 
 }
