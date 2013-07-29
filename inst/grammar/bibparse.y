@@ -421,6 +421,9 @@ SEXP do_read_bib(SEXP args) {
 	_PROTECT(obj = asVector( preamble, 0 ) ); setAttrib( ans , install("preamble"), obj ); _UNPROTECT_PTR( obj ) ;
 	_UNPROTECT_PTR( entries ) ;
 	_UNPROTECT_PTR( ans );
+
+	fclose(fp);
+	
 	return ans ;
 }
 /*}}}*/
