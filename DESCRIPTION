@@ -1,9 +1,9 @@
 Package: bibtex
 Version: 0.3-6
 Title: bibtex parser
-Authors@R: c(person("Romain", "Francois", role = "aut",
+Authors@R: c(person("Romain", "Francois", role = c("aut", "cre"),
                     email = "romain@r-enthusiasts.com"),
-             person("Kurt", "Hornik", role = c("ctb", "cre"),
+             person("Kurt", "Hornik", role = "ctb",
                     email = "Kurt.Hornik@R-project.org"))
 Description: Utility to parse a bibtex file
 Depends: R (>= 2.13.0)
