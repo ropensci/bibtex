@@ -6,8 +6,8 @@ Authors@R: c(person("Romain", "Francois", role = c("aut", "cre"),
              person("Kurt", "Hornik", role = "ctb",
                     email = "Kurt.Hornik@R-project.org"))
 Description: Utility to parse a bibtex file
-Depends: R (>= 2.13.0)
+Depends: R (>= 3.0.2)
 License: GPL (>= 2)
 LazyLoad: yes
-BugReports: http://r-forge.r-project.org/tracker/?atid=1587&group_id=384&func=browse
-URL: http://r-forge.r-project.org/projects/highlight/, http://romainfrancois.blog.free.fr/index.php?category/R-package/bibtex
+BugReports: https://github.com/romainfrancois/bibtex/issues
+URL: https://github.com/romainfrancois/bibtex
