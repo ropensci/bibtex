@@ -2,8 +2,8 @@
 
 %{
 /* {{{ Declarations */
-#include "bibtex.h"
-#include "bibparse.h" 
+#include <bibtex.h>
+#include <bibparse.h> 
 
 #ifdef stdout 
 #  undef stdout
