@@ -96,7 +96,7 @@ function(file = findBibFile(package) ,
                       srcfile( file, encoding = encoding ) )
     out <- .External( "do_read_bib", file = file, 
                      encoding = encoding, srcfile = srcfile )
-	keys = lapply(out, function(x) attr(x, 'key'))
+    keys <- lapply(out, function(x) attr(x, 'key'))
     at  <- attributes(out)
     if((typeof(out) != "integer") || (getRversion() < "3.0.0"))
         out <- lapply( out, make.bib.entry )
@@ -106,7 +106,7 @@ function(file = findBibFile(package) ,
 	
     out <- make.citation.list( out, header, footer )
     attr( out, "strings") <- at[["strings"]]
-	names(out) <- keys
+    names(out) <- keys
     out
 }
 
