@@ -1,4 +1,4 @@
-#include "bibtex.h"
+#include <bibtex.h>
 
 /* Stretchy List Structures : Lists are created and grown using a special */
 /* dotted pair.  The CAR of the list points to the last cons-cell in the */
