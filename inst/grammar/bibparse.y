@@ -937,12 +937,16 @@ static SEXP xx_simple_value( SEXP s ){
 		char first = data[0]; 
 		char last = data[n-1];
 		if( first == '"' && last == '"' ){
-			char noquote[n-2] ;
-			for( int i=1; i<n-1; i++){
-				noquote[i-1] = data[i] ;
-			}
 			_PROTECT( ans = allocVector( STRSXP, 1 ) ); 
-			SET_STRING_ELT( ans, 0, STRING_ELT(mkString2(noquote, n-2), 0) ) ;
+			if( n == 2 ){
+				SET_STRING_ELT( ans, 0, mkChar("") ) ;	
+			} else {
+				char noquote[n-2] ;
+				for( int i=1; i<n-1; i++){
+					noquote[i-1] = data[i] ;
+				}
+				SET_STRING_ELT( ans, 0, mkCharLen(noquote, n-2) ) ;
+			}
 		} else{
 			_PROTECT( ans = s ) ;
 		}
