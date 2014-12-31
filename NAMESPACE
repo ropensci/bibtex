@@ -1,7 +1,5 @@
 useDynLib( bibtex )
 
-importFrom( Rcpp, sourceCpp )
-
 importFrom( utils, bibentry )
 importFrom( utils, as.personList )
 importFrom( utils, as.person )

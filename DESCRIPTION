@@ -7,8 +7,6 @@ Authors@R: c(person("Romain", "Francois", role = c("aut", "cre"),
                     email = "Kurt.Hornik@R-project.org"))
 Description: Utility to parse a bibtex file
 Depends: R (>= 3.0.2)
-LinkingTo: Rcpp
-Imports: Rcpp (>= 0.10.6.2)
 License: GPL (>= 2)
 LazyLoad: yes
 BugReports: https://github.com/romainfrancois/bibtex/issues

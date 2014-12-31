@@ -361,7 +361,7 @@ extern char yytext[];
 static yy_state_type yy_get_previous_state (void );
 static yy_state_type yy_try_NUL_trans (yy_state_type current_state  );
 static int yy_get_next_buffer (void );
-static void yy_fatal_error (yyconst char msg[]  );
+// static void yy_fatal_error (yyconst char msg[]  );
 
 /* Done after the current pattern has been matched and before the
  * corresponding action - sets up yytext.
@@ -1794,11 +1794,11 @@ YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes_len 
 #define YY_EXIT_FAILURE 2
 #endif
 
-static void yy_fatal_error (yyconst char* msg )
-{
-    	(void) fprintf( stderr, "%s\n", msg );
-	exit( YY_EXIT_FAILURE );
-}
+//  static void yy_fatal_error (yyconst char* msg )
+//  {
+//      	(void) fprintf( stderr, "%s\n", msg );
+//  	exit( YY_EXIT_FAILURE );
+//  }
 
 /* Redefine yyless() so it works in section 3 code. */
 
