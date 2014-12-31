@@ -4,7 +4,10 @@ Title: bibtex parser
 Authors@R: c(person("Romain", "Francois", role = c("aut", "cre"),
                     email = "romain@r-enthusiasts.com"),
              person("Kurt", "Hornik", role = "ctb",
-                    email = "Kurt.Hornik@R-project.org"))
+                    email = "Kurt.Hornik@R-project.org"), 
+             person("Michael", "Koohafkan", role = "ctb",
+                    email = "michael.koohafkan@gmail.com")
+           )
 Description: Utility to parse a bibtex file
 Depends: R (>= 3.0.2)
 License: GPL (>= 2)
