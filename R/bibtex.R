@@ -177,6 +177,7 @@ function(file = findBibFile(package) ,
 #' names. If \code{NULL}, then the list of all installed packages is used.
 #' @param file output Bibtex file.
 #' @param verbose a logical to toggle verbosity.
+#' @param append logical. If \code{TRUE} content is appended to the file. 
 #'
 #' @return the list of Bibtex objects -- invisibly.
 #' @author

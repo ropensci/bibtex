@@ -11,6 +11,8 @@ names. If \code{NULL}, then the list of all installed packages is used.}
 
 \item{file}{output Bibtex file.}
 
+\item{append}{logical. If \code{TRUE} content is appended to the file.}
+
 \item{verbose}{a logical to toggle verbosity.}
 }
 \value{
