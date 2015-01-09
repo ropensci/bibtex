@@ -3,3 +3,4 @@
 export(do_read_bib)
 export(read.bib)
 export(write.bib)
+useDynLib(bibtex)

@@ -1,3 +1,6 @@
+#' @useDynLib bibtex
+NULL
+
 arrange.single.author <-
 function(y)
 {
