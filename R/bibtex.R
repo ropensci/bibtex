@@ -80,7 +80,66 @@ function(package) {
     }
 }
 
+#' convenience wrapper around .External call
+#' 
+#' This is a convenience function for packages that do need to call the internal
+#' functionality of \code{\link{read.bib}} but does different processing. This is 
+#' a simple wrapper around the \code{.External} code used by \code{\link{read.bib}}
+#' 
+#' The parser is greatly inspired from the \samp{bibparse} library.
+#' 
+#' @seealso \code{\link[utils]{bibentry}}
+#' 
+#' @param file file name
+#' @param encoding encoding
+#' @param srcfile output of \code{\link{srcfile}}
+#' @export
+do_read_bib <- function(file, encoding = "unknown", srcfile){
+  .External( "do_read_bib", file=file, encoding=encoding, srcfile=srcfile, PACKAGE = "bibtex" )  
+}
 
+#' bibtex parser
+#' 
+#' Parser for bibliography databases written in the bib format.
+#' 
+#' @param file bib file to parse.  By default, the file
+#'         \file{REFERENCES.bib} in the root directory of the package given by
+#'         the \code{package} argument is used. 
+#' @param package package from which we want to read the bibliography.
+#'         Only used if \code{file} is unspecified. 
+#'         Core R packages (base, datasets, graphics, grDevices, methods,
+#'         stats, stats4, tools and utils) are treated specially: this package
+#'         contains bibtex entries for these packages.
+#' @param encoding encoding
+#' @param header header of the citation list.
+#'        By default this is made from the \samp{Preamble} entries found in
+#'        the bib file.
+#' @param footer footer of the citation list
+#'
+#' @return An object of class \code{"bibentry"}, similar to those obtained by the
+#'        \code{\link[utils]{bibentry}} function.
+#' 
+#' @references Nelson H. F. Beebe. bibparse 1.04. 1999. \url{http://www.math.utah.edu/~beebe}
+#' 
+#' @examples
+#' ## this package has a REFERENCES.bib file
+#' bib <- read.bib( package = "bibtex" )
+#' 
+#' ## bibtex collects bibtex entries for R base packages
+#' base.bib <- read.bib( package = "base" )
+#' 
+#' \dontshow{
+#' bib <- read.bib( package = "base" )
+#' bib <- read.bib( package = "datasets" )
+#' bib <- read.bib( package = "graphics" )
+#' bib <- read.bib( package = "grDevices" )
+#' bib <- read.bib( package = "methods" )
+#' bib <- read.bib( package = "stats" )
+#' bib <- read.bib( package = "stats4" )
+#' bib <- read.bib( package = "tools" )
+#' bib <- read.bib( package = "utils" )
+#' } 
+#' @export
 read.bib <-
 function(file = findBibFile(package) , 
          package = "bibtex", 
@@ -94,8 +153,7 @@ function(file = findBibFile(package) ,
     srcfile <- switch( encoding, 
                       "unknown" = srcfile( file ), 
                       srcfile( file, encoding = encoding ) )
-    out <- .External( "do_read_bib", file = file, 
-                     encoding = encoding, srcfile = srcfile )
+    out <- do_read_bib(file, encoding, srcfile )
     keys <- lapply(out, function(x) attr(x, 'key'))
     at  <- attributes(out)
     if((typeof(out) != "integer") || (getRversion() < "3.0.0"))
