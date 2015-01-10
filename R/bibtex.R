@@ -9,14 +9,14 @@ function(y)
     if( grepl( rx, y ) ) {
         person( sub( rx, "\\1", y ) )
     } else if( grepl( rx2, y ) ) {
-        person( 
-        sub( rx2, "\\1", y ), 
+        person(
+        sub( rx2, "\\1", y ),
         sub( rx2, "\\2", y )
         )
     } else {
         as.person( y )
     }
-} 
+}
 
 arrange.authors <-
 function( x )
@@ -31,23 +31,23 @@ function( x )
 {
     type <- attr( x, "entry" )
     key  <- attr( x, "key" )
-		
+
     y <- as.list( x )
     names(y) <- tolower( names(y) )
-		
+
     if( "author" %in% names(y) ){
         y[["author"]] <- arrange.authors( y[["author"]] )
     }
     if( "editor" %in% names(y) ){
         y[["editor"]] <- arrange.authors( y[["editor"]] )
     }
-		
-    tryCatch(  
-    bibentry( bibtype = type, key = key, other = y ), 
+
+    tryCatch(
+    bibentry( bibtype = type, key = key, other = y ),
     error = function(e){
-        message( sprintf( "ignoring entry '%s' (line %d) because :\n\t%s\n", 
-                         key, 
-                         attr(x, "srcref")[1], 
+        message( sprintf( "ignoring entry '%s' (line %d) because :\n\t%s\n",
+                         key,
+                         attr(x, "srcref")[1],
                          conditionMessage( e ) ) )
         NULL
     } )
@@ -67,35 +67,43 @@ function( x, header, footer)
 
 findBibFile <-
 function(package) {
-    if( package %in% c("base", "datasets", "graphics", "grDevices", 
+    if( package %in% c("base", "datasets", "graphics", "grDevices",
                        "methods", "stats", "stats4", "tools", "utils" )
        ) {
         system.file( "bib", sprintf( "%s.bib", package ), package = "bibtex" )
     } else {
         attempt <- system.file( "REFERENCES.bib", package = package )
         if( !nzchar(attempt) ){
-            stop( sprintf( "no bibtex database for package '%s'", package ) ) 
+            stop( sprintf( "no bibtex database for package '%s'", package ) )
         }
         attempt
     }
 }
 
-
 read.bib <-
-function(file = findBibFile(package) , 
-         package = "bibtex", 
+function(file = findBibFile(package) ,
+         package = "bibtex",
          encoding = "unknown",
-         header = if( length(preamble) ) paste( preamble, sep = "\n" ) else "", 
+         header = if( length(preamble) ) paste( preamble, sep = "\n" ) else "",
          footer = "" )
 {
     if( !is.character( file ) ){
         stop( "'read.bib' only supports reading from files, 'file' should be a character vector of length one" )
     }
-    srcfile <- switch( encoding, 
-                      "unknown" = srcfile( file ), 
+    srcfile <- switch( encoding,
+                      "unknown" = srcfile( file ),
                       srcfile( file, encoding = encoding ) )
-    out <- .External( "do_read_bib", file = file, 
-                     encoding = encoding, srcfile = srcfile )
+    out <- withCallingHandlers(tryCatch(.External( "do_read_bib", file = file,
+                     encoding = encoding, srcfile = srcfile ),
+                       error = function(e){
+                           if(!any(grepl("unprotect_ptr", e)))
+                              stop(geterrmessage(), call. = FALSE)
+                           else
+                              stop("Invalid bib file", call. = FALSE)
+                       }), warning = function(w){
+                             if( any( grepl( "syntax error, unexpected [$]end", w)))
+                               invokeRestart("muffleWarning")
+                           })
     keys <- lapply(out, function(x) attr(x, 'key'))
     at  <- attributes(out)
     if((typeof(out) != "integer") || (getRversion() < "3.0.0"))
@@ -103,7 +111,7 @@ function(file = findBibFile(package) ,
     else
         out <- list()
     preamble <- at[["preamble"]]
-	
+
     out <- make.citation.list( out, header, footer )
     attr( out, "strings") <- at[["strings"]]
     names(out) <- keys
@@ -205,5 +213,4 @@ function(entry, file="Rpackages.bib", append = FALSE, verbose = TRUE)
 
     ## return Bibtex items invisibly
     invisible(bibs)
-} 
-
+}
