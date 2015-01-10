@@ -11,6 +11,8 @@ Authors@R: c(person("Romain", "Francois", role = c("aut", "cre"),
 Description: Utility to parse a bibtex file
 Depends:
     R (>= 3.0.2)
+Suggests:
+    testthat
 License: GPL (>= 2)
 LazyLoad: yes
 BugReports: https://github.com/romainfrancois/bibtex/issues
