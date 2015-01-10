@@ -10,6 +10,8 @@ Authors@R: c(
 Description: Utility to parse a bibtex file
 Depends:
     R (>= 3.0.2)
+Imports:
+    stringr
 Suggests:
     testthat
 License: GPL (>= 2)
