@@ -6,9 +6,6 @@ before_install:
   - ./travis-tool.sh bootstrap
   
 install:
-  - pwd
-  - ls
-  - cd bibtex
   - cp inst/grammar/bibparse.y bibtex/src/
   - cp inst/grammar/biblex.l bibtex/src/
   - cd src
