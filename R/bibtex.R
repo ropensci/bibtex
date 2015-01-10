@@ -29,10 +29,11 @@ function( x )
     as.personList( authors )
 }
 
+#' @importFrom stringr str_trim
 UnlistSplitClean <- function(s)
   unlist(strsplit(gsub("[{}]", "", str_trim(s)), " "))
 
-
+#' @importFrom tools deparseLatex latexToUtf8 parseLatex
 cleanupLatex <- function (x){
   if (!length(x))
     return(x)
@@ -44,11 +45,11 @@ cleanupLatex <- function (x){
   }
   x <- gsub('\\\\hyphen', '-', x)
 
-  latex <- try(tools::parseLatex(x), silent = TRUE)
+  latex <- try(parseLatex(x), silent = TRUE)
   if (inherits(latex, "try-error")) {
     x
   }else {
-    x <- tools::deparseLatex(tools::latexToUtf8(latex), dropBraces = TRUE)
+    x <- deparseLatex(latexToUtf8(latex), dropBraces = TRUE)
     if (grepl("\\\\[[:punct:]]", x)){
       x <- gsub("\\\\'I", '\u00cd', x)
       x <- gsub("\\\\'i", '\u00ed', x)
@@ -71,7 +72,6 @@ ArrangeAuthors <- function (x){
   as.personList(authors)
 }
 
-#' @importFrom stringr str_trim
 ArrangeSingleAuthor <- function(y){
 
   if (grepl('[\\]', y)){
