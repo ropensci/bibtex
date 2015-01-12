@@ -22,8 +22,8 @@ install:
   - R CMD build bibtex
   - R CMD INSTALL bibtex_*.tar.gz
   - cd bibtex
-  
-script: 
+
+script:
   - ./travis-tool.sh run_tests
   
 notifications:
