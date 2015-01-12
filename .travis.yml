@@ -21,9 +21,10 @@ install:
   - Rscript bibtex/inst/clean-bibtex.R
   - R CMD build bibtex
   - R CMD INSTALL bibtex_*.tar.gz
+  - cd bibtex
   
-script:
-  - R CMD check --as-cran bibtex_*.tar.gz
+script: 
+  - ./travis-tool.sh run_tests
   
 notifications:
   email:
