@@ -1,30 +1,6 @@
 #' @useDynLib bibtex
 NULL
 
-arrange.single.author <- function(y){
-    if( grepl( ",", y) ) {
-        y <- sub( "^([^,]+)[[:space:]]*,[[:space:]]*(.*?)$", "\\2 \\1", y , perl = TRUE )
-    }
-    rx <-  "^[{](.*)[}]$"
-    rx2 <- "^([^]]*)[{]([^]]*)[}]$"
-    if( grepl( rx, y ) ) {
-        person( sub( rx, "\\1", y ) )
-    } else if( grepl( rx2, y ) ) {
-        person(
-        sub( rx2, "\\1", y ),
-        sub( rx2, "\\2", y )
-        )
-    } else {
-        as.person( y )
-    }
-}
-
-arrange.authors <- function( x ){
-    rx <- "[[:space:]]+and[[:space:]]+"
-    authors <- lapply( strsplit( x, rx )[[1]], arrange.single.author )
-    as.personList( authors )
-}
-
 #' @importFrom stringr str_trim
 UnlistSplitClean <- function(s) {
   unlist(strsplit(gsub("[{}]", "", str_trim(s)), " "))
