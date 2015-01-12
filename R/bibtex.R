@@ -1,9 +1,7 @@
 #' @useDynLib bibtex
 NULL
 
-arrange.single.author <-
-function(y)
-{
+arrange.single.author <- function(y){
     if( grepl( ",", y) ) {
         y <- sub( "^([^,]+)[[:space:]]*,[[:space:]]*(.*?)$", "\\2 \\1", y , perl = TRUE )
     }
@@ -21,17 +19,16 @@ function(y)
     }
 }
 
-arrange.authors <-
-function( x )
-{
+arrange.authors <- function( x ){
     rx <- "[[:space:]]+and[[:space:]]+"
     authors <- lapply( strsplit( x, rx )[[1]], arrange.single.author )
     as.personList( authors )
 }
 
 #' @importFrom stringr str_trim
-UnlistSplitClean <- function(s)
+UnlistSplitClean <- function(s) {
   unlist(strsplit(gsub("[{}]", "", str_trim(s)), " "))
+}
 
 #' @importFrom tools deparseLatex latexToUtf8 parseLatex
 cleanupLatex <- function (x){
@@ -73,7 +70,6 @@ ArrangeAuthors <- function (x){
 }
 
 ArrangeSingleAuthor <- function(y){
-
   if (grepl('[\\]', y)){
     tmp <- try(parseLatex(y), TRUE)
     if (!inherits(tmp, 'try-error'))
@@ -149,9 +145,7 @@ ArrangeSingleAuthor <- function(y){
   }
 }
 
-make.bib.entry <-
-function( x )
-{
+make.bib.entry <- function( x ){
     type <- attr( x, "entry" )
     key  <- attr( x, "key" )
 
@@ -176,9 +170,7 @@ function( x )
     } )
 }
 
-make.citation.list <-
-function( x, header, footer)
-{
+make.citation.list <- function( x, header, footer){
     rval <- list()
     for( i in seq_along(x) ){
         if( !is.null(x[[i]] ) )
@@ -188,8 +180,7 @@ function( x, header, footer)
     rval
 }
 
-findBibFile <-
-function(package) {
+findBibFile <- function(package) {
     if( package %in% c("base", "datasets", "graphics", "grDevices",
                        "methods", "stats", "stats4", "tools", "utils" )
        ) {
@@ -263,8 +254,7 @@ do_read_bib <- function(file, encoding = "unknown", srcfile){
 #' bib <- read.bib( package = "utils" )
 #' }
 #' @export
-read.bib <-
-function(file = findBibFile(package) ,
+read.bib <- function(file = findBibFile(package) ,
          package = "bibtex",
          encoding = "unknown",
          header = if( length(preamble) ) paste( preamble, sep = "\n" ) else "",
@@ -332,9 +322,7 @@ function(file = findBibFile(package) ,
 #' md5 <- tools::md5sum(c('references.bib', 'references2.bib'))
 #' md5[1] == md5[2]
 #'
-write.bib <-
-function(entry, file="Rpackages.bib", append = FALSE, verbose = TRUE)
-{
+write.bib <- function(entry, file="Rpackages.bib", append = FALSE, verbose = TRUE) {
     bibs <-
     if( inherits(entry, "bibentry") )    entry
     else if( is.character(entry) ){
