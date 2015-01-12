@@ -117,7 +117,7 @@ ArrangeSingleAuthor <- function(y){
              c(cleanupLatex(von), cleanupLatex(sub(vonrx, '', parts[1L])), cleanupLatex(parts[2L])))
     }
   }else{
-    stop('Invalid name format in bibentry.')
+    stop('Invalid author/editor format.')
   }
 }
 
@@ -128,22 +128,26 @@ make.bib.entry <- function( x ){
     y <- as.list( x )
     names(y) <- tolower( names(y) )
 
-    if( "author" %in% names(y) ){
-        y[["author"]] <- ArrangeAuthors( y[["author"]] )
-    }
-    if( "editor" %in% names(y) ){
-        y[["editor"]] <- ArrangeAuthors( y[["editor"]] )
-    }
-
-    tryCatch(
-    bibentry( bibtype = type, key = key, other = y ),
-    error = function(e){
-        message( sprintf( "ignoring entry '%s' (line %d) because :\n\t%s\n",
+    err.fun <- function(e){
+         message( sprintf( "ignoring entry '%s' (line %d) because :\n\t%s\n",
                          key,
                          attr(x, "srcref")[1],
                          conditionMessage( e ) ) )
-        NULL
-    } )
+          NULL
+    }
+
+    if( "author" %in% names(y) ){
+        y[["author"]] <- tryCatch(ArrangeAuthors( y[["author"]] ), error = err.fun)
+        if (is.null(y[["author"]]))
+            return()
+    }
+    if( "editor" %in% names(y) ){
+        y[["editor"]] <- tryCatch(ArrangeAuthors( y[["editor"]] ), error = err.fun)
+        if (is.null(y[["editor"]]))
+            return()
+    }
+
+    tryCatch(bibentry( bibtype = type, key = key, other = y ), error = err.fun)
 }
 
 make.citation.list <- function( x, header, footer){
@@ -254,7 +258,7 @@ read.bib <- function(file = findBibFile(package) ,
                              if( any( grepl( "syntax error, unexpected [$]end", w)))
                                invokeRestart("muffleWarning")
                            })
-    keys <- lapply(out, function(x) attr(x, 'key'))
+    # keys <- lapply(out, function(x) attr(x, 'key'))
     at  <- attributes(out)
     if((typeof(out) != "integer") || (getRversion() < "3.0.0"))
         out <- lapply( out, make.bib.entry )
@@ -264,7 +268,7 @@ read.bib <- function(file = findBibFile(package) ,
 
     out <- make.citation.list( out, header, footer )
     attr( out, "strings") <- at[["strings"]]
-    names(out) <- keys
+    names(out) <- unlist(out$key)
     out
 }
 
