@@ -35,7 +35,6 @@ md5[1] == md5[2]
 \references{
 \emph{[R] Creating bibtex file of all installed packages?}
 Achim Zeileis. R-help mailing list.
-\url{https://stat.ethz.ch/pipermail/r-help/2009-December/222201.html}
 }
 \author{
 Renaud Gaujoux, based on the function \code{Rpackages.bib}

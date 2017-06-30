@@ -1,6 +1,6 @@
 Package: bibtex
-Version: 0.4.0.9000
-Title: bibtex parser
+Version: 0.4.1
+Title: Bibtex Parser
 Authors@R: c(
     person("Romain", "Francois", role = c("aut", "cre"), email = "romain@r-enthusiasts.com"),
     person("Kurt", "Hornik", role = "ctb", email = "Kurt.Hornik@R-project.org"),
