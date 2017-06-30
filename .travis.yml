@@ -1,33 +1,5 @@
-language: c
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-before_install:
-  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-  - chmod 755 ./travis-tool.sh
-  - ./travis-tool.sh bootstrap
-  - ./travis-tool.sh r_binary_install testthat
-  - ./travis-tool.sh r_binary_install stringr
-  
-install:
-  - cp inst/grammar/bibparse.y src/
-  - cp inst/grammar/biblex.l src/
-  - cd src
-  - bison -vd bibparse.y -o bibparse.c
-  - lex -l -t biblex.l > biblex.c
-  - rm bibparse.y
-  - rm biblex.l
-  - mv bibparse.output ../inst/
-  - mv bibparse.h ../inst/include/
-  - cd ../..
-  - Rscript bibtex/inst/clean-bibtex.R
-  - R CMD build bibtex
-  - R CMD INSTALL bibtex_*.tar.gz
-  - cd bibtex
-
-script:
-  - ./travis-tool.sh run_tests
-  
-notifications:
-  email:
-    on_success: change
-    on_failure: change
-
+language: R
+sudo: false
+cache: packages
