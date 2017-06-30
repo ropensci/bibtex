@@ -51,6 +51,7 @@ test_that("des White, Jr., Walter", {
 })
 
 test_that("{Herm{\\`e}s International S.A.} and Katzfu{\\ss}, Matthias", {
+  skip_on_os("windows")  
   authors <- "{Herm{\\`e}s International S.A.} and Katzfu{\\ss}, Matthias"
   parsed <- bibtex:::ArrangeAuthors(authors)
   expect_match(parsed$family[[1]], "Hermès International S.A.")
