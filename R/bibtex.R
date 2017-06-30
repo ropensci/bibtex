@@ -38,6 +38,7 @@ cleanupLatex <- function (x){
   }
 }
 
+#' @importFrom utils as.personList
 ArrangeAuthors <- function (x){
   rx <- "[[:space:]]+and[[:space:]]+"
   x <- gsub('[[:space:]]{2,}', ' ', x, useBytes = TRUE)
@@ -121,6 +122,7 @@ ArrangeSingleAuthor <- function(y){
   }
 }
 
+#' @importFrom utils bibentry person citation installed.packages toBibtex
 make.bib.entry <- function( x ){
     type <- attr( x, "entry" )
     key  <- attr( x, "key" )
@@ -152,7 +154,7 @@ make.bib.entry <- function( x ){
     if( "date" %in% fields && !"year" %in% fields ){
       y$year <- format( as.Date( y$date), "%Y" )
     }
-    
+
     tryCatch(bibentry( bibtype = type, key = key, other = y ), error = err.fun)
 }
 
