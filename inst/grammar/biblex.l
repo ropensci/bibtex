@@ -3,9 +3,9 @@
 %{
 /* {{{ Declarations */
 #include <bibtex.h>
-#include <bibparse.h> 
+#include <bibparse.h>
 
-#ifdef stdout 
+#ifdef stdout
 #  undef stdout
 #endif
 #define stdout 0
@@ -13,7 +13,7 @@
 // enable some debugging with this:
 // #define LEXER_DEBUG 1
 
-#define YYSTYPE SEXP 
+#define YYSTYPE SEXP
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -70,7 +70,7 @@ static int		paren_level = 0;
 %a		3000
 %o		6000
 				/* abbrev, entry, key, field name syntax */
-N		[-A-Za-z0-9:.+/'_]*
+N		[-A-Za-z0-9:.+/'_?]*
 					/* BibTeX entry opening delimiter */
 O		[({]
 					/* one white space character */
@@ -146,7 +146,7 @@ S		{W}*
 
 /*{{{ compact_space */
 /**
- * compact runs of space to single blank 
+ * compact runs of space to single blank
  */
 static void compact_space(){
     char *p;
@@ -166,23 +166,23 @@ static void compact_space(){
 /*}}}*/
 
 /* {{{ next_char */
-/** 
+/**
  * Gets the next character from the stream
- */ 
+ */
 static int next_char() {
 	int c;
 	c = input();
-	if ( c == R_EOF ){	
+	if ( c == R_EOF ){
 		eof_error();
 	} else if (c == '\n'){
 		line_number++;
-		col_number = 0; 
-		byte_number = 0; 
+		col_number = 0;
+		byte_number = 0;
 	} else {
-		col_number++; 
+		col_number++;
 		byte_number++;
 		/* only advance column for 1st byte in UTF-8 */
-		if (0x80 <= (unsigned char)c && (unsigned char)c <= 0xBF && known_to_be_utf8){ 
+		if (0x80 <= (unsigned char)c && (unsigned char)c <= 0xBF && known_to_be_utf8){
     		col_number--;
 		}
 		if( c == '\t' ) {
@@ -245,7 +245,7 @@ static token_t out_braced_string() {
 
     for (blevel = 1, n = 1; (blevel > 0); ){
     	c = next_char();
-		
+
 		if (c == EOF){
 		    break;
 		}
@@ -275,11 +275,11 @@ static token_t out_braced_string() {
 			case '{':
 			    blevel++;
 			    break;
-    		
+
 			case '}':
 			    blevel--;
 			    break;
-    		
+
 			case '"':
 				{
 					if (blevel == 1){
@@ -301,7 +301,7 @@ static token_t out_braced_string() {
 			    	}
 			    	break;
 			    }
-    		
+
 			default:
 			    break;
 		}
@@ -311,7 +311,7 @@ static token_t out_braced_string() {
     yytext[n] = '\0';
 #ifdef LEXER_DEBUG
     Rprintf( "[out_braced_string] yytext = ///%s///\n", yytext ) ;
-#endif	
+#endif
     return (out_token(TOKEN_VALUE));
 }
 
@@ -342,14 +342,14 @@ static token_t out_lparen(){
 			paren_level++;
 			brace_level++;
 			return (out_token(TOKEN_LBRACE));
-    	
+
     	case TOKEN_COMMENT:
     	case TOKEN_INCLUDE:
 			yytext[0] = '{';
 			paren_level++;
 			brace_level++;
 			return (out_braced_literal());
-    	
+
     	default:
 			return (out_token(TOKEN_LITERAL));
     }
@@ -362,13 +362,13 @@ static token_t out_protected_string(token_t t){
     if (*token == (char)'\0')	/* ignore empty tokens */
 	return (TOKEN_VALUE);
     output('"');
-	
+
 	/* supply missing quote delimiters */
     if ((yytext[0] != '"') && (t == TOKEN_VALUE)){
 		output('\\');
 		output('\"');
     }
-    for (; *token; ++token){ 
+    for (; *token; ++token){
 		switch (*token) {
 			case '"':
 			case '\\':
@@ -428,7 +428,7 @@ static token_t out_rbrace() {
 		brace_level--;
 		return (out_token(TOKEN_RBRACE));
     }
-    else{ 
+    else{
 		return (out_token(TOKEN_LITERAL));
 	}
 }
@@ -486,7 +486,7 @@ static token_t out_string(){
 /* ALL token output is directed through this function */
 static token_t out_token(token_t t){
     int n;
-	
+
 	if (do_lex_output){
 		Rprintf("%d\t", (int)t);
 	}
@@ -496,7 +496,7 @@ static token_t out_token(token_t t){
 			if (do_lex_output)
 			    Rprintf("\"%s\"\n", yytext);
 			break;
-    	
+
     	case TOKEN_VALUE:
 			if (do_lex_output){
 				/* supply surrounding quotes */
@@ -516,7 +516,7 @@ static token_t out_token(token_t t){
 			    out_protected_string(t);
 			}
 			break;
-    	
+
     	case TOKEN_COMMENT:
     	case TOKEN_INCLUDE:
 			if (do_lex_output){
@@ -524,7 +524,7 @@ static token_t out_token(token_t t){
 			}
 			last_object = t;
 			break;
-    	
+
     	case TOKEN_ENTRY:
     	case TOKEN_PREAMBLE:
     	case TOKEN_STRING:
@@ -533,24 +533,24 @@ static token_t out_token(token_t t){
 			}
 			last_object = t;
 			break;
-    	
+
     	case TOKEN_FIELD:
     	case TOKEN_KEY:
 			if (do_lex_output){
 			    Rprintf("\"%s\"\n", yytext);
 			}
 			break;
-    	
+
     	case TOKEN_INLINE:
     	case TOKEN_NEWLINE:
 			line_number++;
-			col_number = 0; 
-			byte_number = 0; 
+			col_number = 0;
+			byte_number = 0;
 			if (do_lex_output) {
 			    out_protected_string(t);
 			}
 			break;
-    	
+
     	case TOKEN_LITERAL:
     	default:
 			if (do_lex_output){
@@ -562,15 +562,15 @@ static token_t out_token(token_t t){
 	  (t == TOKEN_SPACE) ||
 	  (t == TOKEN_NEWLINE)))
 	last_token = t;		/* remember last non-space token type */
-    
-	const char * token = (const char*)&yytext[0] ; 
+
+	const char * token = (const char*)&yytext[0] ;
 	if( t == TOKEN_AT ){
 		last_at_location.first_line   = start_line_number ;
 		last_at_location.first_column = start_col_number ;
 		last_at_location.first_byte   = start_byte_number ;
 	}
 	setToken( token, strlen(token) );
-	
+
 	return (t);
 }
 /* }}} */
@@ -597,4 +597,3 @@ void dummy(){
 }
 
 /* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-

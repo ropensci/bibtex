@@ -11,3 +11,10 @@ test_that("read.bib Ignores entry but does not stop with invalid author/editor (
   expect_true(length(bib) == 1L)
 })
 
+test_that("read.bib can use ? in key (#9)", {
+  tmp <- tempfile(fileext = ".bib")  
+  entry <- "@Misc{key?,\n author = \"Smith, Bob\",\n title = \"The Title\",\n year = 2012, \n}"
+  writeLines(entry, tmp)
+  out <- read.bib(tmp)
+  expect_equal( names(out), "key?" )
+})
