@@ -18,3 +18,16 @@ test_that("read.bib can use ? in key (#9)", {
   out <- read.bib(tmp)
   expect_equal( names(out), "key?" )
 })
+
+test_that("make.bib.entry can generate year from date (#15)", {
+  tmp <- tempfile( fileext = ".bib")
+  entry <- '@Article{newspaper,
+    author = {Author Smith},
+    title  = {Article title},
+    date   = {2016-12-21},
+    journal = {Newspaper name},
+  }'
+  writeLines(entry, tmp)
+  out <- read.bib(tmp)
+  expect_equal( out$year, "2016" )
+})

@@ -147,6 +147,12 @@ make.bib.entry <- function( x ){
             return()
     }
 
+    # if there is a date entryn try to extract the year (#15)
+    fields <- names(y)
+    if( "date" %in% fields && !"year" %in% fields ){
+      y$year <- format( as.Date( y$date), "%Y" )
+    }
+    
     tryCatch(bibentry( bibtype = type, key = key, other = y ), error = err.fun)
 }
 
