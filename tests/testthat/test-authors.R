@@ -49,10 +49,3 @@ test_that("des White, Jr., Walter", {
   parsed <- bibtex:::ArrangeSingleAuthor(authors)
   expect_equal(length(parsed$family), 3L)
 })
-
-test_that("{Herm{\\`e}s International S.A.} and Katzfu{\\ss}, Matthias", {
-  authors <- "{Herm{\\`e}s International S.A.} and Katzfu{\\ss}, Matthias"
-  parsed <- bibtex:::ArrangeAuthors(authors)
-  expect_match(parsed$family[[1]], "Hermès International S.A.")
-  expect_match(parsed$family[[2]], "Katzfuß")
-})

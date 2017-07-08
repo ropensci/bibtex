@@ -4,3 +4,4 @@
 ^\.Rproj\.user$
 regram.sh
 ^\.travis\.yml$
+revdep
