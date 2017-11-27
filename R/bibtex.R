@@ -177,7 +177,10 @@ findBibFile <- function(package) {
     } else {
         attempt <- system.file( "REFERENCES.bib", package = package )
         if( !nzchar(attempt) ){
+          attempt <- system.file( "inst/REFERENCES.bib", package = package )
+          if ( !nzchar(attempt) ){
             stop( sprintf( "no bibtex database for package '%s'", package ) )
+          }
         }
         attempt
     }
