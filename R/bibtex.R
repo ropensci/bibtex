@@ -40,7 +40,7 @@ cleanupLatex <- function (x){
 
 #' @importFrom utils as.personList
 ArrangeAuthors <- function (x){
-  rx <- "[[:space:]]+and[[:space:]]+"
+  rx <- "[[:space:]]+(and|AND)[[:space:]]+"
   x <- gsub('[[:space:]]{2,}', ' ', x, useBytes = TRUE)
   authors <- lapply(strsplit(x, rx)[[1]], ArrangeSingleAuthor)
   as.personList(authors)
