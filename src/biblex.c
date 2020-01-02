@@ -542,6 +542,7 @@ char *yytext_ptr;
 #line 1 "biblex.l"
 #line 4 "biblex.l"
 /* {{{ Declarations */
+#include <Rinternals.h>
 #define extern
 #include <bibtex.h>
 #undef extern

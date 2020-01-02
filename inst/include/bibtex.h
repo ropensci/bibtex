@@ -5,7 +5,9 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#ifndef extern
 #include <Rinternals.h>
+#endif
 
 #ifdef SUPPORT_MBCS
 # ifdef Win32
