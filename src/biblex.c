@@ -1,5 +1,5 @@
 
-#line 3 "<stdout>"
+// #line 3 "<stdout>"
 
 #define  YY_INT_ALIGNED short int
 
@@ -356,7 +356,7 @@ extern int yylineno;
 
 int yylineno = 1;
 
-extern char yytext[];
+//extern char yytext[];
 
 static yy_state_type yy_get_previous_state (void );
 static yy_state_type yy_try_NUL_trans (yy_state_type current_state  );
@@ -537,12 +537,15 @@ static int yy_prev_more_offset = 0;
 #define YYLMAX 8192
 #endif
 
-char yytext[YYLMAX];
+static char yytext[YYLMAX];
 char *yytext_ptr;
 #line 1 "biblex.l"
 #line 4 "biblex.l"
 /* {{{ Declarations */
+#include <Rinternals.h>
+#define extern
 #include <bibtex.h>
+#undef extern
 #include <bibparse.h>
 
 #ifdef stdout
