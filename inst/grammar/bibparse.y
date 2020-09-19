@@ -1174,9 +1174,9 @@ not work with offsets
 	INTEGER(ans)[3] = loc.last_byte + 1; 
 	INTEGER(ans)[4] = last_at_location.first_column + 1; 
 	INTEGER(ans)[5] = loc.last_column + 1; 
-	_UNPROTECT( 1) ;
 	setAttrib( ans, install("srcfile"), srcfile ) ;
 	setAttrib( ans, install("class"), mkString2( "srcref", 6 ) ) ;
+        _UNPROTECT( 1) ;
 	return ans ;
 }
 

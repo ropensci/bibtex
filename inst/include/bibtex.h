@@ -79,6 +79,8 @@ void setToken( const char*, int) ;
 SEXP mkString2(const char *, int) ;
 
 extern Rboolean known_to_be_utf8  ;
+// was known_to_be_latin1 but that clashes with R
+#define known_to_be_latin1 bibtex_known_to_be_latin1
 extern Rboolean known_to_be_latin1 ;
 typedef struct yyltype{
   int first_line;
