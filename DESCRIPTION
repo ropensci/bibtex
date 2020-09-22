@@ -11,7 +11,6 @@ Description: Utility to parse a bibtex file.
 Depends:
     R (>= 3.0.2)
 Imports:
-    stringr,
     utils
 Suggests:
     testthat
@@ -19,4 +18,5 @@ License: GPL (>= 2)
 LazyLoad: yes
 BugReports: https://github.com/romainfrancois/bibtex/issues
 URL: https://github.com/romainfrancois/bibtex
-RoxygenNote: 6.0.1.9000
+Encoding: UTF-8
+RoxygenNote: 7.1.0

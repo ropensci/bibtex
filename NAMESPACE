@@ -3,7 +3,6 @@
 export(do_read_bib)
 export(read.bib)
 export(write.bib)
-importFrom(stringr,str_trim)
 importFrom(tools,deparseLatex)
 importFrom(tools,latexToUtf8)
 importFrom(tools,parseLatex)

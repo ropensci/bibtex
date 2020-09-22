@@ -4,9 +4,13 @@
 \alias{read.bib}
 \title{bibtex parser}
 \usage{
-read.bib(file = findBibFile(package), package = "bibtex",
-  encoding = "unknown", header = if (length(preamble)) paste(preamble, sep =
-  "\\n") else "", footer = "")
+read.bib(
+  file = findBibFile(package),
+  package = "bibtex",
+  encoding = "unknown",
+  header = if (length(preamble)) paste(preamble, sep = "\\n") else "",
+  footer = ""
+)
 }
 \arguments{
 \item{file}{bib file to parse.  By default, the file

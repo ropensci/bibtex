@@ -1,9 +1,13 @@
 #' @useDynLib bibtex
 NULL
 
-#' @importFrom stringr str_trim
+# backport of simplified trimws() (introduced in R-3.3.0)
+trimws <- function(x) {
+  sub("^[[:space:]]+", "", sub("[[:space:]]$", "", x))
+}
+
 UnlistSplitClean <- function(s) {
-  unlist(strsplit(gsub("[{}]", "", str_trim(s)), " "))
+  unlist(strsplit(gsub("[{}]", "", trimws(s)), " "))
 }
 
 #' @importFrom tools deparseLatex latexToUtf8 parseLatex
