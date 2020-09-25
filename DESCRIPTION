@@ -1,22 +1,53 @@
 Package: bibtex
-Version: 0.4.2
+Version: 0.4.3
 Title: Bibtex Parser
 Authors@R: c(
-    person("Romain", "Francois", role = c("aut", "cre"), email = "romain@r-enthusiasts.com"),
-    person("Kurt", "Hornik", role = "ctb", email = "Kurt.Hornik@R-project.org"),
-    person("Michael", "Koohafkan", role = "ctb", email = "michael.koohafkan@gmail.com"), 
-    person(c("Mathew", "W."), "McLean", role = "ctb", email = "mathew.w.mclean@gmail.com" )
+    person(given = "Romain", 
+           family = "Francois", 
+           role = c("aut", "cph"), 
+           email = "romain@purrple.cat",
+           comment = c(ORCID = "0000-0002-2444-4226", "principal developer of bibtex R package")),
+    person(given = c("James", "Joseph"),
+           family = "Balamuta",
+           role = c("ctb", "cre"),
+           email = "balamut2@illinois.edu",
+           comment = c(ORCID = "0000-0003-2826-8458")),
+    person(given = "Scott",
+           family = "Chamberlain",
+           role = c("ctb"),
+           email = "myrmecocystus@gmail.com",
+           comment = c(ORCID = "0000-0003-1444-9135")),
+    person(given = "Kurt", 
+           family = "Hornik", 
+           role = "ctb", 
+           email = "Kurt.Hornik@R-project.org",
+           comment = c(ORCID = "0000-0003-4198-9911")),
+    person(given = "Brian",
+           family = "Ripley", 
+           role = "ctb", 
+           email = "ripley@stats.ox.ac.uk",
+           comment = "compilation fixes"),
+    person(given = "Michael",
+           family = "Koohafkan",
+           role = "ctb", 
+           email = "michael.koohafkan@gmail.com"), 
+    person(given = c("Mathew", "W."), 
+           family = "McLean",
+           role = "ctb", 
+           email = "mathew.w.mclean@gmail.com",
+           comment = c(ORCID = "0000-0002-7891-9645")
+           )
   )
 Description: Utility to parse a bibtex file. 
+BugReports: https://github.com/ropensci/bibtex/issues
+URL: https://github.com/ropensci/bibtex, https://docs.ropensci.org/bibtex/
+License: GPL (>= 2)
 Depends:
     R (>= 3.0.2)
 Imports:
     utils
 Suggests:
     testthat
-License: GPL (>= 2)
 LazyLoad: yes
-BugReports: https://github.com/romainfrancois/bibtex/issues
-URL: https://github.com/romainfrancois/bibtex
 Encoding: UTF-8
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
