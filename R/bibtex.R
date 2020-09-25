@@ -222,7 +222,7 @@ do_read_bib <- function(file, encoding = "unknown", srcfile){
 #' @return An object of class \code{"bibentry"}, similar to those obtained by the
 #'        \code{\link[utils]{bibentry}} function.
 #'
-#' @references Nelson H. F. Beebe. bibparse 1.04. 1999. \url{http://www.math.utah.edu/~beebe}
+#' @references Nelson H. F. Beebe. bibparse 1.04. 1999. \url{http://www.math.utah.edu/~beebe/}
 #'
 #' @examples
 #' ## this package has a REFERENCES.bib file
@@ -310,6 +310,7 @@ read.bib <- function(file = findBibFile(package) ,
 #' md5 <- tools::md5sum(c('references.bib', 'references2.bib'))
 #' md5[1] == md5[2]
 #'
+#' \dontshow{unlink(c('references.bib', 'references2.bib'))}
 write.bib <- function(entry, file="Rpackages.bib", append = FALSE, verbose = TRUE) {
     bibs <-
     if( inherits(entry, "bibentry") )    entry
