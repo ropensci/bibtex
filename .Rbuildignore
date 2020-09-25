@@ -5,3 +5,4 @@
 regram.sh
 ^\.travis\.yml$
 revdep
+^\.github$
