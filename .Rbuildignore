@@ -5,3 +5,7 @@
 regram.sh
 ^\.travis\.yml$
 revdep
+^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
