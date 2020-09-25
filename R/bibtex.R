@@ -1,6 +1,3 @@
-#' @useDynLib bibtex
-NULL
-
 # backport of simplified trimws() (introduced in R-3.3.0)
 trimws <- function(x) {
   sub("^[[:space:]]+", "", sub("[[:space:]]$", "", x))
