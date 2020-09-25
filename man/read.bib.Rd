@@ -58,5 +58,5 @@ bib <- read.bib( package = "utils" )
 }
 }
 \references{
-Nelson H. F. Beebe. bibparse 1.04. 1999. \url{http://www.math.utah.edu/~beebe}
+Nelson H. F. Beebe. bibparse 1.04. 1999. \url{http://www.math.utah.edu/~beebe/}
 }

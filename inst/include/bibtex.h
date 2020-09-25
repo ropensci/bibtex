@@ -5,7 +5,9 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#ifndef extern
 #include <Rinternals.h>
+#endif
 
 #ifdef SUPPORT_MBCS
 # ifdef Win32
@@ -41,19 +43,19 @@ int		yywrap(void);
 
 int				yyparse();
 
-int			error_count;
-char			*program_name;	/* for error messages */
+extern int			error_count;
+extern char			*program_name;	/* for error messages */
 
 /* These variables are defined in biblex.c: */
-int		do_lex_output;
-long line_number;
-long col_number ;
-long byte_number ;
-long start_line_number; 
-long start_col_number ;
-long start_byte_number; 
+extern int		do_lex_output;
+extern long line_number;
+extern long col_number ;
+extern long byte_number ;
+extern long start_line_number; 
+extern long start_col_number ;
+extern long start_byte_number; 
 
-const char	*the_filename;
+extern const char	*the_filename;
 
 #define	ERROR_PREFIX	"??"	/* this prefixes all error messages */
 #define WARNING_PREFIX	"%%"	/* this prefixes all warning messages */
@@ -76,8 +78,10 @@ SEXP Insert(SEXP, SEXP) ;
 void setToken( const char*, int) ;
 SEXP mkString2(const char *, int) ;
 
-Rboolean known_to_be_utf8  ;
-Rboolean known_to_be_latin1 ;
+extern Rboolean known_to_be_utf8  ;
+// was known_to_be_latin1 but that clashes with R
+#define known_to_be_latin1 bibtex_known_to_be_latin1
+extern Rboolean known_to_be_latin1 ;
 typedef struct yyltype{
   int first_line;
   int first_column;
@@ -88,7 +92,7 @@ typedef struct yyltype{
   int last_byte;
 } yyltype;
 # define YYLTYPE yyltype
-YYLTYPE last_at_location ;
+extern YYLTYPE last_at_location ;
 
 #define YY_FATAL_ERROR(msg) Rf_error("lex fatal error:\n%s\n", msg);
 

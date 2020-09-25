@@ -31,6 +31,7 @@ write.bib(bibs, 'references2.bib')
 md5 <- tools::md5sum(c('references.bib', 'references2.bib'))
 md5[1] == md5[2]
 
+\dontshow{unlink(c('references.bib', 'references2.bib'))}
 }
 \references{
 \emph{[R] Creating bibtex file of all installed packages?}
