@@ -199,7 +199,11 @@ findBibFile <- function(package) {
 #' @param srcfile output of \code{\link{srcfile}}
 #' @export
 do_read_bib <- function(file, encoding = "unknown", srcfile){
-  .External( "do_read_bib", file=file, encoding=encoding, srcfile=srcfile, PACKAGE = "bibtex" )
+  out <- .External( "do_read_bib", file=file, encoding=encoding, srcfile=srcfile, PACKAGE = "bibtex" )
+
+  # Force encoding of parsed output to UTF-8 if necessary. See #20
+  if (encoding == "UTF-8") out <- lapply(out, `Encoding<-`, "UTF-8")
+  out
 }
 
 #' bibtex parser
@@ -254,7 +258,7 @@ read.bib <- function(file = findBibFile(package) ,
         stop( "'read.bib' only supports reading from files, 'file' should be a character vector of length one" )
     }
     srcfile <- switch( encoding,
-                      "unknown" = srcfile( file, encoding = "native.enc" ),
+                      "unknown" = srcfile( file ),
                       srcfile( file, encoding = encoding ) )
 
     out <- withCallingHandlers(tryCatch(.External( "do_read_bib", file = file,
