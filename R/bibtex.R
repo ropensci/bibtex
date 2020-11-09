@@ -254,7 +254,7 @@ read.bib <- function(file = findBibFile(package) ,
         stop( "'read.bib' only supports reading from files, 'file' should be a character vector of length one" )
     }
     srcfile <- switch( encoding,
-                      "unknown" = srcfile( file ),
+                      "unknown" = srcfile( file, encoding = "native.enc" ),
                       srcfile( file, encoding = encoding ) )
 
     out <- withCallingHandlers(tryCatch(.External( "do_read_bib", file = file,
@@ -268,6 +268,10 @@ read.bib <- function(file = findBibFile(package) ,
                              if( any( grepl( "syntax error, unexpected [$]end", w)))
                                invokeRestart("muffleWarning")
                            })
+
+    # Force encoding of parsed output to UTF-8 if necessary. See #20
+    if (encoding == "UTF-8") out <- lapply(out, `Encoding<-`, "UTF-8")
+
     # keys <- lapply(out, function(x) attr(x, 'key'))
     at  <- attributes(out)
     if((typeof(out) != "integer") || (getRversion() < "3.0.0"))
