@@ -551,26 +551,23 @@ static SEXP xx_atobject_entry(SEXP object, YYLTYPE loc){
 	setAttrib( ans, install( "names"), names ) ;
 	setAttrib( ans, install( "key"), h ) ;
 	
-	_UNPROTECT( 2 ) ; // entry, h, o
-	_UNPROTECT_PTR( object ); 
-	_UNPROTECT_PTR( names ); 
-	_UNPROTECT_PTR( head ) ;
+	_UNPROTECT( 3 ) ; // entry, h, names
 	
 	SEXP res; 
 	_PROTECT( res = GrowList( entries , ans ) ) ;
 	_REPROTECT( entries = res , ENTRIES_INDEX ) ;
-	_UNPROTECT_PTR( res ) ;
+	_UNPROTECT( 1 ) ; // res
 	
 	SEXP srcref ; 
 	_PROTECT( srcref = makeSrcRef( loc ) );
 	setAttrib( ans, install( "srcref"), srcref );
-	_UNPROTECT( 1) ; // srcref
+	_UNPROTECT( 1 ) ; // srcref
 	
 	
 #ifdef XXDEBUG
 	Rprintf( "</xx_atobject_entry>\n" ) ;
 #endif
-	_UNPROTECT_PTR( ans ) ;
+	_UNPROTECT( 2 ) ; // ans, head
 	_PROTECT( ans = R_NilValue ); 
 	return ans ;
 }
@@ -982,30 +979,26 @@ static void recordInclude( SEXP object ){
 	SEXP tmp ;
 	_PROTECT( tmp = GrowList( includes, object ) ); 
 	_REPROTECT( includes = tmp, INCLUDE_INDEX ) ;
-	_UNPROTECT_PTR( tmp ) ;
-	_UNPROTECT_PTR( object ) ;
+	_UNPROTECT( 1 ) ; // tmp
 }
 
 static void recordComment( SEXP object ){
 	SEXP tmp ;
 	_PROTECT( tmp = GrowList( comments, object ) ); 
 	_REPROTECT( comments = tmp, COMMENT_INDEX ) ;
-	_UNPROTECT_PTR( tmp ) ;
-	_UNPROTECT_PTR( object ) ;
+	_UNPROTECT( 1 ) ; // tmp
 }
 static void recordString( SEXP object ){
 	SEXP tmp ;
 	_PROTECT( tmp = GrowList( strings, object ) ); 
 	_REPROTECT( strings = tmp, STRING_INDEX ) ;
-	_UNPROTECT_PTR( tmp ) ;
-	_UNPROTECT_PTR( object ) ;
+	_UNPROTECT( 1 ) ; // tmp
 }
 static void recordPreamble( SEXP object ){
 	SEXP tmp ;
 	_PROTECT( tmp = GrowList( preamble, object ) ); 
 	_REPROTECT( preamble = tmp, PREAMBLE_INDEX ) ;
-	_UNPROTECT_PTR( tmp ) ;
-	_UNPROTECT_PTR( object ) ;
+	_UNPROTECT( 1 ) ; // tmp
 }
 
 static SEXP xx_expand_abbrev( SEXP abbrev ){
