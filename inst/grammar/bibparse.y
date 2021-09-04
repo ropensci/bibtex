@@ -59,7 +59,6 @@ char * bibfile ;
  */
 #define yyerror(s) \
 do { \
-	_UNPROTECT_PTR( yylval ) ; \
 	popping = 1; \
 	_yyerror(s); \
 } \
@@ -120,21 +119,6 @@ static SEXP xx_forward( SEXP ) ;
 static SEXP xx_null( ) ;
 static SEXP xx_expand_abbrev( SEXP ) ;
 static SEXP xx_simple_value( SEXP ) ;
-
-/* functions to unprotect one or more SEXP */
-void junk1( SEXP); 
-void junk2( SEXP, SEXP); 
-void junk3( SEXP, SEXP, SEXP); 
-void junk4( SEXP, SEXP, SEXP, SEXP); 
-void junk5( SEXP, SEXP, SEXP, SEXP, SEXP); 
-void junk6( SEXP, SEXP, SEXP, SEXP, SEXP, SEXP); 
-void junk7( SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP); 
-
-static PROTECT_INDEX INCLUDE_INDEX ;
-static PROTECT_INDEX COMMENT_INDEX ;
-static PROTECT_INDEX STRING_INDEX ;
-static PROTECT_INDEX PREAMBLE_INDEX ;
-static PROTECT_INDEX ENTRIES_INDEX ;
 
 static SEXP includes; 
 static SEXP comments; 
@@ -207,100 +191,153 @@ static SEXP asVector( SEXP, int );
 	*/
 	
 	if( popping ){
-		if( streql( error_msg_popping, yymsg ) ){
-			UNPROTECT_PTR( $$ ) ;
-		} else{
-			popping = 0; 
+		if( !streql( error_msg_popping, yymsg ) ){
+			popping = 0;
 		}
 	}
 } opt_space space single_space assignment assignment_list assignment_lhs value simple_value include preamble entry entry_head string key_name comment TOKEN_ABBREV	 TOKEN_AT	 TOKEN_COMMA TOKEN_COMMENT TOKEN_ENTRY TOKEN_EQUALS	 TOKEN_FIELD TOKEN_INCLUDE TOKEN_INLINE	 TOKEN_KEY TOKEN_LBRACE TOKEN_LITERAL TOKEN_NEWLINE TOKEN_PREAMBLE TOKEN_RBRACE	 TOKEN_SHARP TOKEN_SPACE TOKEN_STRING TOKEN_VALUE TOKEN_UNKNOWN 
 
 %% 
-file:		  opt_space 					{ junk1($1); YYACCEPT ; }
-		| opt_space object_list opt_space { junk3($1, $2, $3) ; YYACCEPT ; }
-		;
+file: opt_space 					  { YYACCEPT; }
+	| opt_space object_list opt_space { YYACCEPT; }
+	;
 
-object_list: object 						{ $$ = xx_object_list_1($1);  }
-		| object_list opt_space object 	{ $$ = xx_object_list_2($1,$3); junk1($2) ; }
+object_list: object 						{
+			_PROTECT($$ = xx_object_list_1($1));
+			_UNPROTECT(1); // $$
+		}
+		| object_list opt_space object 	{
+			_PROTECT($$ = xx_object_list_2($1,$3));
+			_UNPROTECT(1); // $$
+		}
 		;
 
 object:	TOKEN_AT opt_space at_object {
-			$$ = xx_object($3); 
-			junk2($1,$2); 
+			_PROTECT($$ = xx_object($3));
+			_UNPROTECT(1); // $$
 		}
 		| anything opt_space object {
 			/* this eats whatever is between two entries, lexing until 
 				a TOKEN_AT is found */
-			$$ = xx_forward($3); junk2($1,$2) ; 
+			_PROTECT($$ = xx_forward($3));
+			_UNPROTECT(1); // $$
 		} 
 	;
 
-anything:  TOKEN_ABBREV    { $$ = xx_forward( $1) ; }	
-		|  TOKEN_COMMA     { $$ = xx_forward( $1) ; }
-		|  TOKEN_COMMENT   { $$ = xx_forward( $1) ; }
-		|  TOKEN_ENTRY     { $$ = xx_forward( $1) ; }
-		|  TOKEN_EQUALS	   { $$ = xx_forward( $1) ; }
-		|  TOKEN_FIELD     { $$ = xx_forward( $1) ; }
-		|  TOKEN_INCLUDE   { $$ = xx_forward( $1) ; }
-		|  TOKEN_INLINE	   { $$ = xx_forward( $1) ; }
-		|  TOKEN_KEY       { $$ = xx_forward( $1) ; }
-		|  TOKEN_LBRACE    { $$ = xx_forward( $1) ; }
-		|  TOKEN_LITERAL   { $$ = xx_forward( $1) ; }
-		|  TOKEN_NEWLINE   { $$ = xx_forward( $1) ; }
-		|  TOKEN_PREAMBLE   { $$ = xx_forward( $1) ; }
-		|  TOKEN_RBRACE	   { $$ = xx_forward( $1) ; }
-		|  TOKEN_SHARP     { $$ = xx_forward( $1) ; }
-		|  TOKEN_SPACE     { $$ = xx_forward( $1) ; }
-		|  TOKEN_STRING    { $$ = xx_forward( $1) ; }
-		|  TOKEN_VALUE     { $$ = xx_forward( $1) ; }
-		|  TOKEN_UNKNOWN   { $$ = xx_forward( $1) ; }
+anything:  TOKEN_ABBREV    { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_COMMA     { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_COMMENT   { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_ENTRY     { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_EQUALS    { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_FIELD     { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_INCLUDE   { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_INLINE    { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_KEY       { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_LBRACE    { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_LITERAL   { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_NEWLINE   { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_PREAMBLE  { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_RBRACE    { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_SHARP     { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_SPACE     { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_STRING    { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_VALUE     { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
+		|  TOKEN_UNKNOWN   { _PROTECT($$ = xx_forward( $1)); _UNPROTECT(1); /* $$ */ }
 
-at_object:	  comment 						{ $$ = xx_atobject_comment($1); }
-		| entry 							{ $$ = xx_atobject_entry($1, @$);}
-		| include 							{ $$ = xx_atobject_include($1);}
-		| preamble 							{ $$ = xx_atobject_preamble($1);}
-		| string							{ $$ = xx_atobject_string($1);}
-		| error TOKEN_RBRACE 				{ $$ = xx_null() ; YYUSE($2) ; recovering = 0; }
+at_object:	  comment        { _PROTECT($$ = xx_atobject_comment($1));              _UNPROTECT(1); /* $$ */ }
+		| entry              { _PROTECT($$ = xx_atobject_entry($1, @$));            _UNPROTECT(1); /* $$ */ }
+		| include            { _PROTECT($$ = xx_atobject_include($1));              _UNPROTECT(1); /* $$ */ }
+		| preamble           { _PROTECT($$ = xx_atobject_preamble($1));             _UNPROTECT(1); /* $$ */ }
+		| string             { _PROTECT($$ = xx_atobject_string($1));               _UNPROTECT(1); /* $$ */ }
+		| error TOKEN_RBRACE { _PROTECT($$ = xx_null()); YYUSE($2); recovering = 0; _UNPROTECT(1); /* $$ */ }
 		;
 
-comment:	  TOKEN_COMMENT opt_space TOKEN_LITERAL {junk2($1,$2); $$ = xx_forward($3); }
+comment:	  TOKEN_COMMENT opt_space TOKEN_LITERAL {
+			_PROTECT($$ = xx_forward($3));
+			_UNPROTECT(1); // $$
+		}
 		;
 
-entry:	  entry_head assignment_list TOKEN_RBRACE 						{ $$ = xx_token_entry( $1, $2); junk1($3); }
-		| entry_head assignment_list TOKEN_COMMA opt_space TOKEN_RBRACE 	{ $$ = xx_token_entry( $1, $2); junk3($3,$4,$5); }
-		| entry_head TOKEN_RBRACE 											{ $$ = xx_token_entry_empty($1) ; junk1($2) ; }
+entry:	  entry_head assignment_list TOKEN_RBRACE 						    {
+			_PROTECT($$ = xx_token_entry( $1, $2));
+			_UNPROTECT(1); // $$
+		}
+		| entry_head assignment_list TOKEN_COMMA opt_space TOKEN_RBRACE 	{
+			_PROTECT($$ = xx_token_entry( $1, $2));
+			_UNPROTECT(1); // $$
+		}
+		| entry_head TOKEN_RBRACE 											{
+			_PROTECT($$ = xx_token_entry_empty($1));
+			_UNPROTECT(1); // $$
+		}
 		;
 
-entry_head:	  TOKEN_ENTRY opt_space TOKEN_LBRACE opt_space key_name opt_space TOKEN_COMMA opt_space { $$ = xx_entry_head( $1, $5) ; junk6($2,$3,$4,$6,$7,$8) ; }
-		| TOKEN_ENTRY opt_space TOKEN_LBRACE opt_space TOKEN_COMMA opt_space { $$ = xx_entry_head_nokey( $1) ; junk5($2,$3,$4,$5,$6) ; }
+entry_head:	  TOKEN_ENTRY opt_space TOKEN_LBRACE opt_space key_name opt_space TOKEN_COMMA opt_space {
+			_PROTECT($$ = xx_entry_head( $1, $5));
+			_UNPROTECT(1); // $$
+		}
+		| TOKEN_ENTRY opt_space TOKEN_LBRACE opt_space TOKEN_COMMA opt_space {
+			_PROTECT($$ = xx_entry_head_nokey($1));
+			_UNPROTECT(1); // $$
+		}
 		;
 
-key_name:	  TOKEN_KEY 	{ $$ = xx_keyname_key( $1) ;}
-		| TOKEN_ABBREV 		{ $$ = xx_keyname_abbrev( $1) ; }
+key_name:	  TOKEN_KEY 	{
+			_PROTECT($$ = xx_keyname_key($1));
+			_UNPROTECT(1); // $$
+		}
+		| TOKEN_ABBREV 		{
+			_PROTECT($$ = xx_keyname_abbrev( $1));
+			_UNPROTECT(1); // $$
+		}
 		;
 
-include:	  TOKEN_INCLUDE opt_space TOKEN_LITERAL { $$ = xx_include( $3 ) ; junk2($1,$2) ; }
+include:	  TOKEN_INCLUDE opt_space TOKEN_LITERAL {
+			_PROTECT($$ = xx_include($3));
+			_UNPROTECT(1); // $$
+		}
 		;
 
-preamble:	  TOKEN_PREAMBLE opt_space TOKEN_LBRACE opt_space value opt_space TOKEN_RBRACE { $$ = xx_preamble($5) ; junk6($1,$2,$3,$4,$6,$7) ; }
+preamble:	  TOKEN_PREAMBLE opt_space TOKEN_LBRACE opt_space value opt_space TOKEN_RBRACE {
+			_PROTECT($$ = xx_preamble($5));
+			_UNPROTECT(1); // $$
+		}
 		;
 
-string:		  TOKEN_STRING opt_space TOKEN_LBRACE opt_space assignment opt_space TOKEN_RBRACE { $$ = xx_string($5) ; junk6( $1, $2, $3, $4, $6, $7) ; }
+string:		  TOKEN_STRING opt_space TOKEN_LBRACE opt_space assignment opt_space TOKEN_RBRACE {
+			_PROTECT($$ = xx_string($5));
+			_UNPROTECT(1); // $$
+		}
 		;
 
-value:	  	  simple_value {$$ = xx_forward($1) ; }
-		| value opt_space TOKEN_SHARP opt_space simple_value { $$ = xx_value( $1, $5) ; junk3( $2, $3, $4);  }
+value:	  	  simple_value {
+			_PROTECT($$ = xx_forward($1));
+			_UNPROTECT(1); // $$
+		}
+		| value opt_space TOKEN_SHARP opt_space simple_value {
+			_PROTECT($$ = xx_value( $1, $5));
+			_UNPROTECT(1); // $$
+		}
 		;
 
-simple_value:	  TOKEN_VALUE { $$ = xx_simple_value($1); }
-		| TOKEN_ABBREV { $$ = xx_expand_abbrev($1); }
+simple_value:	  TOKEN_VALUE { _PROTECT($$ = xx_simple_value($1)); _UNPROTECT(1); }
+		| TOKEN_ABBREV { _PROTECT($$ = xx_expand_abbrev($1)); _UNPROTECT(1); }
 		;
 
-assignment_list:  assignment 									{ $$ = xx_assignement_list1($1); }
-		| assignment_list TOKEN_COMMA opt_space assignment 	{ $$ = xx_assignement_list2($1, $4); junk2($2,$3); }
+assignment_list:  assignment 								{
+			_PROTECT($$ = xx_assignement_list1($1));
+			_UNPROTECT(1); // $$
+		}
+		| assignment_list TOKEN_COMMA opt_space assignment 	{
+			_PROTECT($$ = xx_assignement_list2($1, $4));
+			_UNPROTECT(1); // $$
+		}
 		;
 
-assignment:	  assignment_lhs opt_space TOKEN_EQUALS opt_space value opt_space {  $$ = xx_assignement($1, $5); junk4($2, $3, $4, $6); }
+assignment:	  assignment_lhs opt_space TOKEN_EQUALS opt_space value opt_space {
+			_PROTECT($$ = xx_assignement($1, $5));
+			_UNPROTECT(1); // $$
+		}
 		;
 
 assignment_lhs:	  TOKEN_FIELD 	{ $$ = xx_lhs_field( $1 ) ; }
@@ -308,16 +345,19 @@ assignment_lhs:	  TOKEN_FIELD 	{ $$ = xx_lhs_field( $1 ) ; }
 		;
 
 opt_space:							{ $$ = xx_null() ; }
-		| space						{ $$ = xx_forward($1) ;}
+		| space						{ _PROTECT($$ = xx_forward($1)); _UNPROTECT(1); }
 		;
 
-space:	single_space				{ $$ = xx_forward($1) ;}
-		| space single_space		{ $$ = xx_forward($1); junk1($2) ; } 
+space:	single_space				{ _PROTECT($$ = xx_forward($1)); _UNPROTECT(1); }
+		| space single_space		{
+			_PROTECT($$ = xx_forward($1));
+			_UNPROTECT(1); // $$
+		}
 		;
 
-single_space:	  TOKEN_SPACE		{ $$ = xx_space( $1 ) ; }
-		| TOKEN_INLINE				{ $$ = xx_space_inline( $1 ) ; }
-		| TOKEN_NEWLINE				{ $$ = xx_space_newline( $1 ) ; }
+single_space:	  TOKEN_SPACE		{ _PROTECT($$ = xx_space( $1 ));         _UNPROTECT(1); }
+		| TOKEN_INLINE				{ _PROTECT($$ = xx_space_inline( $1 ));  _UNPROTECT(1); }
+		| TOKEN_NEWLINE				{ _PROTECT($$ = xx_space_newline( $1 )); _UNPROTECT(1); }
 		;
 %%
 
@@ -397,11 +437,11 @@ SEXP do_read_bib(SEXP args) {
 	col_number = 0; 
 	byte_number = 0; 
 	/* set up the data */
-	_PROTECT_WITH_INDEX( includes = NewList() , &INCLUDE_INDEX ) ;
-	_PROTECT_WITH_INDEX( comments = NewList() , &COMMENT_INDEX ) ;
-	_PROTECT_WITH_INDEX( strings  = NewList() , &STRING_INDEX ) ;
-	_PROTECT_WITH_INDEX( preamble = NewList() , &PREAMBLE_INDEX ) ;
-	_PROTECT_WITH_INDEX( entries  = NewList() , &ENTRIES_INDEX ) ;
+	_PROTECT(includes = NewList());
+	_PROTECT(comments = NewList());
+	_PROTECT(strings  = NewList());
+	_PROTECT(preamble = NewList());
+	_PROTECT(entries  = NewList());
 	
 	/* call the parser */
 	recovering = 0; 
@@ -416,12 +456,11 @@ SEXP do_read_bib(SEXP args) {
 		PROTECT( ans = CDR(entries) )  ;
 	}
 	SEXP obj ;
-	_PROTECT(obj = asVector( comments, 0 ) ); setAttrib( ans , install("comment") , obj ); _UNPROTECT_PTR( obj ) ;
-	_PROTECT(obj = asVector( includes, 0 ) ); setAttrib( ans , install("include") , obj ); _UNPROTECT_PTR( obj ) ; 
-	_PROTECT(obj = asVector( strings , 1 ) ); setAttrib( ans , install("strings") , obj ); _UNPROTECT_PTR( obj ) ; 
-	_PROTECT(obj = asVector( preamble, 0 ) ); setAttrib( ans , install("preamble"), obj ); _UNPROTECT_PTR( obj ) ;
-	_UNPROTECT_PTR( entries ) ;
-	_UNPROTECT_PTR( ans );
+	_PROTECT(obj = asVector( comments, 0 ) ); setAttrib( ans , install("comment") , obj ); _UNPROTECT(1) ; // obj
+	_PROTECT(obj = asVector( includes, 0 ) ); setAttrib( ans , install("include") , obj ); _UNPROTECT(1) ; // obj
+	_PROTECT(obj = asVector( strings , 1 ) ); setAttrib( ans , install("strings") , obj ); _UNPROTECT(1) ; // obj
+	_PROTECT(obj = asVector( preamble, 0 ) ); setAttrib( ans , install("preamble"), obj ); _UNPROTECT(1) ; // obj
+	_UNPROTECT(6); // ans, entries, preamble, strings, comments, includes
 
 	fclose(fp);
 	
@@ -447,11 +486,10 @@ static SEXP xx_object_list_1(SEXP object){
 	} else{
 		_PROTECT( ans = GrowList( tmp, object) ) ;
 	}
-	_UNPROTECT_PTR( tmp) ;
-	_UNPROTECT_PTR( object) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_object_list_1>\n" ) ;
 #endif
+	_UNPROTECT(2); // ans, tmp
 	return ans ;
 }
 
@@ -470,11 +508,10 @@ static SEXP xx_object_list_2(SEXP list, SEXP object){
 	} else{
 		_PROTECT( ans = GrowList( list, object ) );
 	}
-	_UNPROTECT_PTR( object ) ;
-	_UNPROTECT_PTR( list ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_object_list_2>\n" ) ;
 #endif
+	_UNPROTECT(1); // ans,
 	return ans ; 
 }
 
@@ -489,7 +526,7 @@ static SEXP xx_object(SEXP object){
 #endif
 	SEXP ans; 
 	_PROTECT( ans = object ) ;
-	_UNPROTECT_PTR( object ) ;
+	_UNPROTECT(1); // ans
 #ifdef XXDEBUG
 	Rprintf( "</xx_aobject>\n" ) ;
 #endif
@@ -512,6 +549,7 @@ static SEXP xx_atobject_comment(SEXP object){
 #ifdef XXDEBUG
 	Rprintf( "</xx_atobject_comment>\n" ) ;
 #endif
+	_UNPROTECT(1); // ans
 	return ans ; 
 }
 
@@ -555,7 +593,6 @@ static SEXP xx_atobject_entry(SEXP object, YYLTYPE loc){
 	
 	SEXP res; 
 	_PROTECT( res = GrowList( entries , ans ) ) ;
-	_REPROTECT( entries = res , ENTRIES_INDEX ) ;
 	_UNPROTECT( 1 ) ; // res
 	
 	SEXP srcref ; 
@@ -563,12 +600,12 @@ static SEXP xx_atobject_entry(SEXP object, YYLTYPE loc){
 	setAttrib( ans, install( "srcref"), srcref );
 	_UNPROTECT( 1 ) ; // srcref
 	
-	
 #ifdef XXDEBUG
 	Rprintf( "</xx_atobject_entry>\n" ) ;
 #endif
 	_UNPROTECT( 2 ) ; // ans, head
 	_PROTECT( ans = R_NilValue ); 
+	_UNPROTECT(1); // ans
 	return ans ;
 }
 
@@ -587,6 +624,7 @@ static SEXP xx_atobject_include(SEXP object ){
 #ifdef XXDEBUG
 	Rprintf( "</xx_atobject_include>\n" ) ;
 #endif
+	_UNPROTECT(1); // ans
 	return ans ;
 }
 
@@ -603,6 +641,7 @@ static SEXP xx_atobject_preamble(SEXP object){
 #ifdef XXDEBUG
 	Rprintf( "</xx_atobject_preamble>\n" ) ;
 #endif
+	_UNPROTECT(1); // ans
 	return ans ;
 }
 
@@ -619,6 +658,7 @@ static SEXP xx_atobject_string(SEXP object){
 #ifdef XXDEBUG
 	Rprintf( "</xx_atobject_string>\n" ) ;
 #endif
+	_UNPROTECT(1); // ans
 	return ans ; 
 }
 
@@ -635,12 +675,10 @@ static SEXP xx_token_entry( SEXP head, SEXP list){
 	SEXP data ;
 	_PROTECT( data = CDR(list) )  ;
 	setAttrib( data, install("head"), head) ;
-	_UNPROTECT_PTR( list ) ;
-	_UNPROTECT_PTR( head ) ;
-	
 #ifdef XXDEBUG
 	Rprintf( "</xx_token_entry>\n" ) ;
 #endif
+	_UNPROTECT(1); // data
 	return data; 
 }
 
@@ -656,10 +694,10 @@ static SEXP xx_token_entry_empty(SEXP head){
 	SEXP ans; 
 	_PROTECT( ans = R_NilValue ) ;
 	setAttrib( ans, install("head"), head) ;
-	_UNPROTECT_PTR( head ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_token_entry_empty>\n" ) ;
 #endif
+	_UNPROTECT(1); // ans
 	return ans; 
 }
 
@@ -677,12 +715,10 @@ static SEXP xx_entry_head( SEXP kind, SEXP keyname ){
 	_PROTECT( ans = allocVector( STRSXP, 2) ) ;
 	SET_STRING_ELT( ans, 0, STRING_ELT(keyname, 0) ) ;
 	SET_STRING_ELT( ans, 1, STRING_ELT(kind, 0) ) ;
-	_UNPROTECT_PTR(kind) ;
-	_UNPROTECT_PTR(keyname) ;
-	
 #ifdef XXDEBUG
 	Rprintf( "</xx_entry_head>\n" ) ;
 #endif
+	_UNPROTECT(1); // ans
 	return ans ;
 }  
    
@@ -699,12 +735,12 @@ static SEXP xx_entry_head_nokey( SEXP kind){
 	_PROTECT( ans = allocVector( STRSXP, 2) ) ;
 	SET_STRING_ELT( ans, 0, NA_STRING ) ;
 	SET_STRING_ELT( ans, 1, STRING_ELT(kind, 0) ) ;
-	_UNPROTECT_PTR(kind) ;
 	warning( "\n%s:%d:%d\n\tno key for the entry at line %d", 
 			bibfile, line_number, col_number, currentKeyLine ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_entry_head>\n" ) ;
 #endif
+	_UNPROTECT(1); // ans
 	return ans ;
 }  
 
@@ -807,11 +843,10 @@ static SEXP xx_value( SEXP left , SEXP right ){
 	
 	_PROTECT( ans = allocVector( STRSXP, 1) ) ;
 	SET_STRING_ELT( ans, 0, STRING_ELT( mkString2( res, n_left + n_right ), 0) ) ;
-	_UNPROTECT_PTR( right ) ; 
-	_UNPROTECT_PTR( left ) ; 
 #ifdef XXDEBUG
 	Rprintf( "</xx_value>\n" ) ;
 #endif
+	_UNPROTECT(1); // ans
 	return ans ;
 }
 
@@ -827,11 +862,10 @@ static SEXP xx_assignement_list1(SEXP object){
 	SEXP ans, tmp; 
 	_PROTECT( tmp = NewList( ) ) ;
 	_PROTECT( ans = GrowList( tmp, object) ) ;
-	_UNPROTECT_PTR( tmp ) ;
-	_UNPROTECT_PTR( object ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_assignement_list1>\n" ) ;
 #endif
+	_UNPROTECT(2); // ans, tmp
 	return ans ;
 }
 
@@ -847,11 +881,10 @@ static SEXP xx_assignement_list2(SEXP list, SEXP object){
 #endif
 	SEXP ans ;
 	_PROTECT( ans = GrowList( list, object) ) ;
-	_UNPROTECT_PTR( list ) ;
-	_UNPROTECT_PTR( object ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_assignement_list2>\n" ) ;
 #endif
+	_UNPROTECT(1); // ans
 	return ans; 
 }
 
@@ -868,11 +901,10 @@ static SEXP xx_assignement(SEXP lhs, SEXP value){
 	SEXP ans;
 	_PROTECT( ans = value ) ;
 	setAttrib( ans, install("names"), lhs ) ;
-	_UNPROTECT_PTR( lhs ) ;
-	_UNPROTECT_PTR( value ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_assignement>\n" ) ;
 #endif
+	_UNPROTECT(1); // ans
 	return ans; 
 }
 
@@ -950,11 +982,10 @@ static SEXP xx_simple_value( SEXP s ){
 	} else{
 		_PROTECT( ans = s ) ;
 	}
-	
-	_UNPROTECT_PTR( s ) ;
 #ifdef XXDEBUG
 	Rprintf( "</xx_simple_value>\n" ) ;
 #endif
+	_UNPROTECT(1); // ans
 	return ans ;
 }
 
@@ -969,6 +1000,7 @@ static SEXP xx_null( ){
 #ifdef XXDEBUG
 	Rprintf( "</xx_null>\n" ) ;
 #endif
+	_UNPROTECT(1); // ans
 	return ans;
 }
 
@@ -978,26 +1010,22 @@ static SEXP xx_null( ){
 static void recordInclude( SEXP object ){
 	SEXP tmp ;
 	_PROTECT( tmp = GrowList( includes, object ) ); 
-	_REPROTECT( includes = tmp, INCLUDE_INDEX ) ;
 	_UNPROTECT( 1 ) ; // tmp
 }
 
 static void recordComment( SEXP object ){
 	SEXP tmp ;
 	_PROTECT( tmp = GrowList( comments, object ) ); 
-	_REPROTECT( comments = tmp, COMMENT_INDEX ) ;
 	_UNPROTECT( 1 ) ; // tmp
 }
 static void recordString( SEXP object ){
 	SEXP tmp ;
 	_PROTECT( tmp = GrowList( strings, object ) ); 
-	_REPROTECT( strings = tmp, STRING_INDEX ) ;
 	_UNPROTECT( 1 ) ; // tmp
 }
 static void recordPreamble( SEXP object ){
 	SEXP tmp ;
 	_PROTECT( tmp = GrowList( preamble, object ) ); 
-	_REPROTECT( preamble = tmp, PREAMBLE_INDEX ) ;
 	_UNPROTECT( 1 ) ; // tmp
 }
 
@@ -1019,8 +1047,7 @@ static SEXP xx_expand_abbrev( SEXP abbrev ){
 		};
 		tmp = CDR( tmp ) ;
 	}
-	_UNPROTECT(1); // tmp
-	_UNPROTECT_PTR( abbrev ) ;
+	_UNPROTECT(2); // tmp, ans
 	return ans ;
 }
 
@@ -1047,6 +1074,7 @@ void setToken( const char* token, int len ){
 		yylloc.last_line    = line_number ;
 		yylloc.last_column  = col_number ;
 		yylloc.last_byte    = byte_number ;
+		_UNPROTECT(1); // yylval
 	}
 }
 
@@ -1061,63 +1089,8 @@ SEXP mkString2(const char *s, int len){
     cetype_t enc = CE_NATIVE;
     _PROTECT(t = allocVector(STRSXP, 1));
     SET_STRING_ELT(t, 0, mkCharLenCE(s, len, enc));
-    _UNPROTECT_PTR(t);
+    _UNPROTECT(1); // t
     return t;
-}
-/*}}}*/
-
-/*{{{ junks */
-void junk1( SEXP s){
-#ifdef XXDEBUG
-	Rprintf( " *~\n" ) ; 
-#endif
-	_UNPROTECT_PTR( s ) ; 
-}
-
-void junk2( SEXP s1, SEXP s2){
-	junk1(s1);
-	junk1(s2); 
-}
-
-void junk3( SEXP s1, SEXP s2, SEXP s3){
-	junk1(s1);
-	junk1(s2);
-	junk1(s3);
-}
-
-void junk4( SEXP s1, SEXP s2, SEXP s3, SEXP s4){
-	junk1(s1);
-	junk1(s2);
-	junk1(s3);
-	junk1(s4);
-}
-
-
-void junk5( SEXP s1, SEXP s2, SEXP s3, SEXP s4, SEXP s5){
-	junk1(s1);
-	junk1(s2);
-	junk1(s3);
-	junk1(s4);
-	junk1(s5);
-}
-
-void junk6( SEXP s1, SEXP s2, SEXP s3, SEXP s4, SEXP s5, SEXP s6){
-	junk1(s1);
-	junk1(s2);
-	junk1(s3);
-	junk1(s4);
-	junk1(s5);
-	junk1(s6);
-}
-
-void junk7( SEXP s1, SEXP s2, SEXP s3, SEXP s4, SEXP s5, SEXP s6, SEXP s7){
-	junk1(s1);
-	junk1(s2);
-	junk1(s3);
-	junk1(s4);
-	junk1(s5);
-	junk1(s6);
-	junk1(s7);
 }
 /*}}}*/
 
@@ -1146,10 +1119,9 @@ static SEXP asVector( SEXP x, int donames){
 	_UNPROTECT(1) ; // tmp
 	if( donames ){
 		setAttrib( ans, install("names"), names ) ;
-		_UNPROTECT_PTR(names) ;
+		_UNPROTECT(1); // names
 	}
-	_UNPROTECT_PTR(x) ; 
-	_UNPROTECT_PTR(ans) ; 
+	_UNPROTECT(1); // ans
 	return ans; 
 }
 /*}}}*/
@@ -1168,8 +1140,10 @@ not work with offsets
 	INTEGER(ans)[4] = last_at_location.first_column + 1; 
 	INTEGER(ans)[5] = loc.last_column + 1; 
 	setAttrib( ans, install("srcfile"), srcfile ) ;
-	setAttrib( ans, install("class"), mkString2( "srcref", 6 ) ) ;
-        _UNPROTECT( 1) ;
+	SEXP srcref_str;
+	_PROTECT(srcref_str = mkString2( "srcref", 6 ));
+	setAttrib( ans, install("class"), srcref_str);
+	_UNPROTECT(2); // srcref_str, ans
 	return ans ;
 }
 
