@@ -47,7 +47,8 @@ Depends:
 Imports:
     utils
 Suggests:
-    testthat
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
 LazyLoad: yes
 Encoding: UTF-8
 RoxygenNote: 7.1.1
