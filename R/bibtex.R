@@ -367,7 +367,7 @@ write.bib <- function(entry, file="Rpackages.bib", append = FALSE, verbose = TRU
         file <- paste(file, '.bib', sep='')
     }
 
-    fh <- file(file, open = if(append) "a+" else "w+" )
+    fh <- file(file, open = if (append) "a+" else "w+", encoding = "UTF-8")
     on.exit( if( isOpen(fh) ) close(fh) )
     if( verbose ) message("Writing ", length(bibs) , " Bibtex entries ... ", appendLF=FALSE)
     writeLines(toBibtex(bibs), fh)
