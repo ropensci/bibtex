@@ -1,5 +1,3 @@
-context("bibtex")
-
 test_that("arrange.single.author does not add extra trailing space in given names (#7)", {
   given <- bibtex:::ArrangeSingleAuthor('Jean-Claude {Van Damme}')$given
   expect_false( grepl( "[[:space:]]$", given ) )
@@ -12,7 +10,7 @@ test_that("read.bib Ignores entry but does not stop with invalid author/editor (
 })
 
 test_that("read.bib can use ? in key (#9)", {
-  tmp <- tempfile(fileext = ".bib")  
+  tmp <- tempfile(fileext = ".bib")
   entry <- "@Misc{key?,\n author = \"Smith, Bob\",\n title = \"The Title\",\n year = 2012, \n}"
   writeLines(entry, tmp)
   out <- read.bib(tmp)
