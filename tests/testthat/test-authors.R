@@ -1,6 +1,3 @@
-context("Author Parsing")
-library(bibtex)
-
 test_that("Smith, Jr., John", {
   authors <- "Smith, Jr., John"
   parsed <- bibtex:::ArrangeAuthors(authors)
