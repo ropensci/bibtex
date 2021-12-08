@@ -48,6 +48,8 @@ test_that("Read datasets", {
 test_that("Read graphics", {
   bib <- read.bib(package = "graphics")
 
+  skip_on_os(c("mac", "linux", "solaris"))
+
   expect_snapshot_output(bib)
 
   expect_snapshot_output(toBibtex(bib))
@@ -55,6 +57,8 @@ test_that("Read graphics", {
 
 test_that("Read grDevices", {
   bib <- read.bib(package = "grDevices")
+  
+  skip_on_os(c("mac", "linux", "solaris"))
 
   expect_snapshot_output(bib)
 
