@@ -56,3 +56,12 @@ test_that("Test append", {
   expect_equal(l3$author, mock$author)
   expect_equal(l3$key, mock$key)
 })
+
+test_that("NULL vector", {
+  file <- tempfile(fileext = ".bib")
+
+  expect_message(
+    write.bib(as.character(NULL), file = file),
+    "Empty package list: nothing to be done."
+  )
+})
