@@ -35,5 +35,5 @@ test_that("do read with several entries", {
   bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
   out <- do_read_bib(bib, encoding = "UTF-8", srcfile = bib)
 
-  expect_snapshot_output(out)
+  expect_snapshot_output(lapply(out, print))
 })
