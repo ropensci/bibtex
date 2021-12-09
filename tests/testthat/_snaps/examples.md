@@ -943,7 +943,7 @@
     
     Meyer D, Zeileis A, Hornik K (2005). "The strucplot framework:
     Visualizing multi-way contingency tables with vcd." Department of
-    Statistics and Mathematics, WirtschaftsuniversitÃ¤t, Wien. Report 22,
+    Statistics and Mathematics, Wirtschaftsuniversität, Wien. Report 22,
     Research Report Series, <URL:
     http://epub.wu-wien.ac.at/dyn/openURL?id=oai:epub.wu-wien.ac.at:epub-wu-01_8a1>.
     
@@ -1037,7 +1037,7 @@
       year = {2005},
       title = {The strucplot framework: Visualizing multi-way contingency tables with vcd},
       note = {Report 22, Research Report Series},
-      institution = {Department of Statistics and Mathematics, WirtschaftsuniversitÃ¤t, Wien},
+      institution = {Department of Statistics and Mathematics, Wirtschaftsuniversität, Wien},
       url = {http://epub.wu-wien.ac.at/dyn/openURL?id=oai:epub.wu-wien.ac.at:epub-wu-01_8a1},
     }
     
@@ -1217,15 +1217,15 @@
     
     Ihaka R (2003). "Colour for Presentation Graphics." In _Proceedings of
     the 3rd International Workshop on Distributed Statistical Computing
-    (DSC 2003)_. Technische UniversitÃ¤t Wien, Vienna, Austria. <URL:
+    (DSC 2003)_. Technische Universität Wien, Vienna, Austria. <URL:
     http://www.ci.tuwien.ac.at/Conferences/DSC-2003>.
     
     The Free Software Foundation (????). "The plotutils package." <URL:
     http://www.gnu.org/software/plotutils/plotutils.html>.
     
     Freedman D, Diaconis P (1981). "On the histogram as a density
-    estimator: L_2 theory." _Zeitschrift fÃ¼r Wahrscheinlichkeitstheorie
-    und verwandte Gebiete_, 453-476.
+    estimator: L_2 theory." _Zeitschrift für Wahrscheinlichkeitstheorie und
+    verwandte Gebiete_, 453-476.
     
     Scott DW (1979). "On optimal and data-based histograms." _Biometrika_,
     605-610.
@@ -1319,7 +1319,7 @@
       year = {2003},
       title = {Colour for Presentation Graphics},
       booktitle = {Proceedings of the 3rd International Workshop on Distributed Statistical Computing (DSC 2003)},
-      organization = {Technische UniversitÃ¤t Wien, Vienna, Austria},
+      organization = {Technische Universität Wien, Vienna, Austria},
       url = {http://www.ci.tuwien.ac.at/Conferences/DSC-2003},
     }
     
@@ -1333,7 +1333,7 @@
       author = {D. Freedman and P. Diaconis},
       year = {1981},
       title = {On the histogram as a density estimator: L_2 theory},
-      journal = {Zeitschrift fÃ¼r Wahrscheinlichkeitstheorie und verwandte Gebiete},
+      journal = {Zeitschrift für Wahrscheinlichkeitstheorie und verwandte Gebiete},
       edition = {57},
       pages = {453--476},
     }
