@@ -29,3 +29,11 @@ test_that("Do read bib with non standard entries", {
 
   expect_snapshot_output(out[[1]])
 })
+
+
+test_that("do read with several entries", {
+  bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
+  out <- do_read_bib(bib, encoding = "UTF-8", srcfile = bib)
+
+  expect_snapshot_output(out)
+})
