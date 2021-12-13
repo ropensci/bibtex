@@ -85,3 +85,17 @@
       doi = {10.1098/rspa.1966.0221},
     }
 
+# Parse single entry from string #35
+
+    @Book{McElreath_2020,
+      edition = {2},
+      title = {Statistical Rethinking: A Bayesian Course with Examples in R and Stan},
+      isbn = {978-0-429-02960-8},
+      url = {https://www.taylorfrancis.com/books/9780429642319},
+      doi = {10.1201/9780429029608},
+      publisher = {Chapman and Hall/CRC},
+      author = {Richard McElreath},
+      year = {2020},
+      month = {Mar},
+    }
+

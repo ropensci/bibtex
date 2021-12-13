@@ -158,3 +158,19 @@ test_that("caught segfault read.bib() - macOS 10.14.6 #23", {
   out <- read.bib(tmp)
   expect_snapshot_output(toBibtex(out))
 })
+
+
+test_that("Parse single entry from string #35", {
+  my_ref <- " @book{McElreath_2020, edition={2},
+   title={Statistical Rethinking: A Bayesian Course with Examples in R and Stan}, ISBN={978-0-429-02960-8},
+   url={https://www.taylorfrancis.com/books/9780429642319}, DOI={10.1201/9780429029608},
+   publisher={Chapman and Hall/CRC}, author={McElreath, Richard}, year={2020}, month={Mar} }"
+
+  tmp1 <- tempfile(fileext = ".bib")
+
+  writeLines(my_ref, tmp1)
+
+  out <- read.bib(tmp1)
+
+  expect_snapshot_output(toBibtex(out))
+})
