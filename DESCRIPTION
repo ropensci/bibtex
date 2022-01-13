@@ -12,6 +12,11 @@ Authors@R: c(
            role = c("ctb", "cre"),
            email = "balamut2@illinois.edu",
            comment = c(ORCID = "0000-0003-2826-8458")),
+    person(given = "Diego", 
+           family = "Hernangómez", 
+           role = c("aut"), 
+           email = "diego.hernangomezherrero@gmail.com",
+           comment = c(ORCID = "0000-0001-8457-4658")),
     person(given = "Scott",
            family = "Chamberlain",
            role = c("ctb"),
@@ -47,7 +52,8 @@ Depends:
 Imports:
     utils
 Suggests:
-    testthat
+    testthat (>= 3.0.0)
 LazyLoad: yes
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
+Config/testthat/edition: 3

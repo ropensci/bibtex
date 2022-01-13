@@ -9,3 +9,6 @@ revdep
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^bibtex\.Rcheck$
+^bibtex.*\.tar\.gz$
+^bibtex.*\.tgz$
