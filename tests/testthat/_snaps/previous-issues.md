@@ -12,6 +12,12 @@
 
 # make.bib.entry can generate year from date #15
 
+    [1] "@Article{newspaper,"          "\tauthor = {Author Smith},"   
+    [3] "\ttitle  = {Article title},"   "\tdate   = {2016-12-21},"     
+    [5] "\tjournal = {Newspaper name}," "}"                           
+
+---
+
     @Article{newspaper,
       author = {Author Smith},
       title = {Article title},

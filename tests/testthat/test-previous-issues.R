@@ -8,16 +8,9 @@ test_that("Error message for invalid .bib files to read.bib #3", {
 
 
 test_that("arrange.authors when family names have white space #6", {
-  tmp <- tempfile(fileext = ".bib")
-  entry <- "@Article{newspaper,
-    author = {Van Damme, Jean-Claude},
-    title  = {Article title},
-    date   = {2016-12-21},
-    journal = {Newspaper name},
-  }"
-  writeLines(entry, tmp)
+  issuefile <- system.file("bib/issue6.bib", package = "bibtex")
 
-  out <- read.bib(tmp)
+  out <- read.bib(issuefile)
 
   aut <- out["newspaper"]$author
   expect_s3_class(aut, "person", exact = TRUE)
@@ -28,16 +21,9 @@ test_that("arrange.authors when family names have white space #6", {
 # Housekeeping and for keep track on the same file
 
 test_that("(new) Extra trailing space in ... #7", {
-  tmp <- tempfile(fileext = ".bib")
-  entry <- "@Article{newspaper,
-    author = {Jean-Claude {Van Damme}},
-    title  = {Article title},
-    date   = {2016-12-21},
-    journal = {Newspaper name},
-  }"
-  writeLines(entry, tmp)
+  issuefile <- system.file("bib/issue7.bib", package = "bibtex")
 
-  out <- read.bib(tmp)
+  out <- read.bib(issuefile)
 
   aut <- out["newspaper"]$author
   expect_s3_class(aut, "person", exact = TRUE)
@@ -46,10 +32,9 @@ test_that("(new) Extra trailing space in ... #7", {
 })
 
 test_that("read.bib can use ? in key #9", {
-  tmp <- tempfile(fileext = ".bib")
-  entry <- "@Misc{key?,\n author = \"Smith, Bob\",\n title = \"The Title\",\n year = 2012, \n}"
-  writeLines(entry, tmp)
-  out <- read.bib(tmp)
+  issuefile <- system.file("bib/issue9.bib", package = "bibtex")
+
+  out <- read.bib(issuefile)
 
   expect_snapshot_output(toBibtex(out))
 
@@ -76,31 +61,21 @@ test_that("read.bib Ignores entry but does not stop with invalid author/editor #
 
 
 test_that("make.bib.entry can generate year from date #15", {
-  tmp <- tempfile(fileext = ".bib")
-  entry <- "@Article{newspaper,
-    author = {Author Smith},
-    title  = {Article title},
-    date   = {2016-12-21},
-    journal = {Newspaper name},
-  }"
-  writeLines(entry, tmp)
-  out <- read.bib(tmp)
+  issuefile <- system.file("bib/issue15.bib", package = "bibtex")
+
+  # Read Lines, there is no year here
+  expect_snapshot_output(readLines(issuefile))
+
+  out <- read.bib(issuefile)
   expect_equal(out$year, "2016")
   expect_snapshot_output(toBibtex(out))
 })
 
 
 test_that("windows and encoding #17", {
-  tmp <- tempfile(fileext = ".bib")
-  entry <- "@Article{newspaper,
-    author = {{Herm{\\`e}s International S.A.} and Katzfu{\\ss}, Matthias},
-    title  = {Article title},
-    date   = {2016-12-21},
-    journal = {Newspaper name},
-  }"
+  issuefile <- system.file("bib/issue17.bib", package = "bibtex")
 
-  writeLines(entry, tmp)
-  out <- read.bib(tmp)
+  out <- read.bib(issuefile)
 
   auths <- out$author
 
@@ -113,23 +88,9 @@ test_that("windows and encoding #17", {
 
 
 test_that("List of author names joined by AND cannot be parsed #18", {
-  tmp <- tempfile(fileext = ".bib")
-  entry <- "@Article{10.1371/journal.pone.0109458,
-    author = {Liu, Yang-Yu AND Nacher, Jose C. AND Ochiai, Tomoshiro AND Martino, Mauro AND Altshuler, Yaniv},
-  journal = {PLOS ONE},
-  publisher = {Public Library of Science},
-  title = {Prospect Theory for Online Financial Trading},
-  year = {2014},
-  month = {10},
-  volume = {9},
-  url = {https://doi.org/10.1371/journal.pone.0109458},
-  pages = {1-7},
-  number = {10},
-  doi = {10.1371/journal.pone.0109458}
-  }"
+  issuefile <- system.file("bib/issue18.bib", package = "bibtex")
 
-  writeLines(entry, tmp)
-  out <- read.bib(tmp)
+  out <- read.bib(issuefile)
 
   auths <- out$author
   expect_length(auths, 5)
@@ -142,34 +103,26 @@ test_that("List of author names joined by AND cannot be parsed #18", {
 
 
 test_that("caught segfault read.bib() - macOS 10.14.6 #23", {
-  tmp <- tempfile(fileext = ".bib")
-  entry <- "@article{Hawking1966,
-  author = {Hawking, Stephen William  and Bondi, Hermann },
-  title = {The occurrence of singularities in cosmology},
-  journal = {Proceedings of the Royal Society of London. Series A. Mathematical and Physical Sciences},
-  volume = {294},
-  number = {1439},
-  pages = {511-521},
-  year = {1966},
-  doi = {10.1098/rspa.1966.0221},
-}"
+  issuefile <- system.file("bib/issue23.bib", package = "bibtex")
 
-  writeLines(entry, tmp)
-  out <- read.bib(tmp)
+  out <- read.bib(issuefile)
   expect_snapshot_output(toBibtex(out))
 })
 
 
 test_that("Parse single entry from string #35", {
+
+  # This test is about not reading from a file, but from a string
   my_ref <- " @book{McElreath_2020, edition={2},
    title={Statistical Rethinking: A Bayesian Course with Examples in R and Stan}, ISBN={978-0-429-02960-8},
    url={https://www.taylorfrancis.com/books/9780429642319}, DOI={10.1201/9780429029608},
    publisher={Chapman and Hall/CRC}, author={McElreath, Richard}, year={2020}, month={Mar} }"
 
+  # Need to check by writing first
   tmp1 <- tempfile(fileext = ".bib")
-
   writeLines(my_ref, tmp1)
 
+  # And reading from the temp file
   out <- read.bib(tmp1)
 
   expect_snapshot_output(toBibtex(out))
