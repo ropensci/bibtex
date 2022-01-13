@@ -84,36 +84,6 @@
     [1] "BOOKLET"
     attr(,"key")
     [1] "booklet-full"
-                                                           author 
-    "Alfred V. Oaho and Jeffrey D. Ullman and Mihalis Yannakakis" 
-                                                            title 
-          "On Notions of Information Transfer in {VLSI} Circuits" 
-                                                           editor 
-                            "Wizard V. Oz and Mihalis Yannakakis" 
-                                                        booktitle 
-                                     "Proc. Fifteenth Annual ACM" 
-                                                           number 
-                                                             "17" 
-                                                           series 
-                                            "All ACM Conferences" 
-                                                            pages 
-                                                       "133--139" 
-                                                            month 
-                                                            "mar" 
-                                                             year 
-                                                           "1983" 
-                                                          address 
-                                                         "Boston" 
-                                                     organization 
-                                                            "ACM" 
-                                                        publisher 
-                                                 "Academic Press" 
-                                                             note 
-                                "This is a full CONFERENCE entry" 
-    attr(,"entry")
-    [1] "CONFERENCE"
-    attr(,"key")
-    [1] "conference-full"
                                author                             title 
                     "Donald E. Knuth"          "Fundamental Algorithms" 
                                volume                            series 
@@ -361,38 +331,6 @@
     [1] "booklet-full"
     
     [[4]]
-                                                           author 
-    "Alfred V. Oaho and Jeffrey D. Ullman and Mihalis Yannakakis" 
-                                                            title 
-          "On Notions of Information Transfer in {VLSI} Circuits" 
-                                                           editor 
-                            "Wizard V. Oz and Mihalis Yannakakis" 
-                                                        booktitle 
-                                     "Proc. Fifteenth Annual ACM" 
-                                                           number 
-                                                             "17" 
-                                                           series 
-                                            "All ACM Conferences" 
-                                                            pages 
-                                                       "133--139" 
-                                                            month 
-                                                            "mar" 
-                                                             year 
-                                                           "1983" 
-                                                          address 
-                                                         "Boston" 
-                                                     organization 
-                                                            "ACM" 
-                                                        publisher 
-                                                 "Academic Press" 
-                                                             note 
-                                "This is a full CONFERENCE entry" 
-    attr(,"entry")
-    [1] "CONFERENCE"
-    attr(,"key")
-    [1] "conference-full"
-    
-    [[5]]
                                author                             title 
                     "Donald E. Knuth"          "Fundamental Algorithms" 
                                volume                            series 
@@ -412,7 +350,7 @@
     attr(,"key")
     [1] "inbook-full"
     
-    [[6]]
+    [[5]]
                                                  author 
                                     "Daniel D. Lincoll" 
                                                   title 
@@ -448,7 +386,7 @@
     attr(,"key")
     [1] "incollection-full"
     
-    [[7]]
+    [[6]]
                                                            author 
     "Alfred V. Oaho and Jeffrey D. Ullman and Mihalis Yannakakis" 
                                                             title 
@@ -480,7 +418,7 @@
     attr(,"key")
     [1] "inproceedings-full"
     
-    [[8]]
+    [[7]]
                               author                            title 
                     "Larry Manmaker" "The Definitive Computer Manual" 
                         organization                          address 
@@ -494,7 +432,7 @@
     attr(,"key")
     [1] "manual-full"
     
-    [[9]]
+    [[8]]
                                   author                                title 
                "{\\'{E}}douard Masterly"           "Mastering Thesis Writing" 
                                   school                                 type 
@@ -508,7 +446,7 @@
     attr(,"key")
     [1] "mastersthesis-full"
     
-    [[10]]
+    [[9]]
                                         author 
                            "Joe-Bob Missilany" 
                                          title 
@@ -526,7 +464,7 @@
     attr(,"key")
     [1] "misc-full"
     
-    [[11]]
+    [[10]]
                                                     author 
                                 "F. Phidias Phony-Baloney" 
                                                      title 
@@ -548,7 +486,7 @@
     attr(,"key")
     [1] "phdthesis-full"
     
-    [[12]]
+    [[11]]
                                    editor                                 title 
     "Wizard V. Oz and Mihalis Yannakakis"          "Proc. Fifteenth AnnualSTOC" 
                                    number                                series 
@@ -564,7 +502,7 @@
     attr(,"key")
     [1] "proceedings-full"
     
-    [[13]]
+    [[12]]
                                                         author 
                                          "Tom T{\\'{e}}rrific" 
                                                          title 
@@ -588,7 +526,7 @@
     attr(,"key")
     [1] "techreport-full"
     
-    [[14]]
+    [[13]]
                                                               author 
      "Ulrich {\\\"{U}}nderwood and Ned {\\~N}et and Paul {\\={P}}ot" 
                                                                title 

@@ -63,9 +63,6 @@ test_that("read.bib Ignores entry but does not stop with invalid author/editor #
 test_that("make.bib.entry can generate year from date #15", {
   issuefile <- system.file("bib/issue15.bib", package = "bibtex")
 
-  # Read Lines, there is no year here
-  expect_snapshot_output(readLines(issuefile))
-
   out <- read.bib(issuefile)
   expect_equal(out$year, "2016")
   expect_snapshot_output(toBibtex(out))

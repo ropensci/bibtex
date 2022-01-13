@@ -1,7 +1,7 @@
 # https://ctan.javinator9889.com/biblio/bibtex/base/btxdoc.pdf
 
 test_that("Test article-full", {
-  bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
+  bib <- system.file("bib/xampl_message.bib", package = "bibtex")
 
   s <- expect_message(read.bib(bib))
 
@@ -9,9 +9,9 @@ test_that("Test article-full", {
 
   expect_equal(s$message, exp_mes)
 
-  out <- suppressMessages(read.bib(bib))
+  out <- read.bib(bib)
 
-  expect_length(out, 13)
+  expect_length(out, 3)
 
   entry <- out["article-full"]
 
@@ -21,7 +21,9 @@ test_that("Test article-full", {
 test_that("Test book-full", {
   bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
 
-  out <- suppressMessages(read.bib(bib))
+  out <- read.bib(bib)
+
+  expect_length(out, 13)
 
   entry <- out["book-full"]
 
@@ -31,7 +33,7 @@ test_that("Test book-full", {
 test_that("Test booklet-full", {
   bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
 
-  out <- suppressMessages(read.bib(bib))
+  out <- read.bib(bib)
 
   entry <- out["booklet-full"]
 
@@ -41,7 +43,7 @@ test_that("Test booklet-full", {
 test_that("Test conference-full", {
   bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
 
-  out <- suppressMessages(read.bib(bib))
+  out <- read.bib(bib)
 
   expect_warning(out["conference-full"])
 
@@ -53,7 +55,7 @@ test_that("Test conference-full", {
 test_that("Test inbook-full", {
   bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
 
-  out <- suppressMessages(read.bib(bib))
+  out <- read.bib(bib)
 
   entry <- out["inbook-full"]
 
@@ -63,7 +65,7 @@ test_that("Test inbook-full", {
 test_that("Test incollection-full", {
   bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
 
-  out <- suppressMessages(read.bib(bib))
+  out <- read.bib(bib)
 
   entry <- out["incollection-full"]
 
@@ -73,7 +75,7 @@ test_that("Test incollection-full", {
 test_that("Test inproceedings-full", {
   bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
 
-  out <- suppressMessages(read.bib(bib))
+  out <- read.bib(bib)
 
   entry <- out["inproceedings-full"]
 
@@ -83,7 +85,7 @@ test_that("Test inproceedings-full", {
 test_that("Test manual-full", {
   bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
 
-  out <- suppressMessages(read.bib(bib))
+  out <- read.bib(bib)
 
   entry <- out["manual-full"]
 
@@ -93,7 +95,7 @@ test_that("Test manual-full", {
 test_that("Test mastersthesis-full", {
   bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
 
-  out <- suppressMessages(read.bib(bib))
+  out <- read.bib(bib)
 
   entry <- out["mastersthesis-full"]
 
@@ -104,7 +106,7 @@ test_that("Test mastersthesis-full", {
 test_that("Test misc-full", {
   bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
 
-  out <- suppressMessages(read.bib(bib))
+  out <- read.bib(bib)
 
   entry <- out["misc-full"]
 
@@ -114,7 +116,7 @@ test_that("Test misc-full", {
 test_that("Test phdthesis-full", {
   bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
 
-  out <- suppressMessages(read.bib(bib))
+  out <- read.bib(bib)
 
   entry <- out["phdthesis-full"]
 
@@ -124,7 +126,7 @@ test_that("Test phdthesis-full", {
 test_that("Test proceedings-full", {
   bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
 
-  out <- suppressMessages(read.bib(bib))
+  out <- read.bib(bib)
 
   entry <- out["proceedings-full"]
 
@@ -134,7 +136,7 @@ test_that("Test proceedings-full", {
 test_that("Test techreport-full", {
   bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
 
-  out <- suppressMessages(read.bib(bib))
+  out <- read.bib(bib)
 
   entry <- out["techreport-full"]
 
@@ -145,7 +147,7 @@ test_that("Test techreport-full", {
 test_that("Test unpublished-full", {
   bib <- system.file("bib/xampl_standard.bib", package = "bibtex")
 
-  out <- suppressMessages(read.bib(bib))
+  out <- read.bib(bib)
 
   entry <- out["unpublished-full"]
 
