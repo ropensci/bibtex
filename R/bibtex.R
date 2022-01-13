@@ -339,8 +339,8 @@ do_read_bib <- function(file, encoding = "unknown", srcfile) {
 read.bib <- function(file = findBibFile(package) ,
          package = "bibtex",
          encoding = "unknown",
-         header = if( length(preamble) ) paste( preamble, sep = "\n" ) else "",
-         footer = "" )
+         header = NULL,
+         footer = NULL )
 {
     if( !is.character( file ) ){
         stop( "'read.bib' only supports reading from files, 'file' should be a character vector of length one" )
@@ -349,17 +349,18 @@ read.bib <- function(file = findBibFile(package) ,
                       "unknown" = srcfile( file ),
                       srcfile( file, encoding = encoding ) )
 
-    out <- withCallingHandlers(tryCatch(.External( "do_read_bib", file = file,
-                     encoding = encoding, srcfile = srcfile ),
-                       error = function(e){
-                           if(!any(grepl("unprotect_ptr", e)))
-                              stop(geterrmessage(), call. = FALSE)
-                           else
-                              stop("Invalid bib file", call. = FALSE)
-                       }), warning = function(w){
-                             if( any( grepl( "syntax error, unexpected [$]end", w)))
-                               invokeRestart("muffleWarning")
-                           })
+    out <- tryCatch(do_read_bib(
+      file = file,
+      encoding = encoding
+    ),
+    error = function(e) {
+      stop("Invalid bib file", call. = FALSE)
+    }, warning = function(w) {
+      if (any(grepl("syntax error, unexpected [$]end", w))) {
+        NULL
+      }
+    }
+    )
     # keys <- lapply(out, function(x) attr(x, 'key'))
     at  <- attributes(out)
     if((typeof(out) != "integer") || (getRversion() < "3.0.0"))

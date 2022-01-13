@@ -8,8 +8,8 @@ read.bib(
   file = findBibFile(package),
   package = "bibtex",
   encoding = "unknown",
-  header = if (length(preamble)) paste(preamble, sep = "\\n") else "",
-  footer = ""
+  header = NULL,
+  footer = NULL
 )
 }
 \arguments{
