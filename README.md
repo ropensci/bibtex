@@ -38,4 +38,4 @@ donate it to rOpenSci.
 - Get citation information for `bibtex` in R with `citation("bibtex")`
 - Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
 
-[![ropensci](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
+[![ropensci](https://ropensci.org//public_images/github_footer.png)](https://ropensci.org/)
