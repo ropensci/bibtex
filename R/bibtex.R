@@ -1,6 +1,17 @@
 # backport of simplified trimws() (introduced in R-3.3.0)
-trimws <- function(x) {
-  sub("^[[:space:]]+", "", sub("[[:space:]]$", "", x))
+# See https://github.com/wch/r-source/blob/trunk/src/library/base/R/strwrap.R
+trimws <- function(x, which = c("both", "left", "right"),
+                   whitespace = "[ \t\r\n]") {
+  which <- match.arg(which)
+  mysub <- function(re, x) sub(re, "", x, perl = TRUE)
+  switch(which,
+         "left" = mysub(paste0("^", whitespace, "+"), x),
+         "right" = mysub(paste0(whitespace, "+$"), x),
+         "both" = mysub(
+           paste0(whitespace, "+$"),
+           mysub(paste0("^", whitespace, "+"), x)
+         )
+  )
 }
 
 UnlistSplitClean <- function(s) {
@@ -196,10 +207,93 @@ findBibFile <- function(package) {
 #'
 #' @param file file name
 #' @param encoding encoding
-#' @param srcfile output of \code{\link{srcfile}}
+#' @param srcfile Deprecated
 #' @export
-do_read_bib <- function(file, encoding = "unknown", srcfile){
-  .External( "do_read_bib", file=file, encoding=encoding, srcfile=srcfile, PACKAGE = "bibtex" )
+do_read_bib <- function(file, encoding = "unknown", srcfile) {
+  # Assess the extension of the file
+  if (!file.exists(file)) stop("Error: unable to open file to read")
+
+  # Read all as UTF-8
+  lines <- readLines(file, encoding = encoding, warn = FALSE)
+
+  # Aux
+  trimlines <- trimws(lines)
+
+  # Map bib file
+  # Init and end of citation
+  init <- grep("^@", trimlines)
+
+  # Identify type of entry
+  entry <- unlist(lapply(trimlines[init], function(x) {
+    unlist(strsplit(x, "\\{"))[1]
+  }))
+
+
+  # Map fo document
+  map_bib <- data.frame(
+    entry = trimws(entry),
+    entry_lower = trimws(tolower(entry)),
+    init = init,
+    # The end of each entry is at most the
+    # previous line of the next entry
+    end = c(init[-1] - 1, length(lines))
+  )
+
+  # Extract map string
+  map_string <- map_bib[map_bib$entry_lower == "@string", ]
+
+  if (nrow(map_string) > 0) {
+    # This is needed for multiline strings
+
+    stringlines <- lapply(seq_len(nrow(map_string)), function(x) {
+      init <- map_string$init[x]
+      end <- map_string$end[x]
+      string_line <- lines[seq(init, end)]
+      # Guess lines outside of the entry
+
+      guess_eostring <- max(grep("\\}$", string_line))
+
+      string_line <- string_line[seq(1, guess_eostring)]
+
+      # Collapse to single line
+      string_line <- paste0(string_line, collapse = "\n")
+      string_line
+    })
+
+    stringlines <- unlist(stringlines)
+
+    map_string_end <- tryCatch(parse_strings(map_string, stringlines),
+      warning = function(e) {
+        NULL
+      },
+      error = function(e) {
+        stop("Error when parsing strings of ",
+          file,
+          call. = FALSE
+        )
+      }
+    )
+  } else {
+    map_string_end <- NULL
+  }
+
+
+  # Select entries only, i.e. exclude preamble, comment and string
+  map_entries <- map_bib[!map_bib$entry_lower %in% c(
+    "@preamble",
+    "@string", "@comment"
+  ), ]
+
+
+  # Parse single entry
+  end <- lapply(seq_len(nrow(map_entries)), function(x) {
+    parse_single_entry(
+      map_entries$init[x], map_entries$end[x], lines,
+      map_string_end
+    )
+  })
+
+  return(end)
 }
 
 #' bibtex parser
@@ -215,10 +309,8 @@ do_read_bib <- function(file, encoding = "unknown", srcfile){
 #'         stats, stats4, tools and utils) are treated specially: this package
 #'         contains bibtex entries for these packages.
 #' @param encoding encoding
-#' @param header header of the citation list.
-#'        By default this is made from the \samp{Preamble} entries found in
-#'        the bib file.
-#' @param footer footer of the citation list
+#' @param header DEPRECATED.
+#' @param footer DEPRECATED
 #'
 #' @return An object of class \code{"bibentry"}, similar to those obtained by the
 #'        \code{\link[utils]{bibentry}} function.
