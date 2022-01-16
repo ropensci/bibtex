@@ -154,7 +154,7 @@ make.bib.entry <- function( x ){
     tryCatch(bibentry( bibtype = type, key = key, other = y ), error = err.fun)
 }
 
-make.citation.list <- function( x, header, footer){
+make.citation.list <- function(x){
     rval <- list()
     for( i in seq_along(x) ){
         if( !is.null(x[[i]] ) )
@@ -364,7 +364,7 @@ read.bib <- function(file = findBibFile(package) ,
         out <- list()
     preamble <- at[["preamble"]]
 
-    out <- make.citation.list( out, header, footer )
+    out <- make.citation.list( out )
     attr( out, "strings") <- at[["strings"]]
     names(out) <- unlist(out$key)
     out
