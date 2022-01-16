@@ -14,7 +14,7 @@ parse_strings <- function(map_string,
 
   parsed_string <- NULL
 
-  for (i in seq_len(length(stringlines))) {
+  for (i in seq_along(stringlines)) {
     row <- map_string[i, ]
     singleline <- stringlines[i]
 
