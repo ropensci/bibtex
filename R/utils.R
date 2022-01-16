@@ -155,7 +155,7 @@ parse_single_entry <- function(init, end, lines, map_string_end) {
 
   fields <- formatted_bib[-1]
 
-  treat_fields <- lapply(seq_len(length(fields)), function(x) {
+  treat_fields <- lapply(seq_along(fields), function(x) {
     string <- fields[x]
     equalsign <- grep("=", strsplit(string, "")[[1]])
     field_name <- trimws(substr(string, 1, equalsign - 1))
