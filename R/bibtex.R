@@ -194,6 +194,10 @@ findBibFile <- function(package) {
 #' @param srcfile Deprecated
 #' @export
 do_read_bib <- function(file, encoding = "unknown", srcfile) {
+  if (!missing("srcfile")) {
+    message("'srcfile' argument is deprecated.")
+  }
+
   # Assess the extension of the file
   if (!file.exists(file)) stop("Error: unable to open file to read")
 
@@ -323,9 +327,16 @@ do_read_bib <- function(file, encoding = "unknown", srcfile) {
 read.bib <- function(file = findBibFile(package) ,
          package = "bibtex",
          encoding = "unknown",
-         header = NULL,
-         footer = NULL )
+         header,
+         footer)
 {
+  if (!missing("header")) {
+    message("'header' argument is deprecated.")
+  }
+
+  if (!missing("footer")) {
+    message("'footer' argument is deprecated.")
+  }
     if( !is.character( file ) ){
         stop( "'read.bib' only supports reading from files, 'file' should be a character vector of length one" )
     }

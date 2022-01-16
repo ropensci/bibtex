@@ -8,8 +8,8 @@ read.bib(
   file = findBibFile(package),
   package = "bibtex",
   encoding = "unknown",
-  header = NULL,
-  footer = NULL
+  header,
+  footer
 )
 }
 \arguments{
