@@ -207,17 +207,19 @@ parse_single_entry <- function(init, end, lines, map_string_end) {
 
   fields <- formatted_bib[-1]
 
-  treat_fields <- lapply(seq_along(fields), function(x) {
+  treat_fields <- vapply(seq_along(fields), function(x) {
     string <- fields[x]
     equalsign <- grep("=", strsplit(string, "")[[1]])
     field_name <- trimws(substr(string, 1, equalsign - 1))
     field_value <- trimws(substr(string, equalsign + 1, nchar(string)))
 
     c(field_name, field_value)
-  })
+  },
+  FUN.VALUE = character(2)
+  )
 
-  field_names <- unlist(sapply(treat_fields, "[[", 1))
-  field_value <- trimws(unlist(sapply(treat_fields, "[[", 2)))
+  field_names <- trimws(treat_fields[1, ])
+  field_value <- trimws(treat_fields[2, ])
 
 
   # Try hard to replace with string values
