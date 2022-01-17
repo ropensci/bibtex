@@ -2,9 +2,37 @@
 
 #' Parse (at)string keys
 #'
-#' Returns a table with all the string values and their value to be used on the
-#' `bib` file.
+#' Returns a data.frame with all the string keys and their value to be used on
+#' the `bib` file.
 #'
+#' @param map_string data frame with at least one column. Used as index, the
+#' only condition is that it must have one row per string.
+#'
+#' @param stringlines A vector of characters with the same length that
+#'   map_string (in terms of number of rows), containing the text of each
+#'   string.
+#'
+#' @details
+#' Both inputs are generated on [do_read_bib()]. This function parses the
+#' (at) string sequentially, i.e. if the first string is used for concatenation
+#' in the second string it should work.
+#'
+#'
+#' @examples
+#'
+#' map_string <- data.frame(
+#'   entry = c("@STRING", "@STRING", "@STRING")
+#' )
+#'
+#'
+#' stringlines <- c(
+#'   "@STRING{STOC-key = \"OX{\\singleletter{stoc}}\"}",
+#'   "@STRING{ACM = \"The OX Association for Computing Machinery\"}",
+#'   "@STRING{STOC = ACM # \" Symposium on the Theory of Computing\"}"
+#' )
+#'
+#'
+#' parse_strings(map_string, stringlines)
 #' @noRd
 parse_strings <- function(map_string,
                           stringlines) {
@@ -78,8 +106,29 @@ parse_strings <- function(map_string,
 
 #' Parse a single entry
 #'
-#' Returns an entry from a .bib file parsed into an R object
 #'
+#' Parses a character string to an R object, that would be used to create
+#' a [bibentry()] object on a later stage.
+#'
+#' @return A named character object with two attributes: entry with the
+#' BibTeX entry type and key with the assigned key on the file.
+#'
+#' @param init Number of line where the entry begins
+#' @param end Number of line where the entry ends
+#' @param lines The content of the .bib file to be parsed, `init` and `end`
+#'   are used to select the corresponding lines
+#' @param map_string_end The output of [parse_strings()] or `NULL`.
+#'
+#'
+#' @examples
+#'
+#' lines <- readLines(system.file("bib", "utils.bib", package = "bibtex"))
+#' parse_single_entry(
+#'   init = 2,
+#'   end = 8,
+#'   lines = lines,
+#'   map_string_end = NULL
+#' )
 #' @noRd
 parse_single_entry <- function(init, end, lines, map_string_end) {
   entry_lines <- lines[seq(init, end)]
@@ -118,14 +167,14 @@ parse_single_entry <- function(init, end, lines, map_string_end) {
 
   cleaned_entry_sub <-
     gsub("(?<=[[:alnum:]])_|(?<=[[:alnum:]])-|(?<=[[:alnum:]]):", "x",
-         cleaned_entry,
-         perl = TRUE
+      cleaned_entry,
+      perl = TRUE
     )
 
   # Protect commas on brackets to avoid error on splitting
   protected <- gsub(",(?![^\\}]*(\\{|$))", "|",
-                    cleaned_entry_sub,
-                    perl = TRUE
+    cleaned_entry_sub,
+    perl = TRUE
   )
 
   posfields <- unlist(gregexpr(",\\s*\\w+\\s*=", protected))
@@ -171,8 +220,8 @@ parse_single_entry <- function(init, end, lines, map_string_end) {
   # Try hard to replace with string values
 
   field_value <- lapply(field_value, replace_string_and_concat,
-                        string_names = map_string_end$name_string,
-                        string_values = map_string_end$value
+    string_names = map_string_end$name_string,
+    string_values = map_string_end$value
   )
 
   field_value <- unlist(field_value)
@@ -195,14 +244,14 @@ parse_single_entry <- function(init, end, lines, map_string_end) {
 }
 
 
-#' Replaces a word with a string value and concatenate
+#' Replaces a word with a (at)string value and concatenate
 #'
 #' Helper function
 #'
 #'
 #' @noRd
 #'
-#' @param x values to evalute
+#' @param x values to evaluate
 #' @param string_names Names of the strings detected on the .bib file
 #' @param string_values Values of the string
 #'
@@ -275,6 +324,31 @@ replace_string_and_concat <- function(x, string_names, string_values) {
 #'
 #' Evaluates if braces \{ are balanced or not and returns an error instead.
 #'
+#' @param x The string or entry to be evaluated
+#' @param line The number of line of the string/entry evaluated. This is used
+#'   for generating an informative error only.
+#'
+#' @examples
+#'
+#' error <- paste0(
+#'   "@misc{murdoch:2010, author = {Duncan Murdoch}",
+#'   "title = {I {am} unbalanced",
+#'   "year = 2010",
+#'   "url = {http://developer.r-project.org/parseRd.pdf}}"
+#' )
+#'
+#' check_balanced_braces(error, 3)
+#'
+#'
+#'
+#' ok <- paste0(
+#'   "@misc{murdoch:2010, author = {Duncan Murdoch}",
+#'   "title = {I {am} balanced}",
+#'   "year = 2010",
+#'   "url = {http://developer.r-project.org/parseRd.pdf}}"
+#' )
+#'
+#' check_balanced_braces(ok, 3)
 #' @noRd
 check_balanced_braces <- function(x, line) {
   # Check if braces are balanced ----

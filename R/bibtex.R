@@ -340,9 +340,6 @@ read.bib <- function(file = findBibFile(package) ,
     if( !is.character( file ) ){
         stop( "'read.bib' only supports reading from files, 'file' should be a character vector of length one" )
     }
-    srcfile <- switch( encoding,
-                      "unknown" = srcfile( file ),
-                      srcfile( file, encoding = encoding ) )
 
     out <- tryCatch(do_read_bib(
       file = file,
