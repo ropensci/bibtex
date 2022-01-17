@@ -50,10 +50,13 @@ parse_strings <- function(map_string,
 
     # Extract string between first and last brace
 
-    f <- map_braces$pos[1]
-    l <- min(map_braces[map_braces$cum_flag == 0, ]$pos)
+    first_bracket_position <- map_braces$pos[1]
+    last_bracket_position <- min(map_braces[map_braces$cum_flag == 0, ]$pos)
 
-    singleline <- trimws(substr(singleline, f, l))
+    singleline <- trimws(substr(
+      singleline, first_bracket_position,
+      last_bracket_position
+    ))
 
     # Remove also the braces
     singleline <- trimws(gsub("^\\{|\\}$", "", singleline))
@@ -329,16 +332,17 @@ replace_string_and_concat <- function(x, string_names, string_values) {
 #'   for generating an informative error only.
 #'
 #' @examples
+#' if (FALSE) {
+#'   # Dont run, throws an error
+#'   error <- paste0(
+#'     "@misc{murdoch:2010, author = {Duncan Murdoch}",
+#'     "title = {I {am} unbalanced",
+#'     "year = 2010",
+#'     "url = {http://developer.r-project.org/parseRd.pdf}}"
+#'   )
 #'
-#' error <- paste0(
-#'   "@misc{murdoch:2010, author = {Duncan Murdoch}",
-#'   "title = {I {am} unbalanced",
-#'   "year = 2010",
-#'   "url = {http://developer.r-project.org/parseRd.pdf}}"
-#' )
-#'
-#' check_balanced_braces(error, 3)
-#'
+#'   check_balanced_braces(error, 3)
+#' }
 #'
 #'
 #' ok <- paste0(
