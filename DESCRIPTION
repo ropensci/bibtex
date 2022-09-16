@@ -56,5 +56,5 @@ Suggests:
     testthat (>= 3.0.0)
 LazyLoad: yes
 Encoding: UTF-8
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Config/testthat/edition: 3

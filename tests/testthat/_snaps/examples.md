@@ -2,7 +2,7 @@
 
     R Development Core Team (2009). _R: A Language and Environment for
     Statistical Computing_. R Foundation for Statistical Computing, Vienna,
-    Austria. ISBN 3-900051-07-0, <URL: http://www.R-project.org>.
+    Austria. ISBN 3-900051-07-0, <http://www.R-project.org>.
 
 ---
 
@@ -19,8 +19,7 @@
 # Read base
 
     Chambers JM (1998). _Programming with Data_. Springer, New York. ISBN
-    0-387-98503-4, <URL:
-    http://cm.bell-labs.com/cm/ms/departments/sia/Sbook/>.
+    0-387-98503-4, <http://cm.bell-labs.com/cm/ms/departments/sia/Sbook/>.
     
     Becker RA, Chambers JM, Wilks AR (1988). _The New S Language_. Chapman
     \& Hall, London.
@@ -34,15 +33,15 @@
     Abramowitz M, Stegun IA (1972). _Handbook of Mathematical Functions_.
     Dover Publications, New York.
     
-    E. A, ten others (1999). _LAPACK Users Guide_, Third edition. <URL:
-    http://www.netlib.org/lapack/lug/lapack_lug.html>.
+    E. A, ten others (1999). _LAPACK Users Guide_, Third edition.
+    <http://www.netlib.org/lapack/lug/lapack_lug.html>.
     
     Smith BT, Boyle JM, Dongarra JJ, Garbow BS, Ikebe Y, Klema V, Moler CB
     (1976). _Matrix Eigensystems Routines - EISPACK Guide_.
     Springer-Verlag.
     
     Lang DT (2001). _An Extensible Conversion Mechanism for .C() calls_.
-    <URL: http://developer.R-project.org/CObjectConversion.pdf>.
+    <http://developer.R-project.org/CObjectConversion.pdf>.
     
     Wilkinson JH (1965). _The Algebraic Eigenvalue Problem_. Clarendon
     Press, Oxford.
@@ -52,23 +51,23 @@
     
     for Standardization IO (2004, 1988, 1997, ...). _ISO 8601. Data
     elements and interchange formats - Information interchange -
-    Representation of dates and times_. <URL:
-    http://www.qsl.net/g1smd/isopdf.htm>.
+    Representation of dates and times_.
+    <http://www.qsl.net/g1smd/isopdf.htm>.
     
     R Development Core Team (2009). _Writing R extensions_. R Foundation
-    for Statistical Computing, Vienna, Austria. <URL:
-    http://cran.r-project.org/doc/manuals/R-exts.html>.
+    for Statistical Computing, Vienna, Austria.
+    <http://cran.r-project.org/doc/manuals/R-exts.html>.
     
     R Development Core Team (2009). _R installation and Administration_. R
-    Foundation for Statistical Computing, Vienna, Austria. <URL:
-    http://cran.r-project.org/doc/manuals/R-admin.html>.
+    Foundation for Statistical Computing, Vienna, Austria.
+    <http://cran.r-project.org/doc/manuals/R-admin.html>.
     
     Lang DT (2001). "In Search of C/C++ \& FORTRAN Routines." _R News_,
-    *1*(3), 20-23. <URL: http://CRAN.R-project.org/doc/Rnews/>.
+    *1*(3), 20-23. <http://CRAN.R-project.org/doc/Rnews/>.
     
     Goldberg D (1991). "What Every Computer Scientist Should Know about
-    Floating-Point Arithmetic." _ACM Computing Surveys_, *23*(1). <URL:
-    http://www.validlab.com/goldberg/>.
+    Floating-Point Arithmetic." _ACM Computing Surveys_, *23*(1).
+    <http://www.validlab.com/goldberg/>.
     
     Chambers JM, Cleveland WS, Kleiner B, Tukey P (1983). _Graphical
     Methods for Data Analysis_. Wadsworth.
@@ -77,8 +76,8 @@
     and Sons.
     
     Venables WN, Ripley BD (2002). _Modern Applied Statistics with S.
-    Fourth Edition_. Springer, New York. ISBN 0-387-95457-0, <URL:
-    http://www.stats.ox.ac.uk/pub/MASS4/>.
+    Fourth Edition_. Springer, New York. ISBN 0-387-95457-0,
+    <http://www.stats.ox.ac.uk/pub/MASS4/>.
     
     Jenkins, Traub (1972). "TOMS Algorithm 419." _Comm. ACM_, 97-99.
     
@@ -95,18 +94,17 @@
     Cody WJ (1988). "MACHAR: A subroutine to dynamically determine machine
     parameters." _Transactions on Mathematical Software_, 303-311.
     
-    Kuhn M (????). "ASCII and Unicode quotation marks." <URL:
-    http://www.cl.cam.ac.uk/~mgk25/ucs/quotes.html>.
+    Kuhn M (????). "ASCII and Unicode quotation marks."
+    <http://www.cl.cam.ac.uk/~mgk25/ucs/quotes.html>.
     
     Huffman M (2003). "Operating Systems, Unix Shell (bash) / Windows
-    Console (CMD.EXE)." <URL:
-    http://www.mhuffman.com/notes/dos/bash_cmd.htm>.
+    Console (CMD.EXE)." <http://www.mhuffman.com/notes/dos/bash_cmd.htm>.
     
-    (2009). "Collating Sequence." <URL:
-    http://en.wikipedia.org/wiki/Collating_sequence>.
+    (2009). "Collating Sequence."
+    <http://en.wikipedia.org/wiki/Collating_sequence>.
     
-    Davis M, Whistler K (2008). "Unicode Collation Algorithm." <URL:
-    http://unicode.org/reports/tr10/>.
+    Davis M, Whistler K (2008). "Unicode Collation Algorithm."
+    <http://unicode.org/reports/tr10/>.
     
     Ahrens JH, Dieter U (1973). "Extensions of Forsythes method for random
     sampling from the normal distribution." _Mathematics of Computation_,
@@ -122,12 +120,12 @@
     variables." _Journal of the American Statistical Association_, 893-896.
     
     Knuth DE (1997). _The Art of Computer Programming_, volume 2, Third
-    edition edition. Addison-Wesley Professional. <URL:
-    http://www-cs-faculty.stanford.edu/~knuth/taocp.html>.
+    edition edition. Addison-Wesley Professional.
+    <http://www-cs-faculty.stanford.edu/~knuth/taocp.html>.
     
     Knuth DE (1997). _The Art of Computer Programming_, volume 2, Third
-    edition, ninth printing edition. Addison-Wesley Professional. <URL:
-    http://Sunburn.Stanford.EDU/~knuth/news02.html>.
+    edition, ninth printing edition. Addison-Wesley Professional.
+    <http://Sunburn.Stanford.EDU/~knuth/news02.html>.
     
     Marsaglia G (1997). "A random number generator for C." Discussion
     paper, posting on sci.stat.math usenet group.
@@ -137,8 +135,8 @@
     
     Matsumoto M, Nishimura T (1998). "Mersenne Twister: A 623-dimensionally
     equidistributed uniform pseudo-random number generator." _ACM
-    Transactions on Modeling and Computer Simulation_, 3-30. <URL:
-    http://www.math.keio.ac.jp/~matumoto/emt.html>.
+    Transactions on Modeling and Computer Simulation_, 3-30.
+    <http://www.math.keio.ac.jp/~matumoto/emt.html>.
     
     Reeds J, Hubert S, Abrahams M (1982-4). "C implementation of
     SuperDuper, University of California at Berkeley." Personal
@@ -148,8 +146,8 @@
     Portable Pseudo-random Number Generator." _Applied Statistics_,
     188-190. Remarks: 34, 198 and 35, 89.
     
-    (????). "ANSI/IEEE 754 Floating-Point Standard." <URL:
-    http://grouper.ieee.org/groups/754/>.
+    (????). "ANSI/IEEE 754 Floating-Point Standard."
+    <http://grouper.ieee.org/groups/754/>.
 
 ---
 
@@ -576,12 +574,12 @@
     American Statistician_, 9-12.
     
     Friendly M (1992a). "Graphical methods for categorical data." _SAS User
-    Group International Conference Proceedings_, 190-200. <URL:
-    http://www.math.yorku.ca/SCS/sugi/sugi17-paper.html>.
+    Group International Conference Proceedings_, 190-200.
+    <http://www.math.yorku.ca/SCS/sugi/sugi17-paper.html>.
     
     Friendly M (1992b). "Mosaic displays for loglinear models."
-    _Proceedings of the Statistical Graphics Section_, 61-68. <URL:
-    http://www.math.yorku.ca/SCS/Papers/asa92.html>.
+    _Proceedings of the Statistical Graphics Section_, 61-68.
+    <http://www.math.yorku.ca/SCS/Papers/asa92.html>.
     
     Friendly M (2000). _Visualizing Categorical Data_. SAS Institute. ISBN
     1-58025-660-0.
@@ -929,473 +927,6 @@
       publisher = {Wiley},
     }
 
-# Read graphics
-
-    Murrell P (2005). _R Graphics_. Chapman & Hall/CRC Press.
-    
-    Cohen A (1980). "On the graphical display of the significant components
-    in a two-way contingency table." _Communications in Statistics-Theory
-    and Methods_, 1025-1041.
-    
-    Friendly M (1982). "Graphical methods for categorical data." _SAS User
-    Group International Conference Proceedings_, 190-200. <URL:
-    http://www.math.yorku.ca/SCS/sugi/sugi17-paper.html>.
-    
-    Meyer D, Zeileis A, Hornik K (2005). "The strucplot framework:
-    Visualizing multi-way contingency tables with vcd." Department of
-    Statistics and Mathematics, Wirtschaftsuniversität, Wien. Report 22,
-    Research Report Series, <URL:
-    http://epub.wu-wien.ac.at/dyn/openURL?id=oai:epub.wu-wien.ac.at:epub-wu-01_8a1>.
-    
-    Chambers JM, Cleveland WS, Kleiner B, Tukey PA (1983). _Graphical
-    Methods for Data Analysis_. Wadsworth & Brooks/Cole.
-    
-    Hofmann H, Theus M (2005). "Interactive graphics for visualizing
-    conditional distributions." Unpublished Manuscript.
-    
-    Cleveland WS (1993). _Visualizing Data_. Summit Press, New Jersey.
-    
-    Cleveland WS (1985). _The Elements of Graphing Data_. Wadsworth,
-    Monterey, CA.
-    
-    Cleveland WS (1993). _Visualizing Data_. Summit Press, New Jersey:
-    Hobart.
-    
-    Friendly M (1994). "A fourfold display for 2 by 2 by k tables." York
-    University, Psychology Department. Technical Report 217, <URL:
-    http://www.math.yorku.ca/SCS/Papers/4fold/4fold.ps.gz>.
-    
-    Murrell PR (1999). "Layouts: A mechanism for arranging plots on a
-    page." _Journal of Computational and Graphical Statistics_, 121-134.
-    
-    Hartigan J, Kleiner B (1984). "A mosaic of television ratings." _The
-    American Statistician_, 32-35.
-    
-    Emerson JW (1998). "Mosaic displays in S-PLUS: A general implementation
-    and a case study." _Statistical Computing and Graphics Newsletter
-    (ASA)_, 17-23.
-    
-    Friendly M (1994). "Mosaic displays for multi-way contingency tables."
-    _Journal of the American Statistical Association_, 190-200.
-    
-    Friendly M (????). "The home page of Michael Friendly." <URL:
-    http://www.math.yorku.ca/SCS/friendly.html>.
-    
-    Cleveland WS (1985). _The elements of graphing data_. Wadsworth,
-    Monterey, CA, USA.
-    
-    Freeny AE, Landwehr JM (1990). "Displays for data from large designed
-    experiments." _Computer Science and Statistics: Proc. 22nd Symp.
-    Interface_, 117-126.
-    
-    Chambers JM, Hastie TJ (1992). _Statistical Models in S_. Wadsworth &
-    Brooks/Cole.
-    
-    Hummel J (1996). "Linked bar charts: Analysing categorical data
-    graphically." _Computational Statistics_, 23-33.
-    
-    Schilling MF, Watkins AE (1994). "A suggestion for sunflower plots."
-    _The American Statistician_, 303-305.
-    
-    Blanc C, Schlick C (1995). "X-splines : A Spline Model Designed for the
-    End User." In _Proceedings of SIGGRAPH 95_, 377-386. <URL:
-    http://dept-info.labri.fr/~schlick/DOC/sig1.html>.
-    
-    Murrell P (1998). _Investigations in Graphical Statistics_. Ph.D.
-    thesis, The University of Auckland.
-
----
-
-    @Book{murrell:2005,
-      author = {P. Murrell},
-      year = {2005},
-      title = {R Graphics},
-      publisher = {Chapman & Hall/CRC Press},
-    }
-    
-    @Article{cohen:1980,
-      author = {A. Cohen},
-      year = {1980},
-      title = {On the graphical display of the significant components in a two-way contingency table},
-      journal = {Communications in Statistics---Theory and Methods},
-      edition = {A9},
-      pages = {1025--1041},
-    }
-    
-    @Article{friendly:1992,
-      title = {Graphical methods for categorical data},
-      journal = {SAS User Group International Conference Proceedings},
-      edition = {17},
-      pages = {190--200},
-      url = {http://www.math.yorku.ca/SCS/sugi/sugi17-paper.html},
-      year = {1982},
-      author = {M. Friendly},
-    }
-    
-    @TechReport{meyer+zeileis+hornik:2005,
-      author = {D. Meyer and A. Zeileis and K. Hornik},
-      year = {2005},
-      title = {The strucplot framework: Visualizing multi-way contingency tables with vcd},
-      note = {Report 22, Research Report Series},
-      institution = {Department of Statistics and Mathematics, Wirtschaftsuniversität, Wien},
-      url = {http://epub.wu-wien.ac.at/dyn/openURL?id=oai:epub.wu-wien.ac.at:epub-wu-01_8a1},
-    }
-    
-    @Book{chambers+cleveland+kleiner+tukey:1983,
-      author = {J. M. Chambers and W. S. Cleveland and B. Kleiner and P. A. Tukey},
-      year = {1983},
-      title = {Graphical Methods for Data Analysis},
-      publisher = {Wadsworth & Brooks/Cole},
-    }
-    
-    @Misc{hofmann+theus:2005,
-      author = {H. Hofmann and M. Theus},
-      year = {2005},
-      title = {Interactive graphics for visualizing conditional distributions},
-      note = {Unpublished Manuscript},
-    }
-    
-    @Book{cleveland:1993,
-      author = {W. S. Cleveland},
-      year = {1993},
-      title = {Visualizing Data},
-      address = {New Jersey},
-      publisher = {Summit Press},
-    }
-    
-    @Book{cleveland:1985,
-      author = {W. S. Cleveland},
-      year = {1985},
-      title = {The Elements of Graphing Data},
-      address = {Monterey, CA},
-      publisher = {Wadsworth},
-    }
-    
-    @Book{cleveland:1993,
-      author = {W. S. Cleveland},
-      year = {1993},
-      title = {Visualizing Data},
-      address = {New Jersey: Hobart},
-      publisher = {Summit Press},
-    }
-    
-    @TechReport{friendly:1994,
-      author = {M. Friendly},
-      year = {1994},
-      title = {A fourfold display for 2 by 2 by k tables},
-      note = {Technical Report 217},
-      institution = {York University, Psychology Department},
-      url = {http://www.math.yorku.ca/SCS/Papers/4fold/4fold.ps.gz},
-    }
-    
-    @Article{murrell:1999,
-      author = {P. R. Murrell},
-      year = {1999},
-      title = {Layouts: A mechanism for arranging plots on a page},
-      journal = {Journal of Computational and Graphical Statistics},
-      edition = {8},
-      pages = {121-134},
-    }
-    
-    @Article{hartigan+kleiner:1984,
-      author = {J.A. Hartigan and B. Kleiner},
-      year = {1984},
-      title = {A mosaic of television ratings},
-      journal = {The American Statistician},
-      edition = {38},
-      pages = {32--35},
-    }
-    
-    @Article{emerson:1998,
-      author = {J. W. Emerson},
-      year = {1998},
-      title = {Mosaic displays in S-PLUS: A general implementation and a case study},
-      journal = {Statistical Computing and Graphics Newsletter (ASA)},
-      edition = {9},
-      number = {1},
-      pages = {17--23},
-    }
-    
-    @Article{friendly:1994,
-      author = {M. Friendly},
-      year = {1994},
-      title = {Mosaic displays for multi-way contingency tables},
-      journal = {Journal of the American Statistical Association},
-      edition = {89},
-      pages = {190--200},
-    }
-    
-    @Misc{friendly,
-      author = {M. Friendly},
-      url = {http://www.math.yorku.ca/SCS/friendly.html},
-      title = {The home page of Michael Friendly},
-    }
-    
-    @Book{cleveland:1985,
-      author = {W. S. Cleveland},
-      year = {1985},
-      title = {The elements of graphing data},
-      address = {Monterey, CA, USA},
-      publisher = {Wadsworth},
-    }
-    
-    @Article{freeny+landwehr:1990,
-      author = {A. E. Freeny and J. M. Landwehr},
-      year = {1990},
-      title = {Displays for data from large designed experiments},
-      journal = {Computer Science and Statistics: Proc.{ }22nd Symp.{ }Interface},
-      pages = {117--126},
-      publisher = {Springer Verlag},
-    }
-    
-    @Book{chambers+hastie:1992,
-      author = {J. M. Chambers and T. J. Hastie},
-      year = {1992},
-      title = {Statistical Models in S},
-      publisher = {Wadsworth & Brooks/Cole},
-    }
-    
-    @Article{hummel:1996,
-      author = {J. Hummel},
-      year = {1996},
-      title = {Linked bar charts: Analysing categorical data graphically},
-      journal = {Computational Statistics},
-      edition = {11},
-      pages = {23--33},
-    }
-    
-    @Article{schilling+watkins:1994,
-      author = {M. F. Schilling and A. E. Watkins},
-      year = {1994},
-      title = {A suggestion for sunflower plots},
-      journal = {The American Statistician},
-      edition = {48},
-      pages = {303--305},
-    }
-    
-    @InProceedings{blanc+schlick:1995,
-      author = {C. Blanc and C. Schlick},
-      year = {1995},
-      title = {X-splines : A Spline Model Designed for the End User},
-      booktitle = {Proceedings of SIGGRAPH 95},
-      pages = {377--386},
-      url = {http://dept-info.labri.fr/~schlick/DOC/sig1.html},
-    }
-    
-    @PhdThesis{murrell:1988,
-      author = {Paul Murrell},
-      title = {Investigations in Graphical Statistics},
-      school = {The University of Auckland},
-      year = {1998},
-    }
-
-# Read grDevices
-
-    Tukey JW (1977). _Exploratory Data Analysis_. Addison Wesley.
-    
-    McGill R, Tukey JW, Larsen WA (1978). "Variations of box plots." _The
-    American Statistician_, 12-16.
-    
-    Velleman PF, Hoaglin DC (1981). _Applications, Basics and Computing of
-    Exploratory Data Analysis_. Duxbury Press.
-    
-    Emerson JD, Strenio J (1983). "Understanding Robust and Exploratory
-    Data Analysis." In D. C. Hoaglin FM, Tukey JW (eds.), chapter Boxplots
-    and batch comparison. Wiley.
-    
-    Chambers JM, Cleveland WS, Kleiner B, Tukey PA (1983). _Graphical
-    Methods for Data Analysis_. Wadsworth & Brooks/Cole.
-    
-    Eddy WF (1977). "A new convex hull algorithm for planar sets." _ACM
-    Transactions on Mathematical Software_, 398-403.
-    
-    Eddy WF (1977). "Algorithm 523. CONVEX, A new convex hull algorithm for
-    planar sets[Z]." _ACM Transactions on Mathematical Software_, 411-412.
-    
-    Lindbloom BJ (2001-2009). "Bruce Lindbloom website." <URL:
-    http://www.brucelindbloom.com/>.
-    
-    Ihaka R (2003). "Colour for Presentation Graphics." In _Proceedings of
-    the 3rd International Workshop on Distributed Statistical Computing
-    (DSC 2003)_. Technische Universität Wien, Vienna, Austria. <URL:
-    http://www.ci.tuwien.ac.at/Conferences/DSC-2003>.
-    
-    The Free Software Foundation (????). "The plotutils package." <URL:
-    http://www.gnu.org/software/plotutils/plotutils.html>.
-    
-    Freedman D, Diaconis P (1981). "On the histogram as a density
-    estimator: L_2 theory." _Zeitschrift für Wahrscheinlichkeitstheorie und
-    verwandte Gebiete_, 453-476.
-    
-    Scott DW (1979). "On optimal and data-based histograms." _Biometrika_,
-    605-610.
-    
-    Scott DW (1992). _Multivariate Density Estimation. Theory, Practice,
-    and Visualization_. Wiley.
-    
-    Sturges HA (1926). "The choice of a class interval." _Journal of the
-    American Statistical Association_, 65-66.
-    
-    Knuth DE (1984). _The TeXbook_. Addison-Wesley, Reading, MA.
-    
-    Lamport L (1994). _LATEX: A Document Preparation System_.
-    Addison-Wesley, Reading, MA.
-    
-    Goossens M, Mittelbach F, Samarin A (1994). _The LATEX Companion._.
-    Addison-Wesley, Reading, MA.
-    
-    Murrell P, Ihaka R (2000). "An approach to providing mathematical
-    annotation in plots." _Journal of Computational and Graphical
-    Statistics_, 582-599.
-
----
-
-    @Book{tukey:1977,
-      author = {J. W. Tukey},
-      year = {1977},
-      title = {Exploratory Data Analysis},
-      publisher = {Addison Wesley},
-    }
-    
-    @Article{mcgill+tukey+larsen:1978,
-      author = {R. McGill and J. W. Tukey and W. A. Larsen},
-      year = {1978},
-      title = {Variations of box plots},
-      journal = {The American Statistician},
-      edition = {32},
-      pages = {12--16},
-    }
-    
-    @Book{velleman+hoaglin:1981,
-      author = {P. F. Velleman and D. C. Hoaglin},
-      year = {1981},
-      title = {Applications, Basics and Computing of Exploratory Data Analysis},
-      publisher = {Duxbury Press},
-    }
-    
-    @InBook{emerson+strenio:1983,
-      author = {J. D Emerson and J. Strenio},
-      year = {1983},
-      chapter = {Boxplots and batch comparison},
-      editor = {F. Mosteller {D. C. Hoaglin} and J. W. Tukey},
-      publisher = {Wiley},
-      title = {Understanding Robust and Exploratory Data Analysis},
-    }
-    
-    @Book{chambers+cleveland+kleiner+tukey:1983,
-      author = {J. M. Chambers and W. S. Cleveland and B. Kleiner and P. A. Tukey},
-      year = {1983},
-      title = {Graphical Methods for Data Analysis},
-      publisher = {Wadsworth & Brooks/Cole},
-    }
-    
-    @Article{eddy:1977a,
-      author = {W. F. Eddy},
-      year = {1977},
-      title = {A new convex hull algorithm for planar sets},
-      journal = {ACM Transactions on Mathematical Software},
-      edition = {3},
-      pages = {398--403},
-    }
-    
-    @Article{eddy:1977b,
-      author = {W. F. Eddy},
-      year = {1977},
-      title = {Algorithm 523. CONVEX, A new convex hull algorithm for planar sets[Z]},
-      journal = {ACM Transactions on Mathematical Software},
-      edition = {3},
-      pages = {411--412},
-    }
-    
-    @Misc{conversion,
-      url = {http://www.brucelindbloom.com/},
-      author = {Bruce Justin Lindbloom},
-      year = {2001--2009},
-      title = {Bruce Lindbloom website},
-    }
-    
-    @InProceedings{ihaka:2003,
-      author = {R. Ihaka},
-      year = {2003},
-      title = {Colour for Presentation Graphics},
-      booktitle = {Proceedings of the 3rd International Workshop on Distributed Statistical Computing (DSC 2003)},
-      organization = {Technische Universität Wien, Vienna, Austria},
-      url = {http://www.ci.tuwien.ac.at/Conferences/DSC-2003},
-    }
-    
-    @Misc{plotutils,
-      author = {{The Free Software Foundation}},
-      url = {http://www.gnu.org/software/plotutils/plotutils.html},
-      title = {The plotutils package},
-    }
-    
-    @Article{freedman+diaconis:1981,
-      author = {D. Freedman and P. Diaconis},
-      year = {1981},
-      title = {On the histogram as a density estimator: L_2 theory},
-      journal = {Zeitschrift für Wahrscheinlichkeitstheorie und verwandte Gebiete},
-      edition = {57},
-      pages = {453--476},
-    }
-    
-    @Article{scott:1979,
-      author = {D. W. Scott},
-      year = {1979},
-      title = {On optimal and data-based histograms},
-      journal = {Biometrika},
-      edition = {66},
-      pages = {605--610},
-    }
-    
-    @Book{scott:1992,
-      author = {D. W. Scott},
-      year = {1992},
-      title = {Multivariate Density Estimation. Theory, Practice, and Visualization},
-      publisher = {Wiley},
-    }
-    
-    @Article{sturges:1926,
-      author = {H. A. Sturges},
-      year = {1926},
-      title = {The choice of a class interval},
-      journal = {Journal of the American Statistical Association},
-      edition = {21},
-      pages = {65--66},
-    }
-    
-    @Book{knuth:1984,
-      author = {D. E. Knuth},
-      year = {1984},
-      title = {The TeXbook},
-      address = {Reading, MA},
-      publisher = {Addison-Wesley},
-    }
-    
-    @Book{lamport:1994,
-      author = {L. Lamport},
-      year = {1994},
-      title = {{LATEX}: A Document Preparation System},
-      address = {Reading, MA},
-      publisher = {Addison-Wesley},
-    }
-    
-    @Book{goossens+mittelbach+Samarin:1994,
-      author = {M. Goossens and F. Mittelbach and A. Samarin},
-      year = {1994},
-      title = {The {LATEX} Companion.},
-      address = {Reading, MA},
-      publisher = {Addison-Wesley},
-    }
-    
-    @Article{murrell+ihaka:2000,
-      author = {P. Murrell and R. Ihaka},
-      year = {2000},
-      title = {An approach to providing mathematical annotation in plots},
-      journal = {Journal of Computational and Graphical Statistics},
-      edition = {9},
-      pages = {582--599},
-    }
-
 # Read methods
 
     Chambers JM (2008). _Software for Data Analysis: Programming with R_.
@@ -1404,7 +935,7 @@
     Chambers JM (1998). _Programming with Data_. Springer.
     
     Chambers JM (2009). "Developments in Class Inheritance and Method
-    Selection." <URL: http://stat.stanford.edu/~jmc4/classInheritance.pdf>.
+    Selection." <http://stat.stanford.edu/~jmc4/classInheritance.pdf>.
 
 ---
 
@@ -1707,7 +1238,7 @@
     Sage.
     
     Fox J (2002). _An R and S-Plus Companion to Applied Regression_. Sage
-    Publ. <URL: http://www.socsci.mcmaster.ca/jfox/Books/Companion/>.
+    Publ. <http://www.socsci.mcmaster.ca/jfox/Books/Companion/>.
     
     Piessens R, deDoncker-Kapenga E, Uberhuber C, Kahaner D (1983).
     _Quadpack: a Subroutine Package for Automatic Integration_. Springer
@@ -1752,8 +1283,8 @@
     distribution function_. SIAM.
     
     Marsaglia G, Tsang WW, Wang J (2003). "Evaluating Kolmogorov's
-    distribution." _Journal of Statistical Software_. <URL:
-    http://www.jstatsoft.org/v08/i18/>.
+    distribution." _Journal of Statistical Software_.
+    <http://www.jstatsoft.org/v08/i18/>.
     
     Wilkinson GN, Rogers CE (1973). "Symbolic descriptions of factorial
     models for analysis of variance." _Applied Statistics_, 392-9.
@@ -3432,8 +2963,8 @@
 
 # Read tools
 
-    Murdoch D (2009). "Parsing Rd files." <URL:
-    http://developer.r-project.org/parseRd.pdf>.
+    Murdoch D (2009). "Parsing Rd files."
+    <http://developer.r-project.org/parseRd.pdf>.
 
 ---
 
@@ -3452,8 +2983,8 @@
     Robbins KA, Robbins S (1995). _Practical UNIX Programming_, 1st
     edition. Prentice Hall PTR. ISBN 0134437063.
     
-    Leisch F (2008). _Sweave User Manual_. <URL:
-    http://www.stat.uni-muenchen.de/~leisch/Sweave>.
+    Leisch F (2008). _Sweave User Manual_.
+    <http://www.stat.uni-muenchen.de/~leisch/Sweave>.
 
 ---
 

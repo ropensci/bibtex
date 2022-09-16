@@ -38,21 +38,21 @@ Parser for bibliography databases written in the bib format.
 }
 \examples{
 ## this package has a REFERENCES.bib file
-bib <- read.bib( package = "bibtex" )
+bib <- read.bib(package = "bibtex")
 
 ## bibtex collects bibtex entries for R base packages
-base.bib <- read.bib( package = "base" )
+base.bib <- read.bib(package = "base")
 
 \dontshow{
-bib <- read.bib( package = "base" )
-bib <- read.bib( package = "datasets" )
-bib <- read.bib( package = "graphics" )
-bib <- read.bib( package = "grDevices" )
-bib <- read.bib( package = "methods" )
-bib <- read.bib( package = "stats" )
-bib <- read.bib( package = "stats4" )
-bib <- read.bib( package = "tools" )
-bib <- read.bib( package = "utils" )
+bib <- read.bib(package = "base")
+bib <- read.bib(package = "datasets")
+bib <- read.bib(package = "graphics")
+bib <- read.bib(package = "grDevices")
+bib <- read.bib(package = "methods")
+bib <- read.bib(package = "stats")
+bib <- read.bib(package = "stats4")
+bib <- read.bib(package = "tools")
+bib <- read.bib(package = "utils")
 }
 }
 \references{
