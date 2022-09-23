@@ -2,7 +2,7 @@
 
     R Development Core Team (2009). _R: A Language and Environment for
     Statistical Computing_. R Foundation for Statistical Computing, Vienna,
-    Austria. ISBN 3-900051-07-0, <URL: http://www.R-project.org>.
+    Austria. ISBN 3-900051-07-0, <http://www.R-project.org>.
 
 ---
 
@@ -19,8 +19,7 @@
 # Read base
 
     Chambers JM (1998). _Programming with Data_. Springer, New York. ISBN
-    0-387-98503-4, <URL:
-    http://cm.bell-labs.com/cm/ms/departments/sia/Sbook/>.
+    0-387-98503-4, <http://cm.bell-labs.com/cm/ms/departments/sia/Sbook/>.
     
     Becker RA, Chambers JM, Wilks AR (1988). _The New S Language_. Chapman
     \& Hall, London.
@@ -34,15 +33,15 @@
     Abramowitz M, Stegun IA (1972). _Handbook of Mathematical Functions_.
     Dover Publications, New York.
     
-    E. A, ten others (1999). _LAPACK Users Guide_, Third edition. <URL:
-    http://www.netlib.org/lapack/lug/lapack_lug.html>.
+    E. A, ten others (1999). _LAPACK Users Guide_, Third edition.
+    <http://www.netlib.org/lapack/lug/lapack_lug.html>.
     
     Smith BT, Boyle JM, Dongarra JJ, Garbow BS, Ikebe Y, Klema V, Moler CB
     (1976). _Matrix Eigensystems Routines - EISPACK Guide_.
     Springer-Verlag.
     
     Lang DT (2001). _An Extensible Conversion Mechanism for .C() calls_.
-    <URL: http://developer.R-project.org/CObjectConversion.pdf>.
+    <http://developer.R-project.org/CObjectConversion.pdf>.
     
     Wilkinson JH (1965). _The Algebraic Eigenvalue Problem_. Clarendon
     Press, Oxford.
@@ -52,23 +51,23 @@
     
     for Standardization IO (2004, 1988, 1997, ...). _ISO 8601. Data
     elements and interchange formats - Information interchange -
-    Representation of dates and times_. <URL:
-    http://www.qsl.net/g1smd/isopdf.htm>.
+    Representation of dates and times_.
+    <http://www.qsl.net/g1smd/isopdf.htm>.
     
     R Development Core Team (2009). _Writing R extensions_. R Foundation
-    for Statistical Computing, Vienna, Austria. <URL:
-    http://cran.r-project.org/doc/manuals/R-exts.html>.
+    for Statistical Computing, Vienna, Austria.
+    <http://cran.r-project.org/doc/manuals/R-exts.html>.
     
     R Development Core Team (2009). _R installation and Administration_. R
-    Foundation for Statistical Computing, Vienna, Austria. <URL:
-    http://cran.r-project.org/doc/manuals/R-admin.html>.
+    Foundation for Statistical Computing, Vienna, Austria.
+    <http://cran.r-project.org/doc/manuals/R-admin.html>.
     
     Lang DT (2001). "In Search of C/C++ \& FORTRAN Routines." _R News_,
-    *1*(3), 20-23. <URL: http://CRAN.R-project.org/doc/Rnews/>.
+    *1*(3), 20-23. <http://CRAN.R-project.org/doc/Rnews/>.
     
     Goldberg D (1991). "What Every Computer Scientist Should Know about
-    Floating-Point Arithmetic." _ACM Computing Surveys_, *23*(1). <URL:
-    http://www.validlab.com/goldberg/>.
+    Floating-Point Arithmetic." _ACM Computing Surveys_, *23*(1).
+    <http://www.validlab.com/goldberg/>.
     
     Chambers JM, Cleveland WS, Kleiner B, Tukey P (1983). _Graphical
     Methods for Data Analysis_. Wadsworth.
@@ -77,8 +76,8 @@
     and Sons.
     
     Venables WN, Ripley BD (2002). _Modern Applied Statistics with S.
-    Fourth Edition_. Springer, New York. ISBN 0-387-95457-0, <URL:
-    http://www.stats.ox.ac.uk/pub/MASS4/>.
+    Fourth Edition_. Springer, New York. ISBN 0-387-95457-0,
+    <http://www.stats.ox.ac.uk/pub/MASS4/>.
     
     Jenkins, Traub (1972). "TOMS Algorithm 419." _Comm. ACM_, 97-99.
     
@@ -95,18 +94,17 @@
     Cody WJ (1988). "MACHAR: A subroutine to dynamically determine machine
     parameters." _Transactions on Mathematical Software_, 303-311.
     
-    Kuhn M (????). "ASCII and Unicode quotation marks." <URL:
-    http://www.cl.cam.ac.uk/~mgk25/ucs/quotes.html>.
+    Kuhn M (????). "ASCII and Unicode quotation marks."
+    <http://www.cl.cam.ac.uk/~mgk25/ucs/quotes.html>.
     
     Huffman M (2003). "Operating Systems, Unix Shell (bash) / Windows
-    Console (CMD.EXE)." <URL:
-    http://www.mhuffman.com/notes/dos/bash_cmd.htm>.
+    Console (CMD.EXE)." <http://www.mhuffman.com/notes/dos/bash_cmd.htm>.
     
-    (2009). "Collating Sequence." <URL:
-    http://en.wikipedia.org/wiki/Collating_sequence>.
+    (2009). "Collating Sequence."
+    <http://en.wikipedia.org/wiki/Collating_sequence>.
     
-    Davis M, Whistler K (2008). "Unicode Collation Algorithm." <URL:
-    http://unicode.org/reports/tr10/>.
+    Davis M, Whistler K (2008). "Unicode Collation Algorithm."
+    <http://unicode.org/reports/tr10/>.
     
     Ahrens JH, Dieter U (1973). "Extensions of Forsythes method for random
     sampling from the normal distribution." _Mathematics of Computation_,
@@ -122,12 +120,12 @@
     variables." _Journal of the American Statistical Association_, 893-896.
     
     Knuth DE (1997). _The Art of Computer Programming_, volume 2, Third
-    edition edition. Addison-Wesley Professional. <URL:
-    http://www-cs-faculty.stanford.edu/~knuth/taocp.html>.
+    edition edition. Addison-Wesley Professional.
+    <http://www-cs-faculty.stanford.edu/~knuth/taocp.html>.
     
     Knuth DE (1997). _The Art of Computer Programming_, volume 2, Third
-    edition, ninth printing edition. Addison-Wesley Professional. <URL:
-    http://Sunburn.Stanford.EDU/~knuth/news02.html>.
+    edition, ninth printing edition. Addison-Wesley Professional.
+    <http://Sunburn.Stanford.EDU/~knuth/news02.html>.
     
     Marsaglia G (1997). "A random number generator for C." Discussion
     paper, posting on sci.stat.math usenet group.
@@ -137,8 +135,8 @@
     
     Matsumoto M, Nishimura T (1998). "Mersenne Twister: A 623-dimensionally
     equidistributed uniform pseudo-random number generator." _ACM
-    Transactions on Modeling and Computer Simulation_, 3-30. <URL:
-    http://www.math.keio.ac.jp/~matumoto/emt.html>.
+    Transactions on Modeling and Computer Simulation_, 3-30.
+    <http://www.math.keio.ac.jp/~matumoto/emt.html>.
     
     Reeds J, Hubert S, Abrahams M (1982-4). "C implementation of
     SuperDuper, University of California at Berkeley." Personal
@@ -148,8 +146,8 @@
     Portable Pseudo-random Number Generator." _Applied Statistics_,
     188-190. Remarks: 34, 198 and 35, 89.
     
-    (????). "ANSI/IEEE 754 Floating-Point Standard." <URL:
-    http://grouper.ieee.org/groups/754/>.
+    (????). "ANSI/IEEE 754 Floating-Point Standard."
+    <http://grouper.ieee.org/groups/754/>.
 
 ---
 
@@ -281,7 +279,7 @@
       pages = {20--23},
       month = {September},
       url = {http://CRAN.R-project.org/doc/Rnews/},
-      pdf = {rnewsRnews_2001-3.pdf},
+      pdf = {http://CRAN.R-project.org/doc/Rnews/Rnews_2001-3.pdf},
     }
     
     @Article{floatingpoint,
@@ -576,12 +574,12 @@
     American Statistician_, 9-12.
     
     Friendly M (1992a). "Graphical methods for categorical data." _SAS User
-    Group International Conference Proceedings_, 190-200. <URL:
-    http://www.math.yorku.ca/SCS/sugi/sugi17-paper.html>.
+    Group International Conference Proceedings_, 190-200.
+    <http://www.math.yorku.ca/SCS/sugi/sugi17-paper.html>.
     
     Friendly M (1992b). "Mosaic displays for loglinear models."
-    _Proceedings of the Statistical Graphics Section_, 61-68. <URL:
-    http://www.math.yorku.ca/SCS/Papers/asa92.html>.
+    _Proceedings of the Statistical Graphics Section_, 61-68.
+    <http://www.math.yorku.ca/SCS/Papers/asa92.html>.
     
     Friendly M (2000). _Visualizing Categorical Data_. SAS Institute. ISBN
     1-58025-660-0.
@@ -938,14 +936,14 @@
     and Methods_, 1025-1041.
     
     Friendly M (1982). "Graphical methods for categorical data." _SAS User
-    Group International Conference Proceedings_, 190-200. <URL:
-    http://www.math.yorku.ca/SCS/sugi/sugi17-paper.html>.
+    Group International Conference Proceedings_, 190-200.
+    <http://www.math.yorku.ca/SCS/sugi/sugi17-paper.html>.
     
     Meyer D, Zeileis A, Hornik K (2005). "The strucplot framework:
     Visualizing multi-way contingency tables with vcd." Department of
     Statistics and Mathematics, Wirtschaftsuniversität, Wien. Report 22,
-    Research Report Series, <URL:
-    http://epub.wu-wien.ac.at/dyn/openURL?id=oai:epub.wu-wien.ac.at:epub-wu-01_8a1>.
+    Research Report Series,
+    <http://epub.wu-wien.ac.at/dyn/openURL?id=oai:epub.wu-wien.ac.at:epub-wu-01_8a1>.
     
     Chambers JM, Cleveland WS, Kleiner B, Tukey PA (1983). _Graphical
     Methods for Data Analysis_. Wadsworth & Brooks/Cole.
@@ -962,8 +960,8 @@
     Hobart.
     
     Friendly M (1994). "A fourfold display for 2 by 2 by k tables." York
-    University, Psychology Department. Technical Report 217, <URL:
-    http://www.math.yorku.ca/SCS/Papers/4fold/4fold.ps.gz>.
+    University, Psychology Department. Technical Report 217,
+    <http://www.math.yorku.ca/SCS/Papers/4fold/4fold.ps.gz>.
     
     Murrell PR (1999). "Layouts: A mechanism for arranging plots on a
     page." _Journal of Computational and Graphical Statistics_, 121-134.
@@ -978,8 +976,8 @@
     Friendly M (1994). "Mosaic displays for multi-way contingency tables."
     _Journal of the American Statistical Association_, 190-200.
     
-    Friendly M (????). "The home page of Michael Friendly." <URL:
-    http://www.math.yorku.ca/SCS/friendly.html>.
+    Friendly M (????). "The home page of Michael Friendly."
+    <http://www.math.yorku.ca/SCS/friendly.html>.
     
     Cleveland WS (1985). _The elements of graphing data_. Wadsworth,
     Monterey, CA, USA.
@@ -998,8 +996,8 @@
     _The American Statistician_, 303-305.
     
     Blanc C, Schlick C (1995). "X-splines : A Spline Model Designed for the
-    End User." In _Proceedings of SIGGRAPH 95_, 377-386. <URL:
-    http://dept-info.labri.fr/~schlick/DOC/sig1.html>.
+    End User." In _Proceedings of SIGGRAPH 95_, 377-386.
+    <http://dept-info.labri.fr/~schlick/DOC/sig1.html>.
     
     Murrell P (1998). _Investigations in Graphical Statistics_. Ph.D.
     thesis, The University of Auckland.
@@ -1212,16 +1210,16 @@
     Eddy WF (1977). "Algorithm 523. CONVEX, A new convex hull algorithm for
     planar sets[Z]." _ACM Transactions on Mathematical Software_, 411-412.
     
-    Lindbloom BJ (2001-2009). "Bruce Lindbloom website." <URL:
-    http://www.brucelindbloom.com/>.
+    Lindbloom BJ (2001-2009). "Bruce Lindbloom website."
+    <http://www.brucelindbloom.com/>.
     
     Ihaka R (2003). "Colour for Presentation Graphics." In _Proceedings of
     the 3rd International Workshop on Distributed Statistical Computing
-    (DSC 2003)_. Technische Universität Wien, Vienna, Austria. <URL:
-    http://www.ci.tuwien.ac.at/Conferences/DSC-2003>.
+    (DSC 2003)_. Technische Universität Wien, Vienna, Austria.
+    <http://www.ci.tuwien.ac.at/Conferences/DSC-2003>.
     
-    The Free Software Foundation (????). "The plotutils package." <URL:
-    http://www.gnu.org/software/plotutils/plotutils.html>.
+    The Free Software Foundation (????). "The plotutils package."
+    <http://www.gnu.org/software/plotutils/plotutils.html>.
     
     Freedman D, Diaconis P (1981). "On the histogram as a density
     estimator: L_2 theory." _Zeitschrift für Wahrscheinlichkeitstheorie und
@@ -1404,7 +1402,7 @@
     Chambers JM (1998). _Programming with Data_. Springer.
     
     Chambers JM (2009). "Developments in Class Inheritance and Method
-    Selection." <URL: http://stat.stanford.edu/~jmc4/classInheritance.pdf>.
+    Selection." <http://stat.stanford.edu/~jmc4/classInheritance.pdf>.
 
 ---
 
@@ -1707,7 +1705,7 @@
     Sage.
     
     Fox J (2002). _An R and S-Plus Companion to Applied Regression_. Sage
-    Publ. <URL: http://www.socsci.mcmaster.ca/jfox/Books/Companion/>.
+    Publ. <http://www.socsci.mcmaster.ca/jfox/Books/Companion/>.
     
     Piessens R, deDoncker-Kapenga E, Uberhuber C, Kahaner D (1983).
     _Quadpack: a Subroutine Package for Automatic Integration_. Springer
@@ -1752,8 +1750,8 @@
     distribution function_. SIAM.
     
     Marsaglia G, Tsang WW, Wang J (2003). "Evaluating Kolmogorov's
-    distribution." _Journal of Statistical Software_. <URL:
-    http://www.jstatsoft.org/v08/i18/>.
+    distribution." _Journal of Statistical Software_.
+    <http://www.jstatsoft.org/v08/i18/>.
     
     Wilkinson GN, Rogers CE (1973). "Symbolic descriptions of factorial
     models for analysis of variance." _Applied Statistics_, 392-9.
@@ -3432,8 +3430,8 @@
 
 # Read tools
 
-    Murdoch D (2009). "Parsing Rd files." <URL:
-    http://developer.r-project.org/parseRd.pdf>.
+    Murdoch D (2009). "Parsing Rd files."
+    <http://developer.r-project.org/parseRd.pdf>.
 
 ---
 
@@ -3452,8 +3450,8 @@
     Robbins KA, Robbins S (1995). _Practical UNIX Programming_, 1st
     edition. Prentice Hall PTR. ISBN 0134437063.
     
-    Leisch F (2008). _Sweave User Manual_. <URL:
-    http://www.stat.uni-muenchen.de/~leisch/Sweave>.
+    Leisch F (2008). _Sweave User Manual_.
+    <http://www.stat.uni-muenchen.de/~leisch/Sweave>.
 
 ---
 

@@ -25,13 +25,15 @@ It is useful for adding relevant citations in Sweave documents.
 }
 \examples{
 
-write.bib(c('bibtex', 'utils', 'tools'), file='references')
-bibs <- read.bib('references.bib')
-write.bib(bibs, 'references2.bib')
-md5 <- tools::md5sum(c('references.bib', 'references2.bib'))
+write.bib(c("bibtex", "utils", "tools"), file = "references")
+bibs <- read.bib("references.bib")
+write.bib(bibs, "references2.bib")
+md5 <- tools::md5sum(c("references.bib", "references2.bib"))
 md5[1] == md5[2]
 
-\dontshow{unlink(c('references.bib', 'references2.bib'))}
+\dontshow{
+unlink(c("references.bib", "references2.bib"))
+}
 }
 \references{
 \emph{[R] Creating bibtex file of all installed packages?}

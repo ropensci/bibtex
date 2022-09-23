@@ -8,8 +8,8 @@ test_that("Multiline from file", {
 
 test_that("Multiline string", {
   file <- system.file("bib/multiline_string.bib", package = "bibtex")
-  
+
   out <- read.bib(file)
-  
+
   expect_snapshot_output(toBibtex(out))
 })
