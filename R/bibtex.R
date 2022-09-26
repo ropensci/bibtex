@@ -481,12 +481,13 @@ write.bib <- function(entry, file = "Rpackages.bib", append = FALSE, verbose = T
     }
   }
 
-  fh <- file(file, open = if (append) "a+" else "w+")
-  on.exit(if (isOpen(fh)) close(fh))
-  if (verbose) message("Writing ", length(bibs), " Bibtex entries ... ", appendLF = FALSE)
-  writeLines(toBibtex(bibs), fh)
-  # writeLines(do.call("c", lapply(bibs, as.character)), fh)
-  if (verbose) message("OK\nResults written to file '", file, "'")
+    fh <- file(file, open = if (append) "a+" else "w+", encoding = "UTF-8")
+    on.exit( if( isOpen(fh) ) close(fh) )
+    if( verbose ) message("Writing ", length(bibs) , " Bibtex entries ... ", appendLF = FALSE)
+    writeLines(toBibtex(bibs), fh)
+    # writeLines(do.call("c", lapply(bibs, as.character)), fh)
+    if(verbose) message("OK\nResults written to file '", file, "'")
+
 
   ## return Bibtex items invisibly
   invisible(bibs)
