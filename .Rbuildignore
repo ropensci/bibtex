@@ -9,6 +9,8 @@ revdep
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^cran-comments\.md$
+^CRAN-RELEASE$
 ^bibtex\.Rcheck$
 ^bibtex.*\.tar\.gz$
 ^bibtex.*\.tgz$
