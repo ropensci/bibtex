@@ -8,3 +8,6 @@ src/*.dll
 bibtex.Rproj
 docs
 CRAN-RELEASE
+bibtex.Rcheck/
+bibtex*.tar.gz
+bibtex*.tgz

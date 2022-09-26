@@ -11,3 +11,6 @@ revdep
 ^pkgdown$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
+^bibtex\.Rcheck$
+^bibtex.*\.tar\.gz$
+^bibtex.*\.tgz$
