@@ -7,3 +7,6 @@ src/*.so
 src/*.dll
 bibtex.Rproj
 docs
+bibtex.Rcheck/
+bibtex*.tar.gz
+bibtex*.tgz

@@ -11,7 +11,7 @@ do_read_bib(file, encoding = "unknown", srcfile)
 
 \item{encoding}{encoding}
 
-\item{srcfile}{output of \code{\link{srcfile}}}
+\item{srcfile}{Deprecated}
 }
 \description{
 This is a convenience function for packages that do need to call the internal

@@ -1,5 +1,4 @@
-library("testthat")
-library("bibtex")
+library(testthat)
+library(bibtex)
 
 test_check("bibtex")
-

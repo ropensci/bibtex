@@ -1,5 +1,5 @@
 Package: bibtex
-Version: 0.4.3
+Version: 0.5.0
 Title: Bibtex Parser
 Authors@R: c(
     person(given = "Romain", 
@@ -12,6 +12,11 @@ Authors@R: c(
            role = c("ctb", "cre"),
            email = "balamut2@illinois.edu",
            comment = c(ORCID = "0000-0003-2826-8458")),
+    person(given = "Diego", 
+           family = "Hernangómez", 
+           role = c("aut"), 
+           email = "diego.hernangomezherrero@gmail.com",
+           comment = c(ORCID = "0000-0001-8457-4658")),
     person(given = "Scott",
            family = "Chamberlain",
            role = c("ctb"),
@@ -45,10 +50,11 @@ License: GPL (>= 2)
 Depends:
     R (>= 3.0.2)
 Imports:
+    backports (>= 1.4.0),
     utils
 Suggests:
     testthat (>= 3.0.0)
-Config/testthat/edition: 3
 LazyLoad: yes
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
+Config/testthat/edition: 3

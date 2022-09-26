@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![CRAN](https://www.r-pkg.org/badges/version/bibtex)](https://CRAN.R-project.org/package=bibtex) 
-[![R build status](https://github.com/ropensci/bibtex/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/bibtex/actions)
+[![R-CMD-check](https://github.com/ropensci/bibtex/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/bibtex/actions/workflows/R-CMD-check.yaml)
 [![Coverage](https://codecov.io/github/ropensci/bibtex/coverage.svg?branch=master)](https://codecov.io/gh/ropensci/bibtex/branch/master) 
 [![Downloads](https://cranlogs.r-pkg.org/badges/bibtex)](https://cran.r-project.org/package=bibtex)
 [![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bibtex?color=blue)](https://cran.r-project.org/package=bibtex)
@@ -38,4 +38,4 @@ donate it to rOpenSci.
 - Get citation information for `bibtex` in R with `citation("bibtex")`
 - Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
 
-[![ropensci](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
+[![ropensci](https://ropensci.org//public_images/github_footer.png)](https://ropensci.org/)
