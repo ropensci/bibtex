@@ -1,3 +1,15 @@
+# bibtex 0.5.0
+
+## New Features
+
+- The underlying parsing logic of bibtex files has been completely rewritten (huge thank you to [Diego Hernangómez (@dieghernan)](https://github.com/dieghernan), [PR #47](https://github.com/ropensci/bibtex/pull/47))
+
+## Unit Tests
+
+- Unit tests are now using testthat version 3 ([Diego Hernangómez (@dieghernan)](https://github.com/dieghernan), [PR #46](https://github.com/ropensci/bibtex/pull/46)).
+
+
+
 # bibtex 0.4.3
 
 ## Bug fixes
