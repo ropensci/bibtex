@@ -1,3 +1,9 @@
+# bibtex 0.5.1
+
+## Bug fix
+
+- Replaced `as.personList(authors)` with `do.call(c, authors)` as requested by CRAN ([PR #52](https://github.com/ropensci/bibtex/pull/52)).
+
 # bibtex 0.5.0
 
 ## New Features

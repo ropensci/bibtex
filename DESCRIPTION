@@ -1,5 +1,5 @@
 Package: bibtex
-Version: 0.5.0
+Version: 0.5.1
 Title: Bibtex Parser
 Authors@R: c(
     person(given = "Romain", 
@@ -56,5 +56,5 @@ Suggests:
     testthat (>= 3.0.0)
 LazyLoad: yes
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Config/testthat/edition: 3
