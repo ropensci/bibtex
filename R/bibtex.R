@@ -35,7 +35,6 @@ cleanupLatex <- function(x) {
   }
 }
 
-#' @importFrom utils as.personList
 ArrangeAuthors <- function(x) {
   rx <- "(?i)[[:space:]]+and[[:space:]]+"
   x <- gsub("[[:space:]]{2,}", " ", x, useBytes = TRUE)
