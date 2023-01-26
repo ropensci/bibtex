@@ -40,7 +40,7 @@ ArrangeAuthors <- function(x) {
   rx <- "(?i)[[:space:]]+and[[:space:]]+"
   x <- gsub("[[:space:]]{2,}", " ", x, useBytes = TRUE)
   authors <- lapply(strsplit(x, rx, perl = TRUE)[[1]], ArrangeSingleAuthor)
-  as.personList(authors)
+  do.call("c", authors)
 }
 
 ArrangeSingleAuthor <- function(y) {
