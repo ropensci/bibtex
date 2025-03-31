@@ -199,20 +199,33 @@ findBibFile <- function(package) {
   }
 }
 
-#' convenience wrapper around .External call
+#' Convenience wrapper around internal call
 #'
 #' This is a convenience function for packages that do need to call the internal
 #' functionality of \code{\link{read.bib}} but does different processing. This is
-#' a simple wrapper around the \code{.External} code used by \code{\link{read.bib}}
+#' a simple wrapper around the internal code used by \code{\link{read.bib}}
 #'
 #' The parser is greatly inspired from the \samp{bibparse} library.
 #'
-#' @seealso \code{\link[utils]{bibentry}}
+#' @seealso \code{\link[utils]{bibentry}}, \code{\link{read.bib}}
 #'
 #' @param file file name
 #' @param encoding encoding
 #' @param srcfile Deprecated
 #' @export
+#' 
+#' @return 
+#' A named \code{"list"} object including specific attributes. For generating 
+#' \code{"bibentry"} objects use \code{\link{read.bib}}.
+#' 
+#' @examples
+#' ## this package has a REFERENCES.bib file
+#' bibfile <- system.file("REFERENCES.bib", package = "bibtex")
+#' do_read_bib(bibfile)
+#'  
+#' ## Compared with read.bib, that generates a bibentry
+#' toBibtex(read.bib(bibfile))
+#' 
 do_read_bib <- function(file, encoding = "unknown", srcfile) {
   if (!missing("srcfile")) {
     message("'srcfile' argument is deprecated.")
