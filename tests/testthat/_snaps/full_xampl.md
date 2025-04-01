@@ -125,18 +125,19 @@
     Phrases_. PhD Dissertation, Fanstord University, Department of French.
     This is a full PHDTHESIS entry.
     
-    Terrific T (1988). "An $O(n \logn / \! \log\logn)$ Sorting Algorithm."
-    Fanstord University.
+    Terrific T (1988). "An $O(n \log n / \! \log\log n)$ Sorting
+    Algorithm." Fanstord University.
     
-    Térrific T (1988). "An $O(n \logn / \! \log\logn)$ Sorting Algorithm."
-    Wishful Research Result 7, Fanstord University, Computer Science
-    Department, Fanstord, California. This is a full TECHREPORT entry.
+    Térrific T (1988). "An $O(n \log n / \! \log\log n)$ Sorting
+    Algorithm." Wishful Research Result 7, Fanstord University, Computer
+    Science Department, Fanstord, California. This is a full TECHREPORT
+    entry.
     
-    Ünderwood U, Ñet N, \=Pot P (????). "Lower Bounds for Wishful Research
+    Ünderwood U, Ñet N, \= Pot P (????). "Lower Bounds for Wishful Research
     Results." Talk at Fanstord University (this is a minimal UNPUBLISHED
     entry).
     
-    Ünderwood U, Ñet N, \=Pot P (1988). "Lower Bounds for Wishful Research
+    Ünderwood U, Ñet N, \= Pot P (1988). "Lower Bounds for Wishful Research
     Results." Talk at Fanstord University (this is a full UNPUBLISHED
     entry).
     

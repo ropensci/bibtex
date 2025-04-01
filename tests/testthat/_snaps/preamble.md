@@ -1,6 +1,5 @@
 # Preamble from file
 
-    
     Aamport LA (1986). "The Gnats and Gnus Document Preparation System."
     _\mbox{G-Animal's} Journal_.
     
@@ -13,9 +12,6 @@
         journal = {\mbox{G-Animal's} Journal},
         year = {1986},
       }
-    
-    
-    
 
 # Preamble via params
 

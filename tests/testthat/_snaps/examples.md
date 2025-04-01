@@ -62,7 +62,7 @@
     Foundation for Statistical Computing, Vienna, Austria.
     <http://cran.r-project.org/doc/manuals/R-admin.html>.
     
-    Lang DT (2001). "In Search of C/C++ \& FORTRAN Routines." _R News_,
+    Lang DT (2001). "In Search of C/C++ & FORTRAN Routines." _R News_,
     *1*(3), 20-23. <http://CRAN.R-project.org/doc/Rnews/>.
     
     Goldberg D (1991). "What Every Computer Scientist Should Know about
@@ -327,7 +327,7 @@
                       analysis, time series analysis, spatial statistics,
                       and optimization.  The on-line complements available
                       at the books homepage provide updates of the book, as
-                      well as further details of technical material. },
+                      well as further details of technical material.},
       orderinfo = {http://www.r-project.org/doc/bib/springer.txt},
     }
     

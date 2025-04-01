@@ -2,7 +2,7 @@
 % Please edit documentation in R/bibtex.R
 \name{do_read_bib}
 \alias{do_read_bib}
-\title{convenience wrapper around .External call}
+\title{Convenience wrapper around internal call}
 \usage{
 do_read_bib(file, encoding = "unknown", srcfile)
 }
@@ -13,14 +13,27 @@ do_read_bib(file, encoding = "unknown", srcfile)
 
 \item{srcfile}{Deprecated}
 }
+\value{
+A named \code{"list"} object including specific attributes. For generating 
+\code{"bibentry"} objects use \code{\link{read.bib}}.
+}
 \description{
 This is a convenience function for packages that do need to call the internal
 functionality of \code{\link{read.bib}} but does different processing. This is
-a simple wrapper around the \code{.External} code used by \code{\link{read.bib}}
+a simple wrapper around the internal code used by \code{\link{read.bib}}
 }
 \details{
 The parser is greatly inspired from the \samp{bibparse} library.
 }
+\examples{
+## this package has a REFERENCES.bib file
+bibfile <- system.file("REFERENCES.bib", package = "bibtex")
+do_read_bib(bibfile)
+ 
+## Compared with read.bib, that generates a bibentry
+toBibtex(read.bib(bibfile))
+
+}
 \seealso{
-\code{\link[utils]{bibentry}}
+\code{\link[utils]{bibentry}}, \code{\link{read.bib}}
 }
