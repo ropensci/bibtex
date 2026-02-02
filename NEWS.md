@@ -1,3 +1,9 @@
+# bibtex 0.5.2
+
+## Bug fix
+
+- Fixed `read.bib()` silently returning empty `bibentry()` when entries have trailing whitespace after closing brace ([#59](https://github.com/ropensci/bibtex/issues/59), [PR #60](https://github.com/ropensci/bibtex/pull/60)).
+
 # bibtex 0.5.1
 
 ## Bug fix
