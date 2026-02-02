@@ -138,3 +138,43 @@ test_that("Parse single entry from string #35", {
 
   expect_snapshot_output(toBibtex(out))
 })
+
+
+test_that("make.bib.entry handles YYYY-MM date format #56", {
+  # BibLaTeX files often have date in YYYY-MM format without day
+  j <- c(
+    author = "Dagsvik, John K. and Raknerud, Arvid",
+    date = "2011-05",
+    journal = "Journal of Applied Econometrics",
+    title = "Test title"
+  )
+  attributes(j) <- c(attributes(j), list(
+    entry = "Article",
+    key = "test2011",
+    srcref = 1
+  ))
+
+  result <- bibtex:::make.bib.entry(j)
+  expect_s3_class(result, "bibentry")
+  expect_equal(result$year, "2011")
+})
+
+
+test_that("make.bib.entry maps journaltitle to journal #57", {
+  # BibLaTeX uses journaltitle instead of journal
+  j <- c(
+    author = "Dagsvik, John K. and Raknerud, Arvid",
+    year = "2011",
+    journaltitle = "Journal of Applied Econometrics",
+    title = "Test title"
+  )
+  attributes(j) <- c(attributes(j), list(
+    entry = "Article",
+    key = "test2011",
+    srcref = 1
+  ))
+
+  result <- bibtex:::make.bib.entry(j)
+  expect_s3_class(result, "bibentry")
+  expect_equal(result$journal, "Journal of Applied Econometrics")
+})

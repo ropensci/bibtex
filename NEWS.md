@@ -1,3 +1,10 @@
+# bibtex 0.5.3
+
+## Bug fixes
+
+- Fixed `make.bib.entry()` failing on YYYY-MM date format without day by appending "-01" before parsing ([#56](https://github.com/ropensci/bibtex/issues/56)).
+- Added BibLaTeX compatibility by mapping `journaltitle` to `journal` field ([#57](https://github.com/ropensci/bibtex/issues/57)).
+
 # bibtex 0.5.2
 
 ## Bug fix

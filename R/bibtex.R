@@ -153,10 +153,22 @@ make.bib.entry <- function(x) {
     }
   }
 
-  # if there is a date entryn try to extract the year (#15)
+  # if there is a date entry, try to extract the year (#15, #56)
   fields <- names(y)
   if ("date" %in% fields && !"year" %in% fields) {
-    y$year <- format(as.Date(y$date), "%Y")
+    # Handle YYYY-MM format by appending day (#56)
+    if (grepl("^\\d{4}-\\d{2}$", y$date)) {
+      y$date <- paste0(y$date, "-01")
+    }
+    y$year <- tryCatch(format(as.Date(y$date), "%Y"), error = err.fun)
+    if (is.null(y[["year"]])) {
+      return()
+    }
+  }
+
+  # Map BibLaTeX journaltitle to journal (#57)
+  if (!is.null(y[["journaltitle"]]) && is.null(y[["journal"]])) {
+    y[["journal"]] <- y[["journaltitle"]]
   }
 
   tryCatch(bibentry(bibtype = type, key = key, other = y), error = err.fun)
