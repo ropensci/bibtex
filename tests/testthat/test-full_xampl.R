@@ -3,7 +3,8 @@ test_that("Full xampl on string", {
   out <- read.bib(file)
   expect_snapshot(names(out))
 
-  expect_snapshot_output(out)
+  # bibentry formatting changed in R 4.5.0 (deparseLatex math handling)
+  expect_snapshot_output(out, variant = if (getRversion() >= "4.5.0") "devel" else NULL)
 })
 
 
