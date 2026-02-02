@@ -107,6 +107,20 @@ test_that("caught segfault read.bib() - macOS 10.14.6 #23", {
 })
 
 
+test_that("Trailing whitespace after closing brace does not cause silent failure", {
+  # Issue: entries with trailing whitespace after } like "} " were silently
+
+  # ignored, returning empty bibentry() with no error
+  issuefile <- system.file("bib/issue_trailing_space.bib", package = "bibtex")
+
+  out <- read.bib(issuefile)
+
+  expect_length(out, 2)
+  expect_equal(names(out), c("ad1", "ad2"))
+  expect_equal(unlist(out$year, use.names = FALSE), c("2025", "2026"))
+})
+
+
 test_that("Parse single entry from string #35", {
 
   # This test is about not reading from a file, but from a string

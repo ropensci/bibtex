@@ -141,7 +141,7 @@ parse_single_entry <- function(init, end, lines, map_string_end) {
 
   # Guess lines outside of the entry
 
-  guess_eoentry <- max(grep("\\}$", entry_lines))
+  guess_eoentry <- max(grep("\\}\\s*$", entry_lines))
 
   entry_lines <- entry_lines[seq(1, guess_eoentry)]
 

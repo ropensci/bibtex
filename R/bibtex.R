@@ -252,7 +252,7 @@ do_read_bib <- function(file, encoding = "unknown", srcfile) {
       string_line <- lines[seq(init, end)]
       # Guess lines outside of the entry
 
-      guess_eostring <- max(grep("\\}$", string_line))
+      guess_eostring <- max(grep("\\}\\s*$", string_line))
 
       string_line <- string_line[seq(1, guess_eostring)]
 
