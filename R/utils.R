@@ -141,7 +141,12 @@ parse_single_entry <- function(init, end, lines, map_string_end) {
 
   # Guess lines outside of the entry
 
-  guess_eoentry <- max(grep("\\}\\s*$", entry_lines))
+  eoentry <- grep("\\}\\s*(%.*)?$", entry_lines)
+
+  # No closing brace anywhere in the block: keep every line and let
+  # check_balanced_braces() below report it against the real line number,
+  # rather than taking max() of nothing and getting -Inf (#64)
+  guess_eoentry <- if (length(eoentry)) max(eoentry) else length(entry_lines)
 
   entry_lines <- entry_lines[seq(1, guess_eoentry)]
 

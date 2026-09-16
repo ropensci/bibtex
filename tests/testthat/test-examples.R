@@ -33,7 +33,7 @@ test_that("Read base", {
 
 
   # bibentry formatting changed in R-devel (4.6.0) via deparseLatex math handling
- is_r_devel <- grepl("devel", R.version$status, ignore.case = TRUE)
+  is_r_devel <- getRversion() >= "4.6.0"
 
   expect_snapshot_output(bib, variant = if (is_r_devel) "devel" else NULL)
 
