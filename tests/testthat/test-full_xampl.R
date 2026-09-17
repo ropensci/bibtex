@@ -3,9 +3,10 @@ test_that("Full xampl on string", {
   out <- read.bib(file)
   expect_snapshot(names(out))
 
-  # bibentry formatting changed in R-devel (4.6.0) via deparseLatex math handling
-  is_r_devel <- getRversion() >= "4.6.0"
-  expect_snapshot_output(out, variant = if (is_r_devel) "devel" else NULL)
+  # R 4.6.0 reordered the fields of book-type entries, so pages now print
+  # before the edition rather than after it
+  new_format <- getRversion() >= "4.6.0"
+  expect_snapshot_output(out, variant = if (new_format) "devel" else NULL)
 })
 
 
