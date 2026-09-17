@@ -178,3 +178,87 @@ test_that("make.bib.entry maps journaltitle to journal #57", {
   expect_s3_class(result, "bibentry")
   expect_equal(result$journal, "Journal of Applied Econometrics")
 })
+
+
+test_that("Braceless @Comment lines do not cause a silent empty read #64", {
+  # `@Comment my comment` (the Emacs syntax) carries no braces, so it used to
+  # be taken for an entry. Parsing it raised a warning, and read.bib()'s
+  # warning handler swallowed the whole parse and returned bibentry().
+  issuefile <- system.file("bib/issue64.bib", package = "bibtex")
+
+  out <- read.bib(issuefile)
+
+  expect_length(out, 3)
+  expect_equal(names(out), c("ad1", "ad2", "ad3"))
+  expect_equal(unlist(out$year, use.names = FALSE), c("2025", "2026", "2027"))
+})
+
+
+test_that("A leading @Comment line does not change the result #64", {
+  bibfile <- system.file("REFERENCES.bib", package = "bibtex")
+  expected <- read.bib(bibfile)
+
+  tmp <- tempfile(fileext = ".bib")
+  writeLines(c("@Comment my comment", "", readLines(bibfile)), tmp)
+
+  expect_equal(read.bib(tmp), expected)
+})
+
+
+test_that("A '%' comment after the closing brace keeps the entry #64", {
+  tmp <- tempfile(fileext = ".bib")
+  writeLines(c(
+    "@String{JJ = \"Journal J\"} % the journal",
+    "@Article{pc1, author = {A B}, title = {T}, journal = JJ, year = 2026} % x"
+  ), tmp)
+
+  out <- read.bib(tmp)
+
+  expect_length(out, 1)
+  expect_equal(out$journal, "Journal J")
+})
+
+
+test_that("An '@' opening a wrapped field value does not split the entry #64", {
+  tmp <- tempfile(fileext = ".bib")
+  writeLines(c(
+    "@Article{at1,",
+    "  author = {A B},",
+    "  title = {T},",
+    "  journal = {J},",
+    "  year = 2026,",
+    "  note = {Contact the author at",
+    "          @example.org for reprints},",
+    "}"
+  ), tmp)
+
+  out <- read.bib(tmp)
+
+  expect_length(out, 1)
+  expect_equal(names(out), "at1")
+})
+
+
+test_that("Files without entries read as an empty bibentry #64", {
+  empty <- tempfile(fileext = ".bib")
+  file.create(empty)
+
+  comments <- tempfile(fileext = ".bib")
+  writeLines(c("% Encoding: UTF-8", "% nothing to see here"), comments)
+
+  expect_length(read.bib(empty), 0)
+  expect_length(read.bib(comments), 0)
+})
+
+
+test_that("read.bib() reports the cause of a parse failure #64", {
+  # A genuine failure must be loud, and must say more than "Invalid bib file".
+  unterminated <- tempfile(fileext = ".bib")
+  writeLines(c("@String{ j = \"No closing brace", "@Article{a, title = {T}}"), unterminated)
+
+  expect_error(read.bib(unterminated), "Invalid bib file: ")
+
+  # The historical message is kept where the cause carries no text of its own.
+  unbalanced <- system.file("bib/unbalanced_braces.bib", package = "bibtex")
+  expect_error(suppressMessages(read.bib(unbalanced)), "^Invalid bib file$")
+})

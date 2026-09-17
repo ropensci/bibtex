@@ -234,12 +234,26 @@ do_read_bib <- function(file, encoding = "unknown", srcfile) {
 
   # Map bib file
   # Init and end of citation
-  init <- grep("^@", trimlines)
+  # An entry opener is "@" plus a name, then the delimiter that opens it (or
+  # nothing, when the delimiter sits on the next line). Matching a bare "^@"
+  # also caught a field value wrapped onto a line starting with "@", e.g. an
+  # e-mail address, and split the entry in two (#64)
+  init <- grep(
+    "^@[[:space:]]*[[:alpha:]][[:alnum:]_-]*[[:space:]]*([({\"]|$)",
+    trimlines
+  )
 
-  # Identify type of entry
-  entry <- unlist(lapply(trimlines[init], function(x) {
-    unlist(strsplit(x, "\\{"))[1]
-  }))
+  # No entry openers at all: an empty file, or one holding only prose or "%"
+  # comments, is a legal (empty) bibliography rather than a parse failure
+  if (length(init) == 0L) {
+    return(list())
+  }
+
+  # Identify type of entry: keep the leading "@name" token only. Splitting on
+  # "{" returned the whole line whenever the line carried no brace, so the
+  # brace-less "@Comment my comment" written by Emacs escaped the @comment
+  # exclusion below and was parsed as if it were an entry (#64)
+  entry <- sub("^@[[:space:]]*([[:alnum:]]*).*$", "@\\1", trimlines[init])
 
 
   # Map fo document
@@ -264,7 +278,16 @@ do_read_bib <- function(file, encoding = "unknown", srcfile) {
       string_line <- lines[seq(init, end)]
       # Guess lines outside of the entry
 
-      guess_eostring <- max(grep("\\}\\s*$", string_line))
+      eostring <- grep("\\}\\s*(%.*)?$", string_line)
+
+      # No closing brace anywhere: keep every line and let
+      # check_balanced_braces() report the problem against the real line
+      # number, rather than taking max() of nothing and getting -Inf (#64)
+      guess_eostring <- if (length(eostring)) {
+        max(eostring)
+      } else {
+        length(string_line)
+      }
 
       string_line <- string_line[seq(1, guess_eostring)]
 
@@ -365,16 +388,20 @@ read.bib <- function(file = findBibFile(package),
     stop("'read.bib' only supports reading from files, 'file' should be a character vector of length one")
   }
 
+  # Errors only. A `warning` handler here is an *exiting* handler: any warning
+  # raised anywhere in do_read_bib() would unwind the parse and hand back NULL,
+  # which read.bib() then turned into an empty bibentry() with nothing reported
+  # to the caller (#64)
   out <- tryCatch(do_read_bib(
     file = file,
     encoding = encoding
   ),
   error = function(e) {
-    stop("Invalid bib file", call. = FALSE)
-  }, warning = function(w) {
-    if (any(grepl("syntax error, unexpected [$]end", w))) {
-      NULL
+    msg <- conditionMessage(e)
+    if (nzchar(msg)) {
+      stop("Invalid bib file: ", msg, call. = FALSE)
     }
+    stop("Invalid bib file", call. = FALSE)
   }
   )
   # keys <- lapply(out, function(x) attr(x, 'key'))

@@ -32,12 +32,13 @@ test_that("Read base", {
   bib <- read.bib(package = "base")
 
 
-  # bibentry formatting changed in R-devel (4.6.0) via deparseLatex math handling
- is_r_devel <- grepl("devel", R.version$status, ignore.case = TRUE)
+  # R 4.5.3 started converting LaTeX accents in the publisher field, so
+  # "Chapman \& Hall" now prints as "Chapman & Hall"
+  new_format <- getRversion() >= "4.5.3"
 
-  expect_snapshot_output(bib, variant = if (is_r_devel) "devel" else NULL)
+  expect_snapshot_output(bib, variant = if (new_format) "devel" else NULL)
 
-  expect_snapshot_output(toBibtex(bib), variant = if (is_r_devel) "devel" else NULL)
+  expect_snapshot_output(toBibtex(bib), variant = if (new_format) "devel" else NULL)
 })
 
 
