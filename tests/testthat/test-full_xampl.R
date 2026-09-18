@@ -3,10 +3,9 @@ test_that("Full xampl on string", {
   out <- read.bib(file)
   expect_snapshot(names(out))
 
-  # R 4.6.0 reordered the fields of book-type entries, so pages now print
-  # before the edition rather than after it
-  new_format <- getRversion() >= "4.6.0"
-  expect_snapshot_output(out, variant = if (new_format) "devel" else NULL)
+  # print() output depends on the R version, see helper-dump_bib.R.
+  expect_length(format(out), length(out))
+  expect_snapshot_output(dump_bib(out))
 })
 
 

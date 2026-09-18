@@ -23,7 +23,9 @@ test_that("Test entry with non standard fields", {
 
   bib <- read.bib(tmp)
 
-  expect_snapshot_output(bib)
+  expect_length(format(bib), length(bib))
+
+  expect_snapshot_output(dump_bib(bib))
 
   expect_snapshot_output(toBibtex(bib))
 })
