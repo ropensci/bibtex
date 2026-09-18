@@ -1,17 +1,21 @@
 # bibtex 0.5.4
 
-## Bug fixes
+* Snapshot tests now give the same output on every R version, fixing test
+  failures on R-devel.
 
-- Fixed `read.bib()` silently returning an empty `bibentry()` for files containing a brace-less `@Comment` line, such as the Emacs style `@Comment my comment` ([#64](https://github.com/ropensci/bibtex/issues/64)). The entry type is now read from the leading `@name` token, so a brace-less `@Comment` no longer escapes the filter that skips `@comment`, `@string` and `@preamble` blocks.
-- `read.bib()` no longer wraps the parser in an exiting `warning` handler. Any warning raised while parsing used to abort the parse and discard every entry read so far, with nothing reported to the caller; that is what turned the `@Comment` failure into a silent empty result ([#64](https://github.com/ropensci/bibtex/issues/64)).
-- A `%` comment after the closing brace of an entry or a `@String`, which is valid BibTeX, no longer discards the whole file ([#64](https://github.com/ropensci/bibtex/issues/64)).
-- A line beginning with `@` inside a braced field value, such as an e-mail address that has been wrapped onto its own line, is no longer treated as the start of a new entry ([#64](https://github.com/ropensci/bibtex/issues/64)).
-- An empty `.bib` file, or one holding only prose or `%` comments, now reads as an empty `bibentry()` instead of erroring ([#64](https://github.com/ropensci/bibtex/issues/64)).
-- `read.bib()` errors now carry the underlying cause, e.g. `Invalid bib file: Error when parsing strings of <file>`, instead of a bare `Invalid bib file` ([#64](https://github.com/ropensci/bibtex/issues/64)).
-
-## Testing
-
-- Fixed the snapshot variant guard, which tested `R.version$status` for "devel". The `deparseLatex()` formatting change it guards against shipped in released R 4.6.0, so the guard selected the wrong snapshots and the suite was failing on R >= 4.6.0.
+* `read.bib()` is more robust (#64):
+  * Brace-less `@Comment` lines, such as `@Comment my comment`, are now
+    skipped instead of silently emptying the result.
+  * A `%` comment after an entry or a `@String` is now ignored instead of
+    discarding the whole file.
+  * A line starting with `@` inside a braced field value, such as a wrapped
+    e-mail address, now stays part of that field.
+  * An empty file, or one holding only comments, now reads as an empty
+    `bibentry()` instead of erroring.
+  * Warnings raised while parsing now reach the caller instead of aborting
+    the parse.
+  * Errors now include the underlying cause, e.g.
+    `Invalid bib file: Error when parsing strings of <file>`.
 
 # bibtex 0.5.3
 

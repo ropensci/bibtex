@@ -19,11 +19,17 @@ test_that("Write", {
 })
 
 
+# print() output depends on the R version, so the parsed entries are
+# snapshotted with dump_bib() (see helper-dump_bib.R) and toBibtex(), and
+# format() is only checked for rendering one string per entry.
+
 test_that("Read bibtex", {
   ## this package has a REFERENCES.bib file
   bib <- read.bib(package = "bibtex")
 
-  expect_snapshot_output(bib)
+  expect_length(format(bib), length(bib))
+
+  expect_snapshot_output(dump_bib(bib))
 
   expect_snapshot_output(toBibtex(bib))
 })
@@ -31,21 +37,20 @@ test_that("Read bibtex", {
 test_that("Read base", {
   bib <- read.bib(package = "base")
 
+  expect_length(format(bib), length(bib))
 
-  # R 4.5.3 started converting LaTeX accents in the publisher field, so
-  # "Chapman \& Hall" now prints as "Chapman & Hall"
-  new_format <- getRversion() >= "4.5.3"
+  expect_snapshot_output(dump_bib(bib))
 
-  expect_snapshot_output(bib, variant = if (new_format) "devel" else NULL)
-
-  expect_snapshot_output(toBibtex(bib), variant = if (new_format) "devel" else NULL)
+  expect_snapshot_output(toBibtex(bib))
 })
 
 
 test_that("Read datasets", {
   bib <- read.bib(package = "datasets")
 
-  expect_snapshot_output(bib)
+  expect_length(format(bib), length(bib))
+
+  expect_snapshot_output(dump_bib(bib))
 
   expect_snapshot_output(toBibtex(bib))
 })
@@ -55,7 +60,9 @@ test_that("Read graphics", {
 
   skip_on_os("windows")
 
-  expect_snapshot_output(bib)
+  expect_length(format(bib), length(bib))
+
+  expect_snapshot_output(dump_bib(bib))
 
   expect_snapshot_output(toBibtex(bib))
 })
@@ -65,7 +72,9 @@ test_that("Read grDevices", {
 
   skip_on_os("windows")
 
-  expect_snapshot_output(bib)
+  expect_length(format(bib), length(bib))
+
+  expect_snapshot_output(dump_bib(bib))
 
   expect_snapshot_output(toBibtex(bib))
 })
@@ -73,7 +82,9 @@ test_that("Read grDevices", {
 test_that("Read methods", {
   bib <- read.bib(package = "methods")
 
-  expect_snapshot_output(bib)
+  expect_length(format(bib), length(bib))
+
+  expect_snapshot_output(dump_bib(bib))
 
   expect_snapshot_output(toBibtex(bib))
 })
@@ -81,7 +92,9 @@ test_that("Read methods", {
 test_that("Read stats", {
   bib <- read.bib(package = "stats")
 
-  expect_snapshot_output(bib)
+  expect_length(format(bib), length(bib))
+
+  expect_snapshot_output(dump_bib(bib))
 
   expect_snapshot_output(toBibtex(bib))
 })
@@ -89,7 +102,9 @@ test_that("Read stats", {
 test_that("Read stats4", {
   bib <- read.bib(package = "stats4")
 
-  expect_snapshot_output(bib)
+  expect_length(format(bib), length(bib))
+
+  expect_snapshot_output(dump_bib(bib))
 
   expect_snapshot_output(toBibtex(bib))
 })
@@ -97,7 +112,9 @@ test_that("Read stats4", {
 test_that("Read tools", {
   bib <- read.bib(package = "tools")
 
-  expect_snapshot_output(bib)
+  expect_length(format(bib), length(bib))
+
+  expect_snapshot_output(dump_bib(bib))
 
   expect_snapshot_output(toBibtex(bib))
 })
@@ -105,7 +122,9 @@ test_that("Read tools", {
 test_that("Read utils", {
   bib <- read.bib(package = "utils")
 
-  expect_snapshot_output(bib)
+  expect_length(format(bib), length(bib))
+
+  expect_snapshot_output(dump_bib(bib))
 
   expect_snapshot_output(toBibtex(bib))
 })

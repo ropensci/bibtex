@@ -1,17 +1,22 @@
 # Preamble from file
 
-    Aamport LA (1986). "The Gnats and Gnus Document Preparation System."
-    _\mbox{G-Animal's} Journal_.
-    
-    A BibTeX entry for LaTeX users is
-    
-      @Article{article-minimal,
-        author = {L[eslie] A. Aamport},
-        maintainer = {Xavier Albert},
-        title = {The Gnats and Gnus Document Preparation System},
-        journal = {\mbox{G-Animal's} Journal},
-        year = {1986},
-      }
+    @Article{article-minimal}
+      author:
+        given = c("L[eslie]", "A.") | family = "Aamport"
+      maintainer = "Xavier Albert"
+      title = "The Gnats and Gnus Document Preparation System"
+      journal = "\\mbox{G-Animal's} Journal"
+      year = "1986"
+
+---
+
+    @Article{article-minimal,
+      author = {L[eslie] A. Aamport},
+      maintainer = {Xavier Albert},
+      title = {The Gnats and Gnus Document Preparation System},
+      journal = {\mbox{G-Animal's} Journal},
+      year = {1986},
+    }
 
 # Preamble via params
 

@@ -2,8 +2,9 @@ test_that("Preamble from file", {
   file <- system.file("bib/xampl_preamble.bib", package = "bibtex")
 
   out <- read.bib(file)
-  class(out) <- c("citation", "bibentry")
-  expect_snapshot_output(out)
+  expect_length(format(out), length(out))
+  expect_snapshot_output(dump_bib(out))
+  expect_snapshot_output(toBibtex(out))
 })
 
 
