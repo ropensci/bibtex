@@ -53,3 +53,17 @@ test_that("des White, Jr., Walter", {
   expect_equal(length(parsed$family), 3L)
   expect_snapshot_output(dput(parsed))
 })
+
+test_that("Each given name is its own element", {
+  # toBibtex() pastes the given names back together, so an unsplit
+  # "Donald E." reads the same there. These also run on CRAN, where the
+  # dump_bib() snapshots are skipped.
+  parsed <- bibtex:::ArrangeSingleAuthor("Donald E. Knuth")
+  expect_identical(parsed$given, c("Donald", "E."))
+
+  parsed <- bibtex:::ArrangeSingleAuthor("White, Jr., Walter W.")
+  expect_identical(parsed$given, c("Walter", "W."))
+
+  parsed <- bibtex:::ArrangeSingleAuthor("Mark W. von Bommel")
+  expect_identical(parsed$given, c("Mark", "W."))
+})
