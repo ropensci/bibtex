@@ -3,6 +3,11 @@
 * Snapshot tests now give the same output on every R version, fixing test
   failures on R-devel.
 
+* `read.bib()` now takes the year from BibLaTeX dates such as `2020`,
+  `2020/2021`, `1723~` or `-0044` instead of dropping the entry, and keeps
+  `date` as written rather than padding `2020-05` to `2020-05-01`. Non-ISO
+  dates such as `17-05-2020` also give the right year (#15, #56).
+
 * `read.bib()` is more robust (#64):
   * Brace-less `@Comment` lines, such as `@Comment my comment`, are now
     skipped instead of silently emptying the result.
