@@ -262,3 +262,54 @@ test_that("read.bib() reports the cause of a parse failure #64", {
   unbalanced <- system.file("bib/unbalanced_braces.bib", package = "bibtex")
   expect_error(suppressMessages(read.bib(unbalanced)), "^Invalid bib file$")
 })
+
+
+test_that("read.bib() takes the year from the date #15 #56", {
+  # Only full dates and YYYY-MM used to give a year, 17-05-2020 a wrong one,
+  # and any other date dropped the entry. The date is now kept as written.
+  dates <- c(
+    "2020-05-17", "2020-05", "2020", "2020/2021", "2020-05/2020-06",
+    "2020~", "2020?", "../2020", "17-05-2020", "../20200517",
+    "199X", "-0044-03-15", " -0044"
+  )
+  tmp <- tempfile(fileext = ".bib")
+  writeLines(sprintf(
+    "@Article{d%d, author = {A B}, title = {T}, journal = {J}, date = {%s}}",
+    seq_along(dates), dates
+  ), tmp)
+
+  out <- read.bib(tmp)
+
+  expect_length(out, length(dates))
+  expect_equal(
+    unlist(out$year, use.names = FALSE),
+    c(rep("2020", 10), "1990", "-0044", "-0044")
+  )
+  expect_equal(unlist(out$date, use.names = FALSE), trimws(dates))
+})
+
+
+test_that("A date without a year leaves the year unset #15", {
+  tmp <- tempfile(fileext = ".bib")
+  writeLines(c(
+    "@Misc{m1, title = {T}, date = {n.d.}}",
+    "@Article{a1, author = {A B}, title = {T}, journal = {J}, date = {n.d.}}"
+  ), tmp)
+
+  # An article must have a year, so bibentry() still drops it.
+  out <- suppressMessages(read.bib(tmp))
+
+  expect_equal(names(out), "m1")
+  expect_null(out$year)
+})
+
+
+test_that("An explicit year wins over date #15", {
+  tmp <- tempfile(fileext = ".bib")
+  writeLines(
+    "@Misc{y1, title = {T}, year = {1999}, date = {2011-05}}",
+    tmp
+  )
+
+  expect_equal(read.bib(tmp)$year, "1999")
+})
