@@ -156,13 +156,19 @@ make.bib.entry <- function(x) {
   # if there is a date entry, try to extract the year (#15, #56)
   fields <- names(y)
   if ("date" %in% fields && !"year" %in% fields) {
-    # Handle YYYY-MM format by appending day (#56)
-    if (grepl("^\\d{4}-\\d{2}$", y$date)) {
-      y$date <- paste0(y$date, "-01")
+    # A BibLaTeX date starts with its year: four digits, numbered
+    # astronomically before year 1 (-0044 is 45 BCE), and X for unspecified
+    # digits (199X is 1990). Anything else, such as the open-start range
+    # "../1997" or the non-ISO "17-05-2020", falls back to the first run of
+    # four digits. With no year found, bibentry() keeps the entry only if its
+    # type does not require one.
+    date <- trimws(y[["date"]])
+    year <- regmatches(date, regexpr("^-?[0-9]{2}[0-9X]{2}", date))
+    if (!length(year)) {
+      year <- regmatches(date, regexpr("[0-9]{4}", date))
     }
-    y$year <- tryCatch(format(as.Date(y$date), "%Y"), error = err.fun)
-    if (is.null(y[["year"]])) {
-      return()
+    if (length(year)) {
+      y$year <- chartr("X", "0", year)
     }
   }
 
