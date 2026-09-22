@@ -1,0 +1,3 @@
+# test data compared byte for byte
+tests/testthat/_snaps/** text eol=lf -whitespace
+inst/bib/** text eol=lf -whitespace

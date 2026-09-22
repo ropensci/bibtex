@@ -1,0 +1,14 @@
+root = true
+
+# testthat writes indented blank lines in snapshots
+[tests/testthat/_snaps/**]
+end_of_line = lf
+trim_trailing_whitespace = false
+
+# parser fixtures are test data
+[inst/bib/**]
+end_of_line = lf
+trim_trailing_whitespace = false
+
+[inst/bib/{badFormat,issue_trailing_space}.bib]
+insert_final_newline = false

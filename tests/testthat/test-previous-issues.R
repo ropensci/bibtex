@@ -43,7 +43,7 @@ test_that("read.bib can use ? in key #9", {
 
   expect_message(write.bib(out, tmp2, append = FALSE, verbose = TRUE))
 
-  expect_snapshot_file(tmp2)
+  expect_snapshot_file(tmp2, compare = compare_file_text)
 
   # Re-read
   out2 <- read.bib(tmp2)

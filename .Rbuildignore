@@ -15,3 +15,5 @@ revdep
 ^bibtex.*\.tar\.gz$
 ^bibtex.*\.tgz$
 ^CRAN-SUBMISSION$
+^\.editorconfig$
+^\.gitattributes$
