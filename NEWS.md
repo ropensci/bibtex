@@ -1,33 +1,34 @@
-# bibtex 0.5.4
-
-* Snapshot tests now give the same output on every R version, fixing test
-  failures on R-devel.
-
-* `read.bib()` now takes the year from BibLaTeX dates such as `2020`,
-  `2020/2021`, `1723~` or `-0044` instead of dropping the entry, and keeps
-  `date` as written rather than padding `2020-05` to `2020-05-01`. Non-ISO
-  dates such as `17-05-2020` also give the right year (#15, #56).
-
-* `read.bib()` is more robust (#64):
-  * Brace-less `@Comment` lines, such as `@Comment my comment`, are now
-    skipped instead of silently emptying the result.
-  * A `%` comment after an entry or a `@String` is now ignored instead of
-    discarding the whole file.
-  * A line starting with `@` inside a braced field value, such as a wrapped
-    e-mail address, now stays part of that field.
-  * An empty file, or one holding only comments, now reads as an empty
-    `bibentry()` instead of erroring.
-  * Warnings raised while parsing now reach the caller instead of aborting
-    the parse.
-  * Errors now include the underlying cause, e.g.
-    `Invalid bib file: Error when parsing strings of <file>`.
-
 # bibtex 0.5.3
 
-## Bug fixes
+* bibtex now requires R 3.6.0 or later, which the parser already relied on,
+  and no longer imports backports.
 
-- Fixed `make.bib.entry()` failing on YYYY-MM date format without day by appending "-01" before parsing ([#56](https://github.com/ropensci/bibtex/issues/56)).
-- Added BibLaTeX compatibility by mapping `journaltitle` to `journal` field ([#57](https://github.com/ropensci/bibtex/issues/57)).
+* `read.bib()` now reads BibLaTeX dates such as `2020`, `2020-05`,
+  `2020/2021`, `1723~` and `-0044`, taking the year from each, and gives the
+  right year for non-ISO dates such as `17-05-2020` (@HughParsonage, #15;
+  @Fifis, #56).
+
+* `read.bib()` now fills in `journal` from a BibLaTeX `journaltitle` field, so
+  `@Article` entries that only have `journaltitle` are kept (@Fifis, #57).
+
+* `read.bib()` is more robust (@bastistician, #64):
+  * Brace-less `@Comment` lines, such as `@Comment my comment`, are skipped
+    and the rest of the file is read.
+  * A `%` comment on the same line as the closing brace of an entry or a
+    `@String` is ignored and the rest of the file is read.
+  * A line in a braced field value that starts with `@` but does not open an
+    entry, such as a wrapped e-mail address, stays part of that field.
+  * An empty file, or one holding only comments, reads as an empty result.
+  * Warnings raised while parsing now reach the caller, and input the parser
+    cannot read, such as an unreadable file, an entry or `@String` with no
+    closing brace, or one delimited by parentheses, is reported as an error.
+  * Errors include the parser's message when it has one, e.g.
+    `Invalid bib file: unable to open file to read`.
+  * `do_read_bib()` gets the same improvements and returns an empty list for
+    an empty or comment-only file.
+
+* Snapshot tests now record the parsed entries rather than R's printed output,
+  so they pass on R 4.5.3 and later, including R-devel.
 
 # bibtex 0.5.2
 
