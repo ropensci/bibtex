@@ -3,7 +3,7 @@
 <!-- badges: start -->
 [![CRAN](https://www.r-pkg.org/badges/version/bibtex)](https://CRAN.R-project.org/package=bibtex) 
 [![R-CMD-check](https://github.com/ropensci/bibtex/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/bibtex/actions/workflows/R-CMD-check.yaml)
-[![Coverage](https://codecov.io/github/ropensci/bibtex/coverage.svg?branch=master)](https://app.codecov.io/gh/ropensci/bibtex/branch/master) 
+[![Coverage](https://codecov.io/github/ropensci/bibtex/coverage.svg?branch=main)](https://app.codecov.io/gh/ropensci/bibtex/branch/main) 
 [![Downloads](https://cranlogs.r-pkg.org/badges/bibtex)](https://cran.r-project.org/package=bibtex)
 [![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/bibtex?color=blue)](https://cran.r-project.org/package=bibtex)
 <!-- badges: end -->

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bibtex.R
 \name{do_read_bib}
 \alias{do_read_bib}
-\title{convenience wrapper around .External call}
+\title{Read the raw entries of a bib file}
 \usage{
 do_read_bib(file, encoding = "unknown", srcfile)
 }
@@ -13,13 +13,31 @@ do_read_bib(file, encoding = "unknown", srcfile)
 
 \item{srcfile}{Deprecated}
 }
+\value{
+A list with one element per entry, leaving out \code{@string},
+  \code{@preamble} and \code{@comment} blocks. Each element is a character
+  vector of field values, named by field as written, with the outer braces
+  or quotes removed and the file's \code{@string} macros expanded. Its
+  attributes are \code{entry} (the entry type as written), \code{key} (the
+  citation key) and \code{srcref} (the line numbers from the start of the
+  entry up to the next entry or the end of the file). An empty file, or one
+  holding only comments, gives an empty list.
+}
 \description{
-This is a convenience function for packages that do need to call the internal
-functionality of \code{\link{read.bib}} but does different processing. This is
-a simple wrapper around the \code{.External} code used by \code{\link{read.bib}}
+Parses a bib file into its entries without building
+\code{\link[utils]{bibentry}} objects. This is the parser used by
+\code{\link{read.bib}}, exported for packages that process the entries
+differently.
 }
 \details{
 The parser is greatly inspired from the \samp{bibparse} library.
+}
+\examples{
+entries <- do_read_bib(system.file("bib", "xampl_single.bib",
+  package = "bibtex"
+))
+attr(entries[[1]], "key")
+entries[[1]][["title"]]
 }
 \seealso{
 \code{\link[utils]{bibentry}}

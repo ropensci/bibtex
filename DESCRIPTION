@@ -14,7 +14,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-8457-4658")),
     person(given = c("James", "Joseph"),
            family = "Balamuta",
-           role = c("ctb", "cre", "aut"),
+           role = c("aut", "cre"),
            email = "balamut2@illinois.edu",
            comment = c(ORCID = "0000-0003-2826-8458")),
     person(given = "Scott",
@@ -55,5 +55,5 @@ Suggests:
     testthat (>= 3.0.0)
 LazyLoad: yes
 Encoding: UTF-8
-RoxygenNote: 7.3.3
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0
