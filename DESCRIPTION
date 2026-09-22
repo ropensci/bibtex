@@ -48,9 +48,8 @@ BugReports: https://github.com/ropensci/bibtex/issues
 URL: https://github.com/ropensci/bibtex, https://docs.ropensci.org/bibtex/
 License: GPL (>= 2)
 Depends:
-    R (>= 3.0.2)
+    R (>= 3.6.0)
 Imports:
-    backports (>= 1.4.0),
     utils
 Suggests:
     testthat (>= 3.0.0)
