@@ -43,7 +43,7 @@ test_that("read.bib can use ? in key #9", {
 
   expect_message(write.bib(out, tmp2, append = FALSE, verbose = TRUE))
 
-  expect_snapshot_file(tmp2)
+  expect_snapshot_file(tmp2, compare = compare_file_text)
 
   # Re-read
   out2 <- read.bib(tmp2)
@@ -244,10 +244,19 @@ test_that("Files without entries read as an empty bibentry #64", {
   file.create(empty)
 
   comments <- tempfile(fileext = ".bib")
-  writeLines(c("% Encoding: UTF-8", "% nothing to see here"), comments)
+  writeLines(c("% Encoding: UTF-8", "", "@Comment nothing to see here"), comments)
 
   expect_length(read.bib(empty), 0)
   expect_length(read.bib(comments), 0)
+})
+
+
+test_that("A file of plain text is still an invalid bib file #64", {
+  # 0.5.2 raised this bare error, and cffr's tests expect it.
+  prose <- tempfile(fileext = ".bib")
+  writeLines("a bad line", prose)
+
+  expect_error(read.bib(prose), "^Invalid bib file$")
 })
 
 

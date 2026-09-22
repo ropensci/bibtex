@@ -1,5 +1,5 @@
 Package: bibtex
-Version: 0.5.4
+Version: 0.5.3
 Title: Bibtex Parser
 Authors@R: c(
     person(given = "Romain", 
@@ -14,7 +14,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-8457-4658")),
     person(given = c("James", "Joseph"),
            family = "Balamuta",
-           role = c("ctb", "cre", "aut"),
+           role = c("aut", "cre"),
            email = "balamut2@illinois.edu",
            comment = c(ORCID = "0000-0003-2826-8458")),
     person(given = "Scott",
@@ -48,13 +48,12 @@ BugReports: https://github.com/ropensci/bibtex/issues
 URL: https://github.com/ropensci/bibtex, https://docs.ropensci.org/bibtex/
 License: GPL (>= 2)
 Depends:
-    R (>= 3.0.2)
+    R (>= 3.6.0)
 Imports:
-    backports (>= 1.4.0),
     utils
 Suggests:
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.3)
 LazyLoad: yes
 Encoding: UTF-8
-RoxygenNote: 7.3.3
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0

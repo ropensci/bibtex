@@ -210,11 +210,12 @@ findBibFile <- function(package) {
   }
 }
 
-#' convenience wrapper around .External call
+#' Read the raw entries of a bib file
 #'
-#' This is a convenience function for packages that do need to call the internal
-#' functionality of \code{\link{read.bib}} but does different processing. This is
-#' a simple wrapper around the \code{.External} code used by \code{\link{read.bib}}
+#' Parses a bib file into its entries without building
+#' \code{\link[utils]{bibentry}} objects. This is the parser used by
+#' \code{\link{read.bib}}, exported for packages that process the entries
+#' differently.
 #'
 #' The parser is greatly inspired from the \samp{bibparse} library.
 #'
@@ -223,6 +224,22 @@ findBibFile <- function(package) {
 #' @param file file name
 #' @param encoding encoding
 #' @param srcfile Deprecated
+#'
+#' @return A list with one element per entry, leaving out \code{@@string},
+#'   \code{@@preamble} and \code{@@comment} blocks. Each element is a character
+#'   vector of field values, named by field as written, with the outer braces
+#'   or quotes removed and the file's \code{@@string} macros expanded. Its
+#'   attributes are \code{entry} (the entry type as written), \code{key} (the
+#'   citation key) and \code{srcref} (the line numbers from the start of the
+#'   entry up to the next entry or the end of the file). An empty file, or one
+#'   holding only comments, gives an empty list.
+#'
+#' @examples
+#' entries <- do_read_bib(system.file("bib", "xampl_single.bib",
+#'   package = "bibtex"
+#' ))
+#' attr(entries[[1]], "key")
+#' entries[[1]][["title"]]
 #' @export
 do_read_bib <- function(file, encoding = "unknown", srcfile) {
   if (!missing("srcfile")) {
@@ -230,7 +247,7 @@ do_read_bib <- function(file, encoding = "unknown", srcfile) {
   }
 
   # Assess the extension of the file
-  if (!file.exists(file)) stop("Error: unable to open file to read")
+  if (!file.exists(file)) stop("unable to open file to read")
 
   # Read all as UTF-8
   lines <- readLines(file, encoding = encoding, warn = FALSE)
@@ -249,10 +266,16 @@ do_read_bib <- function(file, encoding = "unknown", srcfile) {
     trimlines
   )
 
-  # No entry openers at all: an empty file, or one holding only prose or "%"
-  # comments, is a legal (empty) bibliography rather than a parse failure
+  # No entry openers at all: an empty file, or one holding only "%" or
+  # @Comment lines, is a legal (empty) bibliography (#64). Any other text is
+  # not a bib file and keeps the bare "Invalid bib file" error from read.bib(),
+  # which callers such as cffr rely on
   if (length(init) == 0L) {
-    return(list())
+    comment <- grepl("^(%|@[[:space:]]*comment)", trimlines, ignore.case = TRUE)
+    if (all(!nzchar(trimlines) | comment)) {
+      return(list())
+    }
+    stop()
   }
 
   # Identify type of entry: keep the leading "@name" token only. Splitting on
@@ -357,7 +380,7 @@ do_read_bib <- function(file, encoding = "unknown", srcfile) {
 #' @return An object of class \code{"bibentry"}, similar to those obtained by the
 #'        \code{\link[utils]{bibentry}} function.
 #'
-#' @references Nelson H. F. Beebe. bibparse 1.04. 1999. \url{http://www.math.utah.edu/~beebe/}
+#' @references Nelson H. F. Beebe. bibparse 1.04. 1999. \url{https://www.math.utah.edu/~beebe/}
 #'
 #' @examples
 #' ## this package has a REFERENCES.bib file
@@ -365,18 +388,6 @@ do_read_bib <- function(file, encoding = "unknown", srcfile) {
 #'
 #' ## bibtex collects bibtex entries for R base packages
 #' base.bib <- read.bib(package = "base")
-#'
-#' \dontshow{
-#' bib <- read.bib(package = "base")
-#' bib <- read.bib(package = "datasets")
-#' bib <- read.bib(package = "graphics")
-#' bib <- read.bib(package = "grDevices")
-#' bib <- read.bib(package = "methods")
-#' bib <- read.bib(package = "stats")
-#' bib <- read.bib(package = "stats4")
-#' bib <- read.bib(package = "tools")
-#' bib <- read.bib(package = "utils")
-#' }
 #' @export
 read.bib <- function(file = findBibFile(package),
                      package = "bibtex",
@@ -427,11 +438,11 @@ read.bib <- function(file = findBibFile(package),
 
 #' Generate a Bibtex File from Package Citations
 #'
-#' Generates a Bibtex file from a list of packages or all the installed packages.
-#' It is useful for adding relevant citations in Sweave documents.
+#' Generates a Bibtex file from a \code{\link{bibentry}} object or a list of
+#' packages. It is useful for adding relevant citations in Sweave documents.
 #'
 #' @param entry a \code{\link{bibentry}} object or a character vector of package
-#' names. If \code{NULL}, then the list of all installed packages is used.
+#' names.
 #' @param file output Bibtex file.
 #' @param verbose a logical to toggle verbosity.
 #' @param append logical. If \code{TRUE} content is appended to the file.
@@ -447,16 +458,15 @@ read.bib <- function(file = findBibFile(package),
 #'
 #' @export
 #' @examples
+#' tmp <- tempfile(fileext = ".bib")
+#' write.bib(c("bibtex", "utils", "tools"), file = tmp)
+#' bibs <- read.bib(tmp)
 #'
-#' write.bib(c("bibtex", "utils", "tools"), file = "references")
-#' bibs <- read.bib("references.bib")
-#' write.bib(bibs, "references2.bib")
-#' md5 <- tools::md5sum(c("references.bib", "references2.bib"))
-#' md5[1] == md5[2]
+#' tmp2 <- tempfile(fileext = ".bib")
+#' write.bib(bibs, tmp2)
+#' unname(tools::md5sum(tmp) == tools::md5sum(tmp2))
 #'
-#' \dontshow{
-#' unlink(c("references.bib", "references2.bib"))
-#' }
+#' unlink(c(tmp, tmp2))
 write.bib <- function(entry, file = "Rpackages.bib", append = FALSE, verbose = TRUE) {
   bibs <-
     if (inherits(entry, "bibentry")) {
