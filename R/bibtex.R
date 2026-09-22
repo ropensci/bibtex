@@ -230,7 +230,7 @@ do_read_bib <- function(file, encoding = "unknown", srcfile) {
   }
 
   # Assess the extension of the file
-  if (!file.exists(file)) stop("Error: unable to open file to read")
+  if (!file.exists(file)) stop("unable to open file to read")
 
   # Read all as UTF-8
   lines <- readLines(file, encoding = encoding, warn = FALSE)
@@ -249,10 +249,16 @@ do_read_bib <- function(file, encoding = "unknown", srcfile) {
     trimlines
   )
 
-  # No entry openers at all: an empty file, or one holding only prose or "%"
-  # comments, is a legal (empty) bibliography rather than a parse failure
+  # No entry openers at all: an empty file, or one holding only "%" or
+  # @Comment lines, is a legal (empty) bibliography (#64). Any other text is
+  # not a bib file and keeps the bare "Invalid bib file" error from read.bib(),
+  # which callers such as cffr rely on
   if (length(init) == 0L) {
-    return(list())
+    comment <- grepl("^(%|@[[:space:]]*comment)", trimlines, ignore.case = TRUE)
+    if (all(!nzchar(trimlines) | comment)) {
+      return(list())
+    }
+    stop()
   }
 
   # Identify type of entry: keep the leading "@name" token only. Splitting on
